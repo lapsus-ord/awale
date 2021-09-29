@@ -55,7 +55,7 @@ public class Player {
 	 */
 	public boolean play(int trouSrc) {
 		Board board = jeu.getBoard();
-		System.out.println("side de " + username + " : " + side);
+		// System.out.println("side de " + username + " : " + side);
 		int indexSidePlayer = side.equals(Side.TOP) ? 0 : 1;
 		int indexSideEnemy = indexSidePlayer == 0 ? 1 : 0;
 
