@@ -22,6 +22,10 @@ public class Awale {
 		return board;
 	}
 
+	/**
+	 * Méthode qui exécute le jeu.<br/>
+	 * <strong>TODO: Ajouter une condition de fin.</strong>
+	 */
 	public void run() {
 		boolean b = true;
 		while (true) {
@@ -35,16 +39,22 @@ public class Awale {
 		}
 	}
 
-	public void chooseTrou(Player player) {
+	/**
+	 * Méthode qui permet à un joueur de voir l'état du jeu et de choisir un trou à jouer.
+	 *
+	 * @param player Le joueur qui doit choisir son trou
+	 */
+	private void chooseTrou(Player player) {
 		Scanner sc = new Scanner(System.in);
+		boolean hasPlayed;
 
-		System.out.println("\nTour de " + colorize(player.getUsername(), BRIGHT_BLUE_TEXT()) + " :");
-		System.out.print("-> Quel trou jouez-vous ? n°[1, 6] : ");
-		int numTrou = sc.nextInt() - 1;
-		// On limite la portée à l'intervalle disponible [0, 5]
-		if (numTrou < 0) numTrou = 0;
-		else if (numTrou > 5) numTrou = 5;
-		player.play(numTrou);
+		do {
+			System.out.println("\nTour de " + colorize(player.getUsername(), BRIGHT_BLUE_TEXT()) + " :");
+			System.out.print("-> Quel trou jouez-vous ? n°[1, 6] : ");
+			int numTrou = sc.nextInt() - 1;
+			hasPlayed = player.play(numTrou);
+		} while (!hasPlayed);
+
 		System.out.println(this);
 	}
 
@@ -72,6 +82,12 @@ public class Awale {
 		return str.toString();
 	}
 
+	/**
+	 * @param p1   Un joueur Player
+	 * @param p2   UN joueur Player
+	 * @param side Le côté que l'on veut comparer
+	 * @return Le pseudo et le score du joueur qui est du côté {@code side}
+	 */
 	private String playerOnSide(Player p1, Player p2, Side side) {
 		if (p1.getSide().equals(side))
 			return p1.getUsername() + "(" + p1.getNbPoint() + ")";
