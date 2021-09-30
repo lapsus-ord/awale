@@ -3623,6 +3623,7 @@
 											"model": {
 												"$ref": "AAAAAAF8I/10/M2IaHE="
 											},
+											"visible": false,
 											"font": "Arial;13;0",
 											"left": 653,
 											"top": 678,
@@ -3642,7 +3643,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 653,
-											"top": 693,
+											"top": 680,
 											"width": 239,
 											"height": 13,
 											"text": "+nbGraines: int",
@@ -3659,7 +3660,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 653,
-											"top": 708,
+											"top": 695,
 											"width": 239,
 											"height": 13,
 											"text": "+cells [][]: int",
@@ -3724,7 +3725,7 @@
 									"left": 648,
 									"top": 673,
 									"width": 249,
-									"height": 53
+									"height": 40
 								},
 								{
 									"_type": "UMLOperationCompartmentView",
@@ -3901,7 +3902,7 @@
 									],
 									"font": "Arial;13;0",
 									"left": 648,
-									"top": 726,
+									"top": 713,
 									"width": 249,
 									"height": 10
 								},
@@ -5496,16 +5497,16 @@
 										"$ref": "AAAAAAF8I/10/c2mUZY="
 									},
 									"font": "Arial;13;0",
-									"left": 407,
-									"top": 596,
+									"left": 416,
+									"top": 575,
 									"width": 19.5126953125,
 									"height": 13,
-									"alpha": 0.8836137838731604,
-									"distance": 34.132096331752024,
+									"alpha": 1.5279186833472314,
+									"distance": 18.384776310850235,
 									"hostEdge": {
 										"$ref": "AAAAAAF8I/10+81q+Ok="
 									},
-									"text": "0..*"
+									"text": "2"
 								},
 								{
 									"_type": "UMLQualifierCompartmentView",
@@ -6171,7 +6172,7 @@
 											"$ref": "AAAAAAF8I/10/c2yMNs="
 										},
 										"aggregation": "shared",
-										"multiplicity": "0..*"
+										"multiplicity": "2"
 									}
 								}
 							],
