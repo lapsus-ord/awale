@@ -1,6 +1,8 @@
 # idea files
 .idea/
-out/
-target/
 META-INF/
 *.iml
+
+# Generated folders
+out/
+target/
