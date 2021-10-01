@@ -3,8 +3,7 @@ package fr.solo.awale;
 import java.util.Scanner;
 
 import static com.diogonunes.jcolor.Ansi.colorize;
-import static com.diogonunes.jcolor.Attribute.BRIGHT_BLUE_TEXT;
-import static com.diogonunes.jcolor.Attribute.BRIGHT_GREEN_TEXT;
+import static com.diogonunes.jcolor.Attribute.RED_TEXT;
 
 public class Awale {
 	private Board board;
@@ -50,7 +49,7 @@ public class Awale {
 		boolean hasPlayed;
 
 		do {
-			System.out.println("\nTour de " + colorize(player.getUsername(), BRIGHT_BLUE_TEXT()) + " :");
+			System.out.println("\nTour de " + colorize(player.getUsername(), player.getColor()) + " :");
 			System.out.print("-> Quel trou jouez-vous ? n°[1, 6] : ");
 			int numTrou = sc.nextInt() - 1;
 			hasPlayed = player.play(numTrou);
@@ -64,20 +63,32 @@ public class Awale {
 		StringBuilder str = new StringBuilder();
 		int[] p1Line = board.getLine(player1.getSide());
 		int[] p2Line = board.getLine(player2.getSide());
-		String playerTop = colorize(playerStateOnSide(player1, player2, Side.TOP), BRIGHT_BLUE_TEXT());
-		String playerBottom = colorize(playerStateOnSide(player1, player2, Side.BOTTOM), BRIGHT_BLUE_TEXT());
+		String playerTop = playerStateOnSide(player1, player2, Side.TOP);
+		String playerBottom = playerStateOnSide(player1, player2, Side.BOTTOM);
 
 		str.append("État du jeu :\n");
 		str.append("╭———————————————————————————╮\n");
 		str.append("|\t");
-		for (int i = p1Line.length - 1; i >= 0; i--)
-			str.append(colorize(p1Line[i] + "", BRIGHT_GREEN_TEXT())).append("\t");
-		str.append("| ").append(colorize(playerTop, BRIGHT_BLUE_TEXT())).append("\n");
+		// 1ère ligne : On inverse l'affichage pour avoir un cercle (-> de 5 à 0)
+		for (int i = p1Line.length - 1; i >= 0; i--) {
+			if (p1Line[i] == 0) // S'il n'y a pas de graine on colorie en rouge
+				str.append(colorize(p1Line[i] + "", RED_TEXT()));
+			else // Sinon la couleur normale du joueur
+				str.append(colorize(p1Line[i] + "", player1.getColor()));
+			str.append("\t");
+		}
+		str.append("| ").append(playerTop).append("\n");
 
 		str.append("|\t");
-		for (int j : p2Line)
-			str.append(colorize(j + "", BRIGHT_GREEN_TEXT())).append("\t");
-		str.append("| ").append(colorize(playerBottom, BRIGHT_BLUE_TEXT())).append("\n");
+		// 2e ligne : Pas besoin d'inverser le tableau (de 0 à 5)
+		for (int j : p2Line) {
+			if (j == 0) // S'il n'y a pas de graine on colorie en rouge
+				str.append(colorize(j + "", RED_TEXT()));
+			else // Sinon la couleur normale du joueur
+				str.append(colorize(j + "", player2.getColor()));
+			str.append("\t");
+		}
+		str.append("| ").append(playerBottom).append("\n");
 
 		str.append("╰———————————————————————————╯");
 		return str.toString();
@@ -91,8 +102,8 @@ public class Awale {
 	 */
 	private String playerStateOnSide(Player p1, Player p2, Side side) {
 		if (p1.getSide().equals(side))
-			return p1.getUsername() + "(" + p1.getNbPoint() + ")";
+			return colorize(p1.getUsername() + "(" + p1.getNbPoint() + ")", p1.getColor());
 
-		return p2.getUsername() + "(" + p2.getNbPoint() + ")";
+		return colorize(p2.getUsername() + "(" + p2.getNbPoint() + ")", p2.getColor());
 	}
 }

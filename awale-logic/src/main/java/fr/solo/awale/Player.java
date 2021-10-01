@@ -5,18 +5,27 @@ import com.diogonunes.jcolor.Attribute;
 import java.util.Arrays;
 
 import static com.diogonunes.jcolor.Ansi.colorize;
+import static com.diogonunes.jcolor.Attribute.TEXT_COLOR;
 
 public class Player {
 	private String username;
 	private int nbPoint;
 	private Side side;
 	private Awale game;
+	// Couleur du joueur dans le terminal (ne sert pas dans la logique du jeu)
+	private Attribute color;
 
 	/**
 	 * @param username pseudo du joueur.
 	 */
 	public Player(String username) {
 		this.username = username;
+		nbPoint = 0;
+	}
+
+	public Player(String username, Attribute colorPlayer) {
+		this.username = username;
+		this.color = colorPlayer;
 		nbPoint = 0;
 	}
 
@@ -30,6 +39,10 @@ public class Player {
 
 	public Side getSide() {
 		return side;
+	}
+
+	public Attribute getColor() {
+		return color;
 	}
 
 	public void setSide(Side side) {
