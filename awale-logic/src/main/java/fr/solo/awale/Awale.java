@@ -10,12 +10,13 @@ public class Awale {
 	private Board board;
 	private Player player1;
 	private Player player2;
-	private int nbGrainsTotal;
 
-	public Awale(Board board, Player player1, Player player2) {
-		this.board = board;
+	public Awale(Player player1, Player player2) {
+		this.board = new Board();
 		this.player1 = player1;
+		this.player1.setSide(Side.TOP);
 		this.player2 = player2;
+		this.player2.setSide(Side.BOTTOM);
 	}
 
 	public Board getBoard() {
@@ -61,10 +62,10 @@ public class Awale {
 	@Override
 	public String toString() {
 		StringBuilder str = new StringBuilder();
-		int[] p1Line = board.getLine(0);
-		int[] p2Line = board.getLine(1);
-		String playerTop = colorize(playerOnSide(player1, player2, Side.TOP), BRIGHT_BLUE_TEXT());
-		String playerBottom = colorize(playerOnSide(player1, player2, Side.BOTTOM), BRIGHT_BLUE_TEXT());
+		int[] p1Line = board.getLine(player1.getSide());
+		int[] p2Line = board.getLine(player2.getSide());
+		String playerTop = colorize(playerStateOnSide(player1, player2, Side.TOP), BRIGHT_BLUE_TEXT());
+		String playerBottom = colorize(playerStateOnSide(player1, player2, Side.BOTTOM), BRIGHT_BLUE_TEXT());
 
 		str.append("État du jeu :\n");
 		str.append("╭———————————————————————————╮\n");
@@ -88,7 +89,7 @@ public class Awale {
 	 * @param side Le côté que l'on veut comparer
 	 * @return Le pseudo et le score du joueur qui est du côté {@code side}
 	 */
-	private String playerOnSide(Player p1, Player p2, Side side) {
+	private String playerStateOnSide(Player p1, Player p2, Side side) {
 		if (p1.getSide().equals(side))
 			return p1.getUsername() + "(" + p1.getNbPoint() + ")";
 

@@ -14,12 +14,9 @@ public class Player {
 
 	/**
 	 * @param username pseudo du joueur.
-	 * @param side     côté joueur sur le plateau.<br/>
-	 *                 false/true = haut/bas
 	 */
-	public Player(String username, Side side) {
+	public Player(String username) {
 		this.username = username;
-		this.side = side;
 		nbPoint = 0;
 	}
 
@@ -35,16 +32,19 @@ public class Player {
 		return side;
 	}
 
-	public void setGame(Awale game) {
+	public void setSide(Side side) {
+		this.side = side;
+	}
+
+	public void joinGame(Awale game) {
 		this.game = game;
 	}
 
 	/**
 	 * @return {@code true} = S'il reste des graines à déplacer ; {@code false} = Si le joueur ne peut plus rien déplacer.
 	 */
-	public boolean canPlay() {
-		int indexSide = side.equals(Side.TOP) ? 0 : 1;
-		int[] linePlayer = game.getBoard().getLine(indexSide);
+	public boolean canPlayTurn() {
+		int[] linePlayer = game.getBoard().getLine(side);
 
 		boolean isWholeLineEmpty = Arrays.stream(linePlayer).allMatch(i -> i == 0);
 		return !isWholeLineEmpty;
@@ -65,11 +65,9 @@ public class Player {
 		}
 
 		Board board = game.getBoard();
-		// System.out.println("side de " + username + " : " + side);
-		int indexSidePlayer = side.equals(Side.TOP) ? 0 : 1;
-		int indexSideEnemy = indexSidePlayer == 0 ? 1 : 0;
+		Side sideEnemy = side.equals(Side.TOP) ? Side.BOTTOM : Side.TOP;
 
-		int inHand = board.viderTrou(indexSidePlayer, trouSrc);
+		int inHand = board.clearTrou(side, trouSrc);
 		// Si le trou est vide le joueur ne peut pas jouer ce coup
 		if (inHand == 0) {
 			System.out.println(colorize("\tCe trou est vide, vous ne pouvez pas le choisir." +
@@ -79,17 +77,13 @@ public class Player {
 
 		// Distribution des graines en main sur notre plateau
 		for (int i = trouSrc + 1; i <= 5 && inHand > 0; i++) {
-			/* System.out.print("ligne=" + indexSidePlayer + " | ");
-			System.out.println("Ajout graine joueur (i=" + (i + 1) + ")");*/
-			board.addGraine(indexSidePlayer, i);
+			board.addGraine(side, i);
 			inHand--;
 		}
 
 		// Puis, s'il en reste, on distribue sur l'autre partie du plateau
 		for (int j = 0; j <= 5 && inHand > 0; j++) {
-			/*System.out.print("ligne=" + indexSideEnemy + " | ");
-			System.out.println("Ajout graine ennemi (j=" + (j + 1) + ")");*/
-			board.addGraine(indexSideEnemy, j);
+			board.addGraine(sideEnemy, j);
 			inHand--;
 		}
 
