@@ -56,4 +56,20 @@ public class Board {
 	public void addGraine(Side side, int trou) {
 		getLine(side)[trou]++;
 	}
+
+
+	public int ramasser(Side side, int trou){
+		if (trou < 0){
+			return 0;
+		}
+		else if (getLine(side)[trou] == 2 || getLine(side)[trou] == 3) {
+			int nbgraine = getLine(side)[trou];
+			clearTrou(side, trou);
+			return nbgraine;
+		}
+		else {
+			return 0;
+		}
+
+	}
 }

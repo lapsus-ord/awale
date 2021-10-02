@@ -94,11 +94,18 @@ public class Player {
 			inHand--;
 		}
 
+		int save = -1;
 		// Puis, s'il en reste, on distribue sur l'autre partie du plateau
 		for (int j = 0; j <= 5 && inHand > 0; j++) {
 			board.addGraine(sideEnemy, j);
 			inHand--;
+			save = j;
 		}
+
+		nbPoint+=board.ramasser(sideEnemy, save);
+		System.out.println("nbPoint :"+ nbPoint);
+
+
 
 		return true;
 	}
