@@ -57,18 +57,22 @@ public class Board {
 		getLine(side)[trou]++;
 	}
 
-
+	/**
+	 * rammasser les graines dans un trou.
+	 *
+	 * @param side Le côté du plateau (ou la ligne), i∈[0, 1]
+	 * @param trou Le numéro du trou (ou la colonne), j∈[0, 5]
+	 * @return le nombre de graine recupéré
+	 */
 	public int ramasser(Side side, int trou){
 		if (trou < 0){
 			return 0;
 		}
 		else if (getLine(side)[trou] == 2 || getLine(side)[trou] == 3) {
-			int nbgraine = getLine(side)[trou];
-			clearTrou(side, trou);
 			if (trou == 0){
-				return nbgraine;
+				return clearTrou(side, trou);
 			}else{
-				return nbgraine + rafle(side,trou - 1);
+				return clearTrou(side, trou) + rafle(side,trou - 1);
 			}
 		}
 		else {
@@ -76,9 +80,24 @@ public class Board {
 		}
 	}
 
+
+
+	/**
+	 * rammasser les graines dans les trous précédent.
+	 *
+	 * @param side Le côté du plateau (ou la ligne), i∈[0, 1]
+	 * @param trou Le numéro du trou (ou la colonne), j∈[0, 5]
+	 * @return le nombre de graine recupéré
+	 */
+	// la méthode rafle fonctionne mais le scors est encre mal compter
+
 	public int rafle(Side side, int trou){
-		while (getLine(side)[trou]>= 0){
-			return ramasser(side,trou - 1);
+		while (trou>= 0){
+			if (getLine(side)[trou] ==2 || getLine(side)[trou]==3){
+				return ramasser(side, trou);
+			}else {
+				return 0;
+			}
 		}
 		return 0;
 	}

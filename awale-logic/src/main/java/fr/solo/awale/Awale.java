@@ -66,32 +66,62 @@ public class Awale {
 		String playerTop = playerStateOnSide(player1, player2, Side.TOP);
 		String playerBottom = playerStateOnSide(player1, player2, Side.BOTTOM);
 
+
 		str.append("État du jeu :\n");
 		str.append("╭———————————————————————————╮\n");
 		str.append("|\t");
-		// 1ère ligne : On inverse l'affichage pour avoir un cercle (-> de 5 à 0)
-		for (int i = p1Line.length - 1; i >= 0; i--) {
-			if (p1Line[i] == 0) // S'il n'y a pas de graine on colorie en rouge
-				str.append(colorize(p1Line[i] + "", RED_TEXT()));
-			else // Sinon la couleur normale du joueur
-				str.append(colorize(p1Line[i] + "", player1.getColor()));
-			str.append("\t");
-		}
-		str.append("| ").append(playerTop).append("\n");
 
-		str.append("|\t");
-		// 2e ligne : Pas besoin d'inverser le tableau (de 0 à 5)
-		for (int j : p2Line) {
-			if (j == 0) // S'il n'y a pas de graine on colorie en rouge
-				str.append(colorize(j + "", RED_TEXT()));
-			else // Sinon la couleur normale du joueur
-				str.append(colorize(j + "", player2.getColor()));
-			str.append("\t");
-		}
-		str.append("| ").append(playerBottom).append("\n");
+		if (player1.getSide()==Side.TOP){ 												//condition a changer ppour que ca affiche a l'envers le plateau
+			// 1ère ligne : On inverse l'affichage pour avoir un cercle (-> de 5 à 0)
+			for (int i = p2Line.length - 1; i >= 0; i--) {
+				if (p2Line[i] == 0) // S'il n'y a pas de graine on colorie en rouge
+					str.append(colorize(p2Line[i] + "", RED_TEXT()));
+				else // Sinon la couleur normale du joueur
+					str.append(colorize(p2Line[i] + "", player2.getColor()));
+				str.append("\t");
+			}
+			str.append("| ").append(playerTop).append("\n");
 
-		str.append("╰———————————————————————————╯");
-		return str.toString();
+			str.append("|\t");
+			// 2e ligne : Pas besoin d'inverser le tableau (de 0 à 5)
+			for (int j : p1Line) {
+				if (j == 0) // S'il n'y a pas de graine on colorie en rouge
+					str.append(colorize(j + "", RED_TEXT()));
+				else // Sinon la couleur normale du joueur
+					str.append(colorize(j + "", player1.getColor()));
+				str.append("\t");
+			}
+			str.append("| ").append(playerBottom).append("\n");
+
+			str.append("╰———————————————————————————╯");
+			return str.toString();
+
+		}else {
+			// 1ère ligne : On inverse l'affichage pour avoir un cercle (-> de 5 à 0)
+			for (int i = p1Line.length - 1; i >= 0; i--) {
+				if (p1Line[i] == 0) // S'il n'y a pas de graine on colorie en rouge
+					str.append(colorize(p1Line[i] + "", RED_TEXT()));
+				else // Sinon la couleur normale du joueur
+					str.append(colorize(p1Line[i] + "", player1.getColor()));
+				str.append("\t");
+			}
+			str.append("| ").append(playerTop).append("\n");
+
+			str.append("|\t");
+			// 2e ligne : Pas besoin d'inverser le tableau (de 0 à 5)
+			for (int j : p2Line) {
+				if (j == 0) // S'il n'y a pas de graine on colorie en rouge
+					str.append(colorize(j + "", RED_TEXT()));
+				else // Sinon la couleur normale du joueur
+					str.append(colorize(j + "", player2.getColor()));
+				str.append("\t");
+			}
+			str.append("| ").append(playerBottom).append("\n");
+
+			str.append("╰———————————————————————————╯");
+			return str.toString();
+		}
+
 	}
 
 	/**
