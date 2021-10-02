@@ -88,6 +88,8 @@ public class Player {
 			return false;
 		}
 
+
+
 		// Distribution des graines en main sur notre plateau
 		for (int i = trouSrc + 1; i <= 5 && inHand > 0; i++) {
 			board.addGraine(side, i);
@@ -103,9 +105,6 @@ public class Player {
 		}
 
 		nbPoint+=board.ramasser(sideEnemy, save);
-		System.out.println("nbPoint :"+ nbPoint);
-
-
 
 		return true;
 	}

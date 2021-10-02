@@ -65,11 +65,21 @@ public class Board {
 		else if (getLine(side)[trou] == 2 || getLine(side)[trou] == 3) {
 			int nbgraine = getLine(side)[trou];
 			clearTrou(side, trou);
-			return nbgraine;
+			if (trou == 0){
+				return nbgraine;
+			}else{
+				return nbgraine + rafle(side,trou - 1);
+			}
 		}
 		else {
 			return 0;
 		}
+	}
 
+	public int rafle(Side side, int trou){
+		while (getLine(side)[trou]>= 0){
+			return ramasser(side,trou - 1);
+		}
+		return 0;
 	}
 }
