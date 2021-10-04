@@ -3,8 +3,6 @@ Ce dépôt contient les sources du projet tutoré de Semestre 3 de DUT Informati
 	<img src="resources/Logo_Awaleau.png" height="100px">
 	<h3 align="center">PROJET TUTORE AWALE SEMESTRE 3</h3>
 </div>
-<br/>
-
 
 __Liens utiles :__
 - [Figma](https://www.figma.com/file/pyTTMuml1PO94WtGyTJgAL/Maquettes-Projet-Awale)
