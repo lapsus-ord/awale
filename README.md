@@ -27,3 +27,4 @@ L'objectif de ce projet est de programmer ce jeu. Le projet consiste à  program
 - [Inès Garcia](https://github.com/Ines-Garcia)
 - [Matéo Fernandez](https://github.com/mateo-fernandez)
 - [Matthieu Dano](https://github.com/matthieu-dano)
+- Tutrice : Gaëlle Hisler
