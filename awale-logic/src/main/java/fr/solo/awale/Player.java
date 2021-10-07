@@ -87,10 +87,7 @@ public class Player {
 					"\n\tChoisissez-en un autre.", Attribute.RED_TEXT()));
 			return false;
 		}
-		int save = -1;
-
-
-
+		int lastTrou = -1;
 
 		// Distribution des graines en main sur notre plateau
 		for (int i = trouSrc + 1; i <= 5 && inHand > 0; i++) {
@@ -98,15 +95,15 @@ public class Player {
 			inHand--;
 		}
 
-
 		// Puis, s'il en reste, on distribue sur l'autre partie du plateau
 		for (int j = 0; j <= 5 && inHand > 0; j++) {
 			board.addGraine(sideEnemy, j);
 			inHand--;
-			save = j;
+			lastTrou = j;
 		}
-
-		nbPoint+=board.ramasser(sideEnemy, save);
+		System.out.println("lastTrou=" + lastTrou);
+		if (lastTrou != -1)
+			nbPoint += board.ramasser(sideEnemy, lastTrou);
 
 		return true;
 	}
