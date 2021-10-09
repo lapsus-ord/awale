@@ -7,9 +7,11 @@ public class App {
         Player p1 = new Player("Bernard", TEXT_COLOR(42, 157, 143));
         Player p2 = new Player("José", TEXT_COLOR(255, 183, 3));
 
-        int[][] cells = {{1, 4, 2, 2, 4, 0}, {0, 0, 0, 0, 0, 4}};
-        Board boardPrefait = new Board(cells);
-        Awale jeu = new Awale(p1, p2, boardPrefait);
+        int[][] cellCapture = {{1, 4, 2, 2, 4, 0}, {0, 0, 0, 0, 0, 4}};
+        int[][] cellBoucle = {{12, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
+        int[][] cellAffame = {{1, 0, 0, 0, 1, 0}, {0, 0, 0, 0, 0, 0}};
+        Board board = new Board(cellBoucle);
+        Awale jeu = new Awale(p1, p2, board);
         p1.joinGame(jeu);
         p2.joinGame(jeu);
 
