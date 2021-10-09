@@ -89,19 +89,21 @@ public class Player {
 		}
 		int lastTrou = -1;
 
-		// Distribution des graines en main sur notre plateau
-		for (int i = trouSrc + 1; i <= 5 && inHand > 0; i++) {
-			board.addGraine(side, i);
-			inHand--;
+		while (inHand > 0) {
+			// Distribution des graines en main sur notre plateau
+			for (int i = trouSrc + 1; i <= 5 && inHand > 0; i++) {
+				board.addGraine(side, i);
+				inHand--;
+			}
+
+			// Puis, s'il en reste, on distribue sur l'autre partie du plateau
+			for (int j = 0; j <= 5 && inHand > 0; j++) {
+				board.addGraine(sideEnemy, j);
+				inHand--;
+				lastTrou = j;
+			}
 		}
 
-		// Puis, s'il en reste, on distribue sur l'autre partie du plateau
-		for (int j = 0; j <= 5 && inHand > 0; j++) {
-			board.addGraine(sideEnemy, j);
-			inHand--;
-			lastTrou = j;
-		}
-		System.out.println("lastTrou=" + lastTrou);
 		if (lastTrou != -1)
 			nbPoint += board.ramasser(sideEnemy, lastTrou);
 
