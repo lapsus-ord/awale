@@ -1,4 +1,4 @@
-package fr.solo.awale;
+package main.java.fr.solo.awale;
 
 import java.util.Arrays;
 
@@ -79,5 +79,33 @@ public class Board {
         } else {
             return 0;
         }
+    }
+
+    public boolean emptyLine(Side s){
+        int[] t = getLine(s);
+        for(int i = 0; i < t.length; i++){
+            if(t[i]!=0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int getGraineInLine(Side s){
+        int[] t = getLine(s);
+        int n = 0;
+        for(int i = 0; i < t.length; i++){
+            if(t[i]!=0){
+                n += t[i];
+            }
+        }
+        return n;
+    }
+
+    public int getFirstTrouNotEmpty(int[] line){
+        for(int i = 0; i < line.length; i++){
+            if (line[i]!=0)return i++;
+        }
+        return -1;
     }
 }

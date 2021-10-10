@@ -1,4 +1,4 @@
-package fr.solo.awale;
+package main.java.fr.solo.awale;
 
 import java.util.Scanner;
 
@@ -36,16 +36,54 @@ public class Awale {
 	 */
 	public void run() {
 		boolean b = true;
-		while (true) {
-			if (b) {
+		while (true && !scorePlayerMoreThanHalfGraine()) {
+			if(indermination()){
+				player1.addPoints(board.getGraineInLine(Side.BOTTOM));
+				player2.addPoints(board.getGraineInLine(Side.TOP));
+				System.out.println("Fin par indetermination\n");
+				break;
+			}
+			else if (b) {
+				if(board.emptyLine(Side.TOP) && !canFeed(player2)){
+					player2.addPoints(board.getGraineInLine(Side.BOTTOM));
+					System.out.println("Fin par famine\n");
+					break;
+				}
 				chooseTrou(player1);
 				b = false;
 			} else {
+				if(board.emptyLine(Side.BOTTOM) && !canFeed(player1)){
+					player2.addPoints(board.getGraineInLine(Side.TOP));
+					System.out.println("Fin par famine\n");
+					break;
+				}
 				chooseTrou(player2);
 				b = true;
 			}
 		}
 	}
+
+	private boolean indermination(){
+		int[] line1 = board.getLine(Side.TOP);
+		int[] line2 = board.getLine(Side.BOTTOM);
+		int distance = Math.abs(board.getFirstTrouNotEmpty(line1) + board.getFirstTrouNotEmpty(line2));
+
+
+	}
+
+	private boolean canFeed(Player p) {
+		int[] t = board.getLine(p.getSide());
+		int i = 0;
+		while(i < t.length) {
+			if(t[i]>t.length-1-i) return true;
+		}
+		return false;
+	}
+
+	private boolean scorePlayerMoreThanHalfGraine(){
+		return Math.max(player1.getNbPoint(), player2.getNbPoint()) >=25;
+	}
+
 
 	/**
 	 * Méthode qui permet à un joueur de voir l'état du jeu et de choisir un trou à jouer.
@@ -55,7 +93,6 @@ public class Awale {
 	private void chooseTrou(Player player) {
 		Scanner sc = new Scanner(System.in);
 		boolean hasPlayed;
-
 		do {
 			System.out.println("\nTour de " + colorize(player.getUsername(), player.getColor()) + " :");
 			System.out.print("-> Quel trou jouez-vous ? n°[1, 6] : ");

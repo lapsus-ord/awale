@@ -1,11 +1,10 @@
-package fr.solo.awale;
+package main.java.fr.solo.awale;
 
 import com.diogonunes.jcolor.Attribute;
 
 import java.util.Arrays;
 
 import static com.diogonunes.jcolor.Ansi.colorize;
-import static com.diogonunes.jcolor.Attribute.TEXT_COLOR;
 
 public class Player {
 	private String username;
@@ -108,5 +107,9 @@ public class Player {
 			nbPoint += board.ramasser(sideEnemy, lastTrou);
 
 		return true;
+	}
+
+	public void addPoints(int nb){
+		this.nbPoint += nb;
 	}
 }

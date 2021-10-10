@@ -1,4 +1,4 @@
-package fr.solo.awale;
+package main.java.fr.solo.awale;
 
 import static com.diogonunes.jcolor.Attribute.TEXT_COLOR;
 
@@ -9,8 +9,10 @@ public class App {
 
         int[][] cellCapture = {{1, 4, 2, 2, 4, 0}, {0, 0, 0, 0, 0, 4}};
         int[][] cellBoucle = {{12, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
-        int[][] cellAffame = {{1, 0, 0, 0, 1, 0}, {0, 0, 0, 0, 0, 0}};
-        Board board = new Board(cellBoucle);
+        int[][] cellAffame = {{0, 0, 0, 0, 0, 4}, {2, 0, 0, 0, 0, 0}};
+        int[][] cellEnd = {{0,0,0,0,0,1}, {0,0,1,0,0,0}};
+        System.out.println(cellEnd[0].length);
+        Board board = new Board(cellEnd);
         Awale jeu = new Awale(p1, p2, board);
         p1.joinGame(jeu);
         p2.joinGame(jeu);
