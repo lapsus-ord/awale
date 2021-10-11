@@ -30,12 +30,13 @@ public class Board {
     }
 
     /**
-     * @param side Le côté du plateau (ou la ligne), i∈[0, 1]
-     * @param trou Le numéro du trou (ou la colonne), j∈[0, 5]
-     * @return Le nombre de graines dans le trou
+     *
+     * @param trou le numéro du trou entre 1 et 6
+     * @param trou1 le numéro du trou entre 1 et 6
+     * @return distance entre les 2 trous
      */
-    private int getTrou(int side, int trou) {
-        return cells[side][trou];
+    public int getDistance(int trou, int trou1){
+        return Math.abs(trou+trou1+2)-1;
     }
 
     /**
@@ -102,10 +103,6 @@ public class Board {
         return n;
     }
 
-    public int getFirstTrouNotEmpty(int[] line){
-        for(int i = 0; i < line.length; i++){
-            if (line[i]!=0)return i++;
-        }
-        return -1;
-    }
+
+
 }

@@ -66,9 +66,14 @@ public class Awale {
 	private boolean indermination(){
 		int[] line1 = board.getLine(Side.TOP);
 		int[] line2 = board.getLine(Side.BOTTOM);
-		int distance = Math.abs(board.getFirstTrouNotEmpty(line1) + board.getFirstTrouNotEmpty(line2));
+		return inderminationAux(line1, line2, 0, 0);
+	}
 
-
+	private boolean inderminationAux(int[] l, int[] l2, int i, int j){
+		if(i==6 || j==6)return false;
+		else if(l[i]==0)return inderminationAux(l,l2,i++,j);
+		else if(l2[j]==0)return inderminationAux(l,l2,i,j++);
+		return (l2[j]==2||l2[j]==3) && board.getDistance(i, j)>=l[i] && inderminationAux(l, l2, i++, j++);
 	}
 
 	private boolean canFeed(Player p) {
