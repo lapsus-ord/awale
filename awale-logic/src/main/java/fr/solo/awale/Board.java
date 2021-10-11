@@ -31,8 +31,8 @@ public class Board {
 
     /**
      *
-     * @param trou le numéro du trou entre 1 et 6
-     * @param trou1 le numéro du trou entre 1 et 6
+     * @param trou le numéro du trou entre 0 et 5
+     * @param trou1 le numéro du trou entre 0 et 5
      * @return distance entre les 2 trous
      */
     public int getDistance(int trou, int trou1){
