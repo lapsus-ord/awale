@@ -11,12 +11,10 @@ public class App {
         int[][] cellBoucle = {{12, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
         int[][] cellAffame = {{0, 0, 0, 0, 0, 4}, {2, 0, 0, 0, 6, 0}};
         int[][] cellEnd = {{0,0,0,0,0,1}, {0,0,1,0,0,0}};
-        Board board = new Board();
-        Awale jeu = new Awale(p1, p2, board);
+        Awale jeu = new Awale(p1, p2);
         p1.joinGame(jeu);
         p2.joinGame(jeu);
 
-        System.out.println(jeu);
         jeu.run();
     }
 }
