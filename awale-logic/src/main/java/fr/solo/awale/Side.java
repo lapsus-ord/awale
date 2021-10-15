@@ -1,4 +1,4 @@
-package main.java.fr.solo.awale;
+package fr.solo.awale;
 
 public enum Side {
 	TOP,

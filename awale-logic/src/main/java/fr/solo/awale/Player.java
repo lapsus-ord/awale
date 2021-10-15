@@ -1,4 +1,4 @@
-package main.java.fr.solo.awale;
+package fr.solo.awale;
 
 import com.diogonunes.jcolor.Attribute;
 
@@ -53,16 +53,6 @@ public class Player {
 	}
 
 	/**
-	 * @return {@code true} = S'il reste des graines à déplacer ; {@code false} = Si le joueur ne peut plus rien déplacer.
-	 */
-	public boolean canPlayTurn() {
-		int[] linePlayer = game.getBoard().getLine(side);
-
-		boolean isWholeLineEmpty = Arrays.stream(linePlayer).allMatch(i -> i == 0);
-		return !isWholeLineEmpty;
-	}
-
-	/**
 	 * Joue le coup d'un joueur.
 	 *
 	 * @param trouSrc Le trou d'origine (du côté du joueur)
@@ -77,15 +67,14 @@ public class Player {
 		}
 
 		Board board = game.getBoard();
-		Side sideEnemy = side.equals(Side.TOP) ? Side.BOTTOM : Side.TOP;
+		Side sideEnemy = board.getOppositeSide(side);
 
-		int inHand = board.clearTrou(side, trouSrc);
-		// Si le trou est vide le joueur ne peut pas jouer ce coup
-		if (inHand == 0) {
-			System.out.println(colorize("\tCe trou est vide, vous ne pouvez pas le choisir." +
+		if (!board.isPlayable(trouSrc, side)) {
+			System.out.println(colorize("\tVous ne pouvez pas jouer ce trou." +
 					"\n\tChoisissez-en un autre.", Attribute.RED_TEXT()));
 			return false;
 		}
+		int inHand = board.clearTrou(side, trouSrc);
 		int lastTrou = -1;
 
 		while (inHand > 0) {
@@ -103,8 +92,11 @@ public class Player {
 			}
 		}
 
-		if (lastTrou != -1)
-			nbPoint += board.ramasser(sideEnemy, lastTrou);
+		if (lastTrou != -1) {
+			int ramassage = board.ramasser(sideEnemy, lastTrou);
+			nbPoint += ramassage;
+			board.removeNbGraine(ramassage);
+		}
 
 		return true;
 	}

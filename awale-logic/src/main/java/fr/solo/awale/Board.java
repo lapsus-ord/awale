@@ -1,17 +1,20 @@
-package main.java.fr.solo.awale;
+package fr.solo.awale;
 
 import java.util.Arrays;
 
 public class Board {
     private int[][] cells;
+    private int nbGraines;
 
     public Board() {
         cells = new int[2][6];
+        nbGraines = 48;
         initBoard();
     }
 
     public Board(int[][] cells) {
         this.cells = cells;
+        nbGraines = 48;
     }
 
     private void initBoard() {
@@ -29,14 +32,17 @@ public class Board {
         return cells[1];
     }
 
-    /**
-     *
-     * @param trou le numéro du trou entre 0 et 5
-     * @param trou1 le numéro du trou entre 0 et 5
-     * @return distance entre les 2 trous
-     */
-    public int getDistance(int trou, int trou1){
-        return Math.abs(trou+trou1+2)-1;
+    public boolean isPlayable(int trou, Side side) {
+        if (getLine(side)[trou] == 0)
+            return false;
+        if (getGraineInLine(getOppositeSide(side)) == 0) { // Cas Affamé
+            return (getLine(side)[trou] >= (cells[0].length - trou));
+        }
+        return true;
+    }
+
+    public Side getOppositeSide(Side side) {
+        return side.equals(Side.TOP) ? Side.BOTTOM : Side.TOP;
     }
 
     /**
@@ -82,27 +88,18 @@ public class Board {
         }
     }
 
-    public boolean emptyLine(Side s){
-        int[] t = getLine(s);
-        for(int i = 0; i < t.length; i++){
-            if(t[i]!=0){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public int getGraineInLine(Side s){
+    public int getGraineInLine(Side s) {
         int[] t = getLine(s);
         int n = 0;
-        for(int i = 0; i < t.length; i++){
-            if(t[i]!=0){
-                n += t[i];
+        for (int j : t) {
+            if (j != 0) {
+                n += j;
             }
         }
         return n;
     }
 
-
-
+    public void removeNbGraine(int ramassage) {
+        this.nbGraines -= ramassage;
+    }
 }
