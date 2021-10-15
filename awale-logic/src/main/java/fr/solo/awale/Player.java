@@ -2,106 +2,142 @@ package fr.solo.awale;
 
 import com.diogonunes.jcolor.Attribute;
 
-import java.util.Arrays;
-
 import static com.diogonunes.jcolor.Ansi.colorize;
 
 public class Player {
-	private String username;
-	private int nbPoint;
-	private Side side;
-	private Awale game;
-	// Couleur du joueur dans le terminal (ne sert pas dans la logique du jeu)
-	private Attribute color;
+    private String username;
+    private int score;
+    private Side side;
+    private Awale game;
+    // Couleur du joueur dans le terminal (ne sert pas dans la logique du jeu)
+    private Attribute color;
 
-	/**
-	 * @param username pseudo du joueur.
-	 */
-	public Player(String username) {
-		this.username = username;
-		nbPoint = 0;
-	}
+    /**
+     * Constructeur avec le pseudo du joueur
+     */
+    public Player(String username) {
+        this.username = username;
+        score = 0;
+    }
 
-	public Player(String username, Attribute colorPlayer) {
-		this.username = username;
-		this.color = colorPlayer;
-		nbPoint = 0;
-	}
+    /**
+     * Constructeur avec le pseudo du joueur + Sa couleur dans le terminal
+     */
+    public Player(String username, Attribute colorPlayer) {
+        this(username);
+        this.color = colorPlayer;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    /**
+     * Méthode permettant un joueur de rejoindre un jeu.
+     *
+     * @param game Le jeu à rejoindre.
+     */
+    public void joinGame(Awale game) {
+        this.game = game;
+    }
 
-	public int getNbPoint() {
-		return nbPoint;
-	}
+    /**
+     * Joue le coup d'un joueur.
+     *
+     * @param holeSrc Le trou d'origine (du côté du joueur)
+     * @return {@code true} = coup joué sans soucis ;<br/>
+     * {@code false} = le joueur n'a pas pu jouer le coup
+     * @see Awale#chooseHole(Player)
+     */
+    public boolean play(int holeSrc) {
+        if (holeSrc < 0 || holeSrc > 5) {
+            System.out.println(colorize("\tLe trou que vous avez choisi n'existe pas." +
+                    "\n\tChoisissez-en un qui est entre 1 et 6.", Attribute.RED_TEXT()));
+            return false;
+        }
 
-	public Side getSide() {
-		return side;
-	}
+        Board board = game.getBoard();
 
-	public Attribute getColor() {
-		return color;
-	}
+        if (!board.isPlayable(holeSrc, side)) {
+            System.out.println(colorize("\tVous ne pouvez pas jouer ce trou." +
+                    "\n\tChoisissez-en un autre.", Attribute.RED_TEXT()));
+            return false;
+        }
 
-	public void setSide(Side side) {
-		this.side = side;
-	}
+        // On met à jour le plateau
+        int lastHole = updateBoard(holeSrc, board);
+        // Et on capture les graines
+        captureSeed(board, lastHole);
 
-	public void joinGame(Awale game) {
-		this.game = game;
-	}
+        return true;
+    }
 
-	/**
-	 * Joue le coup d'un joueur.
-	 *
-	 * @param trouSrc Le trou d'origine (du côté du joueur)
-	 * @return {@code true} = coup joué sans soucis ;<br/>
-	 * {@code false} = le joueur n'a pas pu jouer le coup
-	 */
-	public boolean play(int trouSrc) {
-		if (trouSrc < 0 || trouSrc > 5) {
-			System.out.println(colorize("\tLe trou que vous avez choisi n'existe pas." +
-					"\n\tChoisissez-en un qui est entre 1 et 6.", Attribute.RED_TEXT()));
-			return false;
-		}
+    /**
+     * Met à jour le plateau en distribuant les graines.
+     *
+     * @param holeSrc Le trou choisi par le joueur.
+     * @param board   Le plateau sur lequel on distribue.
+     * @return Le dernier trou de la distribution.<br/>
+     * (-1 si pas de distribution chez l'ennemi, sinon {@code ∈ [0,5]})
+     * @see Player#play(int)
+     */
+    private int updateBoard(int holeSrc, Board board) {
+        Side sideEnemy = board.getOppositeSide(side);
+        int inHand = board.clearHole(side, holeSrc);
+        int lastHole = -1;
 
-		Board board = game.getBoard();
-		Side sideEnemy = board.getOppositeSide(side);
+        while (inHand > 0) {
+            // Distribution des graines en main sur notre plateau
+            for (int i = holeSrc + 1; i <= 5 && inHand > 0; i++) {
+                board.addSeed(side, i);
+                inHand--;
+            }
 
-		if (!board.isPlayable(trouSrc, side)) {
-			System.out.println(colorize("\tVous ne pouvez pas jouer ce trou." +
-					"\n\tChoisissez-en un autre.", Attribute.RED_TEXT()));
-			return false;
-		}
-		int inHand = board.clearTrou(side, trouSrc);
-		int lastTrou = -1;
+            // Puis, s'il en reste, on distribue sur l'autre partie du plateau
+            for (int j = 0; j <= 5 && inHand > 0; j++) {
+                board.addSeed(sideEnemy, j);
+                inHand--;
+                lastHole = j;
+            }
+        }
+        return lastHole;
+    }
 
-		while (inHand > 0) {
-			// Distribution des graines en main sur notre plateau
-			for (int i = trouSrc + 1; i <= 5 && inHand > 0; i++) {
-				board.addGraine(side, i);
-				inHand--;
-			}
+    /**
+     * Capture et met à jour le score du joueur.<br/>
+     * Si {@code lastHole == -1}, alors on ne capture pas puisqu'on n'a pas distribué chez l'adversaire.
+     *
+     * @param board    Le plateau sur lequel on capture.
+     * @param lastHole Le dernier trou de la distribution.
+     * @see Player#play(int)
+     */
+    private void captureSeed(Board board, int lastHole) {
+        if (lastHole != -1) {
+            int seedsCollected = board.capturing(board.getOppositeSide(side), lastHole);
+            score += seedsCollected;
+            board.removeNbSeed(seedsCollected);
+        }
+    }
 
-			// Puis, s'il en reste, on distribue sur l'autre partie du plateau
-			for (int j = 0; j <= 5 && inHand > 0; j++) {
-				board.addGraine(sideEnemy, j);
-				inHand--;
-				lastTrou = j;
-			}
-		}
+    // --- GETTERS/ SETTERS ---
 
-		if (lastTrou != -1) {
-			int ramassage = board.ramasser(sideEnemy, lastTrou);
-			nbPoint += ramassage;
-			board.removeNbGraine(ramassage);
-		}
+    public String getUsername() {
+        return username;
+    }
 
-		return true;
-	}
+    public int getScore() {
+        return score;
+    }
 
-	public void addPoints(int nb){
-		this.nbPoint += nb;
-	}
+    public Attribute getColor() {
+        return color;
+    }
+
+    public Side getSide() {
+        return side;
+    }
+
+    public void setSide(Side side) {
+        this.side = side;
+    }
+
+    public void addPoints(int nb) {
+        this.score += nb;
+    }
 }
