@@ -1,5 +1,7 @@
 package fr.solo.awale;
 
+import com.diogonunes.jcolor.Attribute;
+
 import java.util.Scanner;
 
 import static com.diogonunes.jcolor.Ansi.colorize;
@@ -17,6 +19,9 @@ public class Awale {
         PlAYER1_TURN, PLAYER2_TURN, START_GAME, END_GAME
     }
 
+    /**
+     * Constructeur avec les joueurs.
+     */
     public Awale(Player player1, Player player2) {
         this.board = new Board();
         this.player1 = player1;
@@ -26,9 +31,12 @@ public class Awale {
         state = Gamestate.START_GAME;
     }
 
-    public Awale(Player player1, Player player2, Board board) {
+    /**
+     * Constructeur avec les joueurs + Un plateau prédéfini.
+     */
+    public Awale(Player player1, Player player2, int[][] board) {
         this(player1, player2);
-        this.board = board;
+        this.board = new Board(board);
     }
 
     public Board getBoard() {
@@ -37,70 +45,112 @@ public class Awale {
 
     /**
      * Méthode qui exécute le jeu.<br/>
-     * <strong>TODO: Ajouter une condition de fin.</strong>
+     * Commence par changer l'état du jeu en {@code PLAYER1_TURN}.
      */
     public void run() {
         state = PlAYER1_TURN;
+        System.out.println(this);
+
+        // Le jeu tourne tant que l'état du jeu n'est pas END_GAME
         while (!state.equals(END_GAME)) {
             if (state.equals(PlAYER1_TURN)) {
                 if (isStarved(player1)) {
                     state = END_GAME;
                     break;
                 }
-                chooseTrou(player1);
+                chooseHole(player1);
                 state = PLAYER2_TURN;
             } else {
                 if (isStarved(player2)) {
                     state = END_GAME;
                     break;
                 }
-                chooseTrou(player2);
+                chooseHole(player2);
                 state = PlAYER1_TURN;
             }
         }
-        distributionBoardGraine();
+
+        seedDistribution();
         winner = checkWinner();
-        System.out.println("\nLe gagnant est " + winner.getUsername() + " avec " + winner.getNbPoint() + " points !!!");
+
+        if (winner != null) {
+            System.out.println(colorize("\nLe gagnant est " + winner.getUsername() + " avec " + winner.getScore() + " points !!!",
+                    Attribute.BRIGHT_MAGENTA_TEXT()));
+        } else {
+            System.out.println(colorize("\nBravo aux deux joueurs " + player1.getUsername() + " et " + player2.getUsername() + " !\n" +
+                    "Le jeu se termine sur une égalité !!! 👏", Attribute.BRIGHT_BLUE_TEXT()));
+        }
     }
 
+    /**
+     * Indique si le joueur en face de {@code player} est dans l'état "Affamé".
+     *
+     * @param player Le joueur choisi.
+     * @return {@code true}/{@code false} = Selon si le joueur en face est dans l'état "Affamé".
+     * @see Awale#run()
+     */
     private boolean isStarved(Player player) {
-        return board.getGraineInLine(player.getSide()) == 0;
+        return board.getSeedInRow(player.getSide()) == 0;
     }
 
-    private void distributionBoardGraine() {
-        player1.addPoints(board.getGraineInLine(player1.getSide()));
-        player2.addPoints(board.getGraineInLine(player2.getSide()));
+    /**
+     * Distribue les graines en fin de partie.
+     *
+     * @see Awale#run()
+     */
+    private void seedDistribution() {
+        player1.addPoints(board.getSeedInRow(player1.getSide()));
+        player2.addPoints(board.getSeedInRow(player2.getSide()));
     }
 
+    /**
+     * @return Le joueur gagnant (celui ayant le score le plus élevé).<br/>
+     * Ou {@code null} si le jeu finit en égalité.
+     * @see Awale#run()
+     */
     private Player checkWinner() {
-        if (player1.getNbPoint() == player2.getNbPoint())
+        if (player1.getScore() == player2.getScore())
             return null;
-        return player1.getNbPoint() > player2.getNbPoint() ? player1 : player2;
+        return player1.getScore() > player2.getScore() ? player1 : player2;
     }
 
     /**
      * Méthode qui permet à un joueur de voir l'état du jeu et de choisir un trou à jouer.
      *
      * @param player Le joueur qui doit choisir son trou
+     * @see Player#play(int)
      */
-    private void chooseTrou(Player player) {
+    private void chooseHole(Player player) {
         Scanner sc = new Scanner(System.in);
         boolean hasPlayed;
         do {
             System.out.println("\nTour de " + colorize(player.getUsername(), player.getColor()) + " :");
             System.out.print("-> Quel trou jouez-vous ? n°[1, 6] : ");
-            int numTrou = sc.nextInt() - 1;
-            hasPlayed = player.play(numTrou);
+            int holeNumber = sc.nextInt() - 1;
+            hasPlayed = player.play(holeNumber);
         } while (!hasPlayed);
 
         System.out.println(this);
     }
 
+    /**
+     * @param p1   Un joueur Player
+     * @param p2   UN joueur Player
+     * @param side Le côté que l'on veut comparer
+     * @return Le pseudo et le score du joueur qui est du côté {@code side}
+     */
+    private String playerStateOnSide(Player p1, Player p2, Side side) {
+        if (p1.getSide().equals(side))
+            return colorize(p1.getUsername() + "(" + p1.getScore() + ")", p1.getColor());
+
+        return colorize(p2.getUsername() + "(" + p2.getScore() + ")", p2.getColor());
+    }
+
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
-        int[] p1Line = board.getLine(player1.getSide());
-        int[] p2Line = board.getLine(player2.getSide());
+        int[] p1Line = board.getRow(player1.getSide());
+        int[] p2Line = board.getRow(player2.getSide());
         String playerTop = playerStateOnSide(player1, player2, Side.TOP);
         String playerBottom = playerStateOnSide(player1, player2, Side.BOTTOM);
 
@@ -127,21 +177,8 @@ public class Awale {
             str.append("\t");
         }
         str.append("| ").append(playerBottom).append("\n");
-
         str.append("╰———————————————————————————╯");
+
         return str.toString();
-    }
-
-    /**
-     * @param p1   Un joueur Player
-     * @param p2   UN joueur Player
-     * @param side Le côté que l'on veut comparer
-     * @return Le pseudo et le score du joueur qui est du côté {@code side}
-     */
-    private String playerStateOnSide(Player p1, Player p2, Side side) {
-        if (p1.getSide().equals(side))
-            return colorize(p1.getUsername() + "(" + p1.getNbPoint() + ")", p1.getColor());
-
-        return colorize(p2.getUsername() + "(" + p2.getNbPoint() + ")", p2.getColor());
     }
 }
