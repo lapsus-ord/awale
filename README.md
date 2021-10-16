@@ -7,6 +7,7 @@ Ce dépôt contient les sources du projet tutoré de Semestre 3 de DUT Informati
 __Liens utiles :__
 - [Figma](https://www.figma.com/file/pyTTMuml1PO94WtGyTJgAL/Maquettes-Projet-Awale)
 - [Règles du jeu](https://www.regledujeu.fr/awale/)
+- [Drive](https://drive.google.com/drive/folders/18rMv5KNO7wRO3HeaSvigYY_hORL9EPtb)
 
 
 # I - Objectif :
