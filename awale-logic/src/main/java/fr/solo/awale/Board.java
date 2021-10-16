@@ -12,8 +12,8 @@ public class Board {
         initBoard();
     }
 
-    public Board(int[][] cells) {
-        this.cells = cells;
+    public Board(int[][] board) {
+        this.cells = board;
         nbOfSeeds = 48;
     }
 

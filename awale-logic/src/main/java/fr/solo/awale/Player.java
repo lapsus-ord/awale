@@ -35,6 +35,7 @@ public class Player {
      */
     public void joinGame(Awale game) {
         this.game = game;
+        game.addPlayer(this);
     }
 
     /**

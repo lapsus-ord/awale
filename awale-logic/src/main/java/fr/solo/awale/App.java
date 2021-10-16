@@ -10,11 +10,15 @@ public class App {
         int[][] cellCapture = {{1, 4, 2, 2, 4, 0}, {0, 0, 0, 0, 0, 4}};
         int[][] cellBoucle = {{12, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
         int[][] cellAffame = {{0, 0, 0, 0, 0, 4}, {2, 0, 0, 0, 6, 0}};
-        int[][] cellEnd = {{0,0,0,0,0,1}, {0,0,1,0,0,0}};
-        Awale jeu = new Awale(p1, p2);
+        int[][] cellEnd = {{0, 0, 0, 0, 0, 1}, {0, 0, 1, 0, 0, 0}};
+        Awale jeu = new Awale();
         p1.joinGame(jeu);
         p2.joinGame(jeu);
 
-        jeu.run();
+        try {
+            jeu.run();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

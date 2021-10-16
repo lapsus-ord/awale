@@ -19,23 +19,23 @@ public class Awale {
         PlAYER1_TURN, PLAYER2_TURN, START_GAME, END_GAME
     }
 
+
     /**
      * Constructeur avec les joueurs.
      */
-    public Awale(Player player1, Player player2) {
+    public Awale() {
         this.board = new Board();
-        this.player1 = player1;
-        this.player1.setSide(Side.TOP);
-        this.player2 = player2;
-        this.player2.setSide(Side.BOTTOM);
+        this.player1 = null;
+        this.player2 = null;
         state = Gamestate.START_GAME;
+        winner = null;
     }
 
     /**
      * Constructeur avec les joueurs + Un plateau prédéfini.
      */
-    public Awale(Player player1, Player player2, int[][] board) {
-        this(player1, player2);
+    public Awale(int[][] board) {
+        this();
         this.board = new Board(board);
     }
 
@@ -47,7 +47,11 @@ public class Awale {
      * Méthode qui exécute le jeu.<br/>
      * Commence par changer l'état du jeu en {@code PLAYER1_TURN}.
      */
-    public void run() {
+    public void run() throws InterruptedException {
+        while (player1 == null || player2 == null) {
+            System.out.println("En attente de joueurs...");
+            Thread.sleep(10000);
+        }
         state = PlAYER1_TURN;
         System.out.println(this);
 
@@ -135,7 +139,7 @@ public class Awale {
 
     /**
      * @param p1   Un joueur Player
-     * @param p2   UN joueur Player
+     * @param p2   Un joueur Player
      * @param side Le côté que l'on veut comparer
      * @return Le pseudo et le score du joueur qui est du côté {@code side}
      */
@@ -144,6 +148,23 @@ public class Awale {
             return colorize(p1.getUsername() + "(" + p1.getScore() + ")", p1.getColor());
 
         return colorize(p2.getUsername() + "(" + p2.getScore() + ")", p2.getColor());
+    }
+
+    /**
+     * Ajoute un joueur à une partie.
+     *
+     * @param p Le joueur à ajouter.
+     */
+    public void addPlayer(Player p) {
+        if (player1 == null) {
+            player1 = p;
+            player1.setSide(Side.TOP);
+            return;
+        }
+        if (player2 == null) {
+            player2 = p;
+            player2.setSide(Side.BOTTOM);
+        }
     }
 
     @Override
