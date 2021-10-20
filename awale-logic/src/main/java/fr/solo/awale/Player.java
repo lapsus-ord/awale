@@ -18,6 +18,7 @@ public class Player {
     public Player(String username) {
         this.username = username;
         score = 0;
+        this.color = Attribute.WHITE_TEXT();
     }
 
     /**
