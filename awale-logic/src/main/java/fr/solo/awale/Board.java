@@ -45,6 +45,10 @@ public class Board {
             return false;
         if (getSeedInRow(getOppositeSide(side)) == 0) { // Cas Affamé :
             // Renvoie true si on peut utiliser ce trou pour distribuer chez l'ennemi
+            // Debug temp :
+            System.out.println("affamé");
+            System.out.println("- " + getRow(side)[hole] + " vs " + (cells[0].length - hole));
+            // Peut-être rajouter une condition pour savoir si on a vraiment besoin de Affamé...
             return (getRow(side)[hole] >= (cells[0].length - hole));
         }
         return true;

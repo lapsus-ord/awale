@@ -57,14 +57,22 @@ public class Awale {
 
         // Le jeu tourne tant que l'état du jeu n'est pas END_GAME
         while (!state.equals(END_GAME)) {
+            // Tour du joueur 1 (top)
             if (state.equals(PlAYER1_TURN)) {
+                System.out.println("tour Joueur 1 :");
+                System.out.println("p1 affamé : " + isStarved(player1));
+                System.out.println("p2 affamé : " + isStarved(player2));
                 if (isStarved(player1)) {
                     state = END_GAME;
                     break;
                 }
                 chooseHole(player1);
                 state = PLAYER2_TURN;
-            } else {
+
+            } else { //Tour du joueur 2 (bottom)
+                System.out.println("tour Joueur 2 :");
+                System.out.println("p1 affamé : " + isStarved(player1));
+                System.out.println("p2 affamé : " + isStarved(player2));
                 if (isStarved(player2)) {
                     state = END_GAME;
                     break;
