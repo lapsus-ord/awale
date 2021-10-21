@@ -6,16 +6,16 @@ import java.util.Scanner;
 
 import static com.diogonunes.jcolor.Ansi.colorize;
 import static com.diogonunes.jcolor.Attribute.RED_TEXT;
-import static fr.solo.awale.Awale.Gamestate.*;
+import static fr.solo.awale.Awale.GameState.*;
 
 public class Awale {
     private Board board;
     private Player player1;
     private Player player2;
     private Player winner;
-    private Gamestate state;
+    private GameState state;
 
-    enum Gamestate {
+    enum GameState {
         PlAYER1_TURN, PLAYER2_TURN, START_GAME, END_GAME
     }
 
@@ -27,7 +27,7 @@ public class Awale {
         this.board = new Board();
         this.player1 = null;
         this.player2 = null;
-        state = Gamestate.START_GAME;
+        state = GameState.START_GAME;
         winner = null;
     }
 
@@ -59,21 +59,15 @@ public class Awale {
         while (!state.equals(END_GAME)) {
             // Tour du joueur 1 (top)
             if (state.equals(PlAYER1_TURN)) {
-                System.out.println("tour Joueur 1 :");
-                System.out.println("p1 affamé : " + isStarved(player1));
-                System.out.println("p2 affamé : " + isStarved(player2));
-                if (isStarved(player1)) {
+                if (isStarved(player1) || !board.canPlay(player1.getSide())) {
                     state = END_GAME;
                     break;
                 }
                 chooseHole(player1);
                 state = PLAYER2_TURN;
 
-            } else { //Tour du joueur 2 (bottom)
-                System.out.println("tour Joueur 2 :");
-                System.out.println("p1 affamé : " + isStarved(player1));
-                System.out.println("p2 affamé : " + isStarved(player2));
-                if (isStarved(player2)) {
+            } else { // Tour du joueur 2 (bottom)
+                if (isStarved(player2) || !board.canPlay(player2.getSide())) {
                     state = END_GAME;
                     break;
                 }
