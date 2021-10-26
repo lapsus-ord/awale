@@ -167,6 +167,10 @@ public class Awale {
         }
     }
 
+    public int getScorePlayer(Side side) {
+
+    }
+
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();

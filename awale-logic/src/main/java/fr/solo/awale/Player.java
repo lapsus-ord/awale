@@ -8,7 +8,7 @@ public class Player {
     private String username;
     private int score;
     private Side side;
-    private Awale game;
+    protected Awale game;
     // Couleur du joueur dans le terminal (ne sert pas dans la logique du jeu)
     private Attribute color;
 
@@ -18,6 +18,7 @@ public class Player {
     public Player(String username) {
         this.username = username;
         score = 0;
+        color = Attribute.WHITE_TEXT();
     }
 
     /**
