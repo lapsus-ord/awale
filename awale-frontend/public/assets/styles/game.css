@@ -1,0 +1,38 @@
+.board {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.ennemy>div {
+  background-color: var(--green-mantis);
+  cursor: not-allowed;
+}
+
+.user>div {
+  background-color: var(--red-cardinal);
+  cursor: pointer;
+}
+
+.row > div {
+  font-size: 1.5rem;
+  flex: 1;
+  text-align: center;
+  border-radius: 5px;
+  padding: 1rem 2rem;
+  transition: box-shadow .3s, background-color .3s, transform .5s;
+}
+
+.user > div:hover {
+  filter: brightness(150%);
+  transform: scale(1.02);
+  box-shadow: 0 5px 7px -1px rgba(0, 0, 0, .2),
+  0 7px 8px 0 rgba(0, 0, 0, .14),
+  0 4px 13px 0 rgba(0, 0, 0, .12);
+}

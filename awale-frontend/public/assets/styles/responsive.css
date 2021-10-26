@@ -1,0 +1,54 @@
+@media screen and (max-device-width: 842px) {
+  .container {
+    min-width: 90vw;
+    padding-bottom: 0;
+  }
+  .title .logo {
+    width: 150px;
+    height: auto;
+  }
+  .buttons-box {
+    flex-direction: column;
+  }
+  .default-button {
+    font-size: 50px;
+    width: 70vw;
+    padding: 2rem 0;
+  }
+  .default-button:first-child {
+    margin-bottom: 2.5rem;
+  }
+}
+
+@media screen and (max-device-width: 640px) {
+  .container {
+    min-width: 100vw;
+  }
+  .title {
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: .5em 0;
+  }
+  h1 {
+    font-size: 5rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
+  .main {
+    margin-top: 0;
+  }
+  .default-button {
+    width: 100%;
+  }
+}
+
+@media screen and (max-device-width: 360px){
+  .title .logo {
+    width: 100px;
+    height: auto;
+  }
+  .default-button:first-child {
+    margin-bottom: 1rem;
+  }
+}

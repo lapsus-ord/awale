@@ -1,0 +1,11 @@
+:root {
+    /* Color Variables */
+    --white: rgb(255, 255, 255);
+    --white-transparent: rgba(255, 255, 255, .4);
+    --green-mantis: rgb(96, 198, 80);
+    --dark-blue: rgb(8, 43, 225);
+    --purple-heart: rgb(121, 35, 207);
+    --red-cardinal: rgb(203, 27, 48);
+    /* Font Variables */
+    --large-font: 900;
+}
