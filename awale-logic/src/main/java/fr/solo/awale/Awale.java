@@ -39,6 +39,12 @@ public class Awale {
         this.board = new Board(board);
     }
 
+    public Awale(int[][] board, Player p1, Player p2) {
+        this(board);
+        this.addPlayer(p1);
+        this.addPlayer(p2);
+    }
+
     public Board getBoard() {
         return board;
     }
@@ -127,10 +133,17 @@ public class Awale {
     private void chooseHole(Player player) {
         Scanner sc = new Scanner(System.in);
         boolean hasPlayed;
+        int holeNumber;
+        System.out.println("\nTour de " + colorize(player.getUsername(), player.getColor()) + " :");
+
         do {
-            System.out.println("\nTour de " + colorize(player.getUsername(), player.getColor()) + " :");
-            System.out.print("-> Quel trou jouez-vous ? n°[1, 6] : ");
-            int holeNumber = sc.nextInt() - 1;
+            System.out.print("-> Quel trou jouez-vous ? n°[1, 6] :\n");
+            if (player instanceof SmartAI) {
+                holeNumber = ((SmartAI) player).chooseTheBestChildren();
+            } else {
+                holeNumber = sc.nextInt() - 1;
+            }
+
             hasPlayed = player.play(holeNumber);
         } while (!hasPlayed);
 
@@ -167,8 +180,12 @@ public class Awale {
         }
     }
 
-    public int getScorePlayer(Side side) {
+    public Player getPlayer(Side side) {
+        return (side.equals(Side.TOP) ? player1 : player2);
+    }
 
+    public int getScorePlayer(Side side) {
+        return (side.equals(Side.TOP) ? player1.getScore() : player2.getScore());
     }
 
     @Override
