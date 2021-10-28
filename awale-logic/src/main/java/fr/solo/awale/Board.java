@@ -44,7 +44,6 @@ public class Board {
         if (getRow(side)[hole] == 0)
             return false;
         if (getSeedInRow(getOppositeSide(side)) == 0) { // Cas Affamé :
-            // Renvoie true si on peut utiliser ce trou pour distribuer chez l'ennemi
             return (getRow(side)[hole] >= (cells[0].length - hole));
         }
         return true;
@@ -52,6 +51,19 @@ public class Board {
 
     public Side getOppositeSide(Side side) {
         return side.equals(Side.TOP) ? Side.BOTTOM : Side.TOP;
+    }
+
+    /**
+     * Indique si un côté (/joueur) peut être joué.
+     *
+     * @param side Le côté à vérifier.
+     * @return {@code true}/{@code false} = Selon si le côté (/joueur) peut jouer.
+     */
+    public boolean canPlay(Side side) {
+        for (int i = 0; i < cells[0].length; i++) {
+            if (isPlayable(i, side)) return true;
+        }
+        return false;
     }
 
     /**
