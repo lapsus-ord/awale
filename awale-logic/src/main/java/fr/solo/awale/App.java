@@ -9,7 +9,7 @@ public class App {
 
         int[][] cellAffame = {{0, 0, 0, 0, 0, 4}, {2, 0, 0, 0, 6, 0}};
         int[][] cellEnd = {{0, 0, 0, 0, 0, 1}, {0, 0, 1, 0, 0, 0}};
-        Awale jeu = new Awale(cellEnd );
+        Awale jeu = new Awale(cellEnd);
         p1.joinGame(jeu);
         p2.joinGame(jeu);
 
