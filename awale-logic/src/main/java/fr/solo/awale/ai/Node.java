@@ -16,8 +16,13 @@ public class Node {
     private int holePlayed;
     private List<Node> children;
 
-    public Node(Awale oldGame, Side side) {
-        game = new Awale(oldGame, oldGame.getPlayer(Side.TOP), oldGame.getPlayer(BOTTOM));
+    /**
+     * Constructeur pour le root
+     */
+    public Node(Awale game, Side side) {
+        this.game = new Awale(game.getBoard().getCells(),
+                game.getPlayer(Side.TOP), game.getPlayer(BOTTOM));
+
         ourSide = side;
         children = new ArrayList<>();
     }
@@ -25,8 +30,6 @@ public class Node {
     public Node(Awale oldGame, Side side, int holePlayed) {
         this(oldGame, side);
         this.holePlayed = holePlayed;
-        // Le node joue son coup
-        game.getPlayer(BOTTOM).play(holePlayed);
     }
 
     public void addChild(Node child) {
@@ -34,6 +37,9 @@ public class Node {
     }
 
     public int eval() {
+        if (children.isEmpty()) {
+            return 0;
+        }
         int configScore = game.getPlayer(ourSide).getScore();
         int enemyScore = game.getPlayer(game.getBoard().getOppositeSide(ourSide)).getScore();
 
@@ -46,7 +52,7 @@ public class Node {
 
         Comparator<Node> evalComparator = Comparator.comparing(Node::eval);
         Node bestChild = children.stream()
-                .max(isMaxPlayer() ? evalComparator : evalComparator.reversed())
+                .max(ourSide.equals(BOTTOM) ? evalComparator : evalComparator.reversed())
                 .orElseThrow(NoSuchElementException::new);
 
         return eval + bestChild.eval();
@@ -60,20 +66,21 @@ public class Node {
         return holePlayed;
     }
 
-    public boolean isMaxPlayer() {
-        return ourSide.equals(BOTTOM);
-    }
-
     public Side getSide() {
         return ourSide;
     }
 
+    public Awale getGame() {
+        return game;
+    }
+
+    public void play() {
+        // Le Node joue son coup
+        game.getPlayer(ourSide).play(holePlayed);
+    }
+
     @Override
     public String toString() {
-        return "Node{" +
-                "game=" + game +
-                "\n, side=" + ourSide +
-                ", holePlayed=" + holePlayed +
-                '}';
+        return "trou(" + holePlayed + ") : " + ourSide;
     }
 }

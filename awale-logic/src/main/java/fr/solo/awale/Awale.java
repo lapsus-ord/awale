@@ -1,10 +1,12 @@
 package fr.solo.awale;
 
 import com.diogonunes.jcolor.Attribute;
+import fr.solo.awale.ai.SmartAI;
 
 import java.util.Scanner;
 
 import static com.diogonunes.jcolor.Ansi.colorize;
+import static com.diogonunes.jcolor.Attribute.GREEN_TEXT;
 import static com.diogonunes.jcolor.Attribute.RED_TEXT;
 import static fr.solo.awale.Awale.Gamestate.*;
 
@@ -18,7 +20,6 @@ public class Awale {
     enum Gamestate {
         PlAYER1_TURN, PLAYER2_TURN, START_GAME, END_GAME
     }
-
 
     /**
      * Constructeur avec les joueurs.
@@ -41,8 +42,8 @@ public class Awale {
 
     public Awale(int[][] board, Player p1, Player p2) {
         this(board);
-        this.addPlayer(p1);
-        this.addPlayer(p2);
+        addPlayer(p1);
+        addPlayer(p2);
     }
 
     public Board getBoard() {
@@ -136,16 +137,18 @@ public class Awale {
         int holeNumber;
         System.out.println("\nTour de " + colorize(player.getUsername(), player.getColor()) + " :");
 
-        do {
-            System.out.print("-> Quel trou jouez-vous ? n°[1, 6] :\n");
-            if (player instanceof SmartAI) {
-                holeNumber = ((SmartAI) player).chooseTheBestChildren();
-            } else {
-                holeNumber = sc.nextInt() - 1;
-            }
+        /*do {
 
-            hasPlayed = player.play(holeNumber);
-        } while (!hasPlayed);
+
+        } while (!hasPlayed);*/
+        System.out.print("-> Quel trou jouez-vous ? n°[1, 6] :\n");
+        if (player instanceof SmartAI) {
+            holeNumber = ((SmartAI) player).findBestChildren();
+            System.out.println(colorize("" + holeNumber, GREEN_TEXT()));
+        } else {
+            holeNumber = sc.nextInt() - 1;
+        }
+        hasPlayed = player.play(holeNumber);
 
         System.out.println(this);
     }
