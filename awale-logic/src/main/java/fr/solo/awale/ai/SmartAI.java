@@ -3,8 +3,7 @@ package fr.solo.awale.ai;
 import fr.solo.awale.Board;
 import fr.solo.awale.Side;
 
-import java.util.Comparator;
-import java.util.Optional;
+import java.util.Arrays;
 
 public class SmartAI extends AI {
     private Node root;
@@ -38,6 +37,12 @@ public class SmartAI extends AI {
         root = new Node(game, getSide());
         generateTree(root, true, horizon);
 
+        System.out.println("\n");
+        boolean[] flag = new boolean[6];
+        Arrays.fill(flag, true);
+        toString(root, flag, 0, false);
+        System.out.println("\n");
+
         /*Optional<Node> bestChild = root.getChildren().stream()
                 .max(Comparator.comparingInt(Node::eval));
 
@@ -48,5 +53,48 @@ public class SmartAI extends AI {
         }
         return bestChild.map(Node::getHolePlayed).orElse(-42);*/
         return 1;
+    }
+
+    private static void toString(Node x, boolean[] flag, int depth, boolean isLast) {
+        // Condition when node is None
+        if (x == null)
+            return;
+
+        // Loop to print the depths of the current node
+        for (int i = 1; i < depth; ++i) {
+
+            // Condition when the depth is exploring
+            if (flag[i]) {
+                System.out.print("| "
+                        + " "
+                        + " "
+                        + " ");
+            }
+
+            // Otherwise, print the blank spaces
+            else {
+                System.out.print(" "
+                        + " "
+                        + " "
+                        + " ");
+            }
+        }
+
+        // Condition when the current node is the root node
+        if (depth == 0) {
+            System.out.println("root(" + x.getHolePlayed() + ")");
+        } else {
+            System.out.print("|\t (" + x.getHolePlayed() + ")\n");
+        }
+
+        int it = 0;
+        for (Node i : x.getChildren()) {
+            ++it;
+
+            // Recursive call for the
+            // children nodes
+            toString(i, flag, depth + 1, it == (x.getChildren().size()) - 1);
+        }
+        flag[depth] = true;
     }
 }
