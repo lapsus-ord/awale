@@ -1,6 +1,7 @@
 package fr.solo.awale.ai;
 
 import fr.solo.awale.Awale;
+import fr.solo.awale.Player;
 import fr.solo.awale.Side;
 
 import java.util.ArrayList;
@@ -19,10 +20,8 @@ public class Node {
     /**
      * Constructeur pour le root
      */
-    public Node(Awale game, Side side) {
-        this.game = new Awale(game.getBoard().getCells(),
-                game.getPlayer(Side.TOP), game.getPlayer(BOTTOM));
-
+    public Node(Awale oldGame, Side side) {
+        game = new Awale(oldGame);
         ourSide = side;
         children = new ArrayList<>();
     }

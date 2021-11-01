@@ -20,19 +20,22 @@ public class SmartAI extends AI {
         Side childSide = isMaxPlayer ? Side.TOP : Side.BOTTOM;
 
         for (int i = 0; i < 6; i++) {
-            System.out.println("trou n°" + i + " à l'horizon " + order);
+            //System.out.println("trou n°" + i + " à l'horizon " + order);
             if (boardParentNode.isPlayable(i, childSide)) {
                 Node newNode = new Node(parentNode.getGame(), childSide, i);
                 parentNode.addChild(newNode);
 
-                /*if (order > 0) {
-                    generateTree(newNode, !isMaxPlayer, order--);
-                }*/
+                if (order > 0) {
+                    int newOrder = order - 1;
+                    generateTree(newNode, !isMaxPlayer, newOrder);
+                }
             }
         }
     }
 
-    // Renvoie le trou à jouer selon le score des enfants
+    /**
+     * Renvoie le trou à jouer selon le score des enfants
+     */
     public int findBestChildren() {
         root = new Node(game, getSide());
         generateTree(root, true, horizon);

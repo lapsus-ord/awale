@@ -30,6 +30,15 @@ public class Player {
     }
 
     /**
+     * Constructeur pour joueur indépendant
+     */
+    public Player(Player oldPlayer) {
+        username = oldPlayer.username;
+        score = oldPlayer.score;
+        color = oldPlayer.color;
+    }
+
+    /**
      * Méthode permettant un joueur de rejoindre un jeu.
      *
      * @param game Le jeu à rejoindre.

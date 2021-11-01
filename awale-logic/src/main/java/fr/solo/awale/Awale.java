@@ -9,6 +9,8 @@ import static com.diogonunes.jcolor.Ansi.colorize;
 import static com.diogonunes.jcolor.Attribute.GREEN_TEXT;
 import static com.diogonunes.jcolor.Attribute.RED_TEXT;
 import static fr.solo.awale.Awale.Gamestate.*;
+import static fr.solo.awale.Side.BOTTOM;
+import static fr.solo.awale.Side.TOP;
 
 public class Awale {
     private Board board;
@@ -40,10 +42,13 @@ public class Awale {
         this.board = new Board(board);
     }
 
-    public Awale(int[][] board, Player p1, Player p2) {
-        this(board);
-        addPlayer(p1);
-        addPlayer(p2);
+    /**
+     * Constructeur nouveau jeu indépendant
+     */
+    public Awale(Awale oldGame) {
+        this(oldGame.getBoard().getCells());
+        new Player(oldGame.getPlayer(TOP)).joinGame(this);
+        new Player(oldGame.getPlayer(BOTTOM)).joinGame(this);
     }
 
     public Board getBoard() {
@@ -137,18 +142,16 @@ public class Awale {
         int holeNumber;
         System.out.println("\nTour de " + colorize(player.getUsername(), player.getColor()) + " :");
 
-        /*do {
-
-
-        } while (!hasPlayed);*/
-        System.out.print("-> Quel trou jouez-vous ? n°[1, 6] :\n");
-        if (player instanceof SmartAI) {
-            holeNumber = ((SmartAI) player).findBestChildren();
-            System.out.println(colorize("" + holeNumber, GREEN_TEXT()));
-        } else {
-            holeNumber = sc.nextInt() - 1;
-        }
-        hasPlayed = player.play(holeNumber);
+        do {
+            System.out.print("-> Quel trou jouez-vous ? n°[1, 6] :\n");
+            if (player instanceof SmartAI) {
+                holeNumber = ((SmartAI) player).findBestChildren();
+                System.out.println(colorize("" + holeNumber, GREEN_TEXT()));
+            } else {
+                holeNumber = sc.nextInt() - 1;
+            }
+            hasPlayed = player.play(holeNumber);
+        } while (!hasPlayed);
 
         System.out.println(this);
     }
@@ -175,9 +178,8 @@ public class Awale {
         if (player1 == null) {
             player1 = p;
             player1.setSide(Side.TOP);
-            return;
         }
-        if (player2 == null) {
+        else if (player2 == null) {
             player2 = p;
             player2.setSide(Side.BOTTOM);
         }
@@ -185,10 +187,6 @@ public class Awale {
 
     public Player getPlayer(Side side) {
         return (side.equals(Side.TOP) ? player1 : player2);
-    }
-
-    public int getScorePlayer(Side side) {
-        return (side.equals(Side.TOP) ? player1.getScore() : player2.getScore());
     }
 
     @Override
