@@ -1,12 +1,8 @@
 package fr.solo.awale;
 
 import com.diogonunes.jcolor.Attribute;
-import fr.solo.awale.ai.SmartAI;
-
-import java.util.Scanner;
 
 import static com.diogonunes.jcolor.Ansi.colorize;
-import static com.diogonunes.jcolor.Attribute.GREEN_TEXT;
 import static com.diogonunes.jcolor.Attribute.RED_TEXT;
 import static fr.solo.awale.Awale.Gamestate.*;
 import static fr.solo.awale.Side.BOTTOM;
@@ -74,14 +70,16 @@ public class Awale {
                     state = END_GAME;
                     break;
                 }
-                chooseHole(player1);
+                player1.choose();
+                System.out.println(this);
                 state = PLAYER2_TURN;
             } else {
                 if (isStarved(player2)) {
                     state = END_GAME;
                     break;
                 }
-                chooseHole(player2);
+                player2.choose();
+                System.out.println(this);
                 state = PlAYER1_TURN;
             }
         }
@@ -128,32 +126,6 @@ public class Awale {
         if (player1.getScore() == player2.getScore())
             return null;
         return player1.getScore() > player2.getScore() ? player1 : player2;
-    }
-
-    /**
-     * Méthode qui permet à un joueur de voir l'état du jeu et de choisir un trou à jouer.
-     *
-     * @param player Le joueur qui doit choisir son trou
-     * @see Player#play(int)
-     */
-    private void chooseHole(Player player) {
-        Scanner sc = new Scanner(System.in);
-        boolean hasPlayed;
-        int holeNumber;
-        System.out.println("\nTour de " + colorize(player.getUsername(), player.getColor()) + " :");
-
-        do {
-            System.out.print("-> Quel trou jouez-vous ? n°[1, 6] :\n");
-            if (player instanceof SmartAI) {
-                holeNumber = ((SmartAI) player).findBestChildren();
-                System.out.println(colorize("" + holeNumber, GREEN_TEXT()));
-            } else {
-                holeNumber = sc.nextInt() - 1;
-            }
-            hasPlayed = player.play(holeNumber);
-        } while (!hasPlayed);
-
-        System.out.println(this);
     }
 
     /**

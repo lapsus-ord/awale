@@ -3,7 +3,12 @@ package fr.solo.awale.ai;
 import fr.solo.awale.Board;
 import fr.solo.awale.Side;
 
-import java.util.Arrays;
+import java.util.Comparator;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
+import static com.diogonunes.jcolor.Ansi.colorize;
+import static com.diogonunes.jcolor.Attribute.GREEN_TEXT;
 
 public class SmartAI extends AI {
     private Node root;
@@ -14,20 +19,32 @@ public class SmartAI extends AI {
         this.horizon = horizon;
     }
 
+    @Override
+    public void choose() {
+        boolean hasPlayed;
+        int holeNumber;
+        System.out.println("\nTour de " + colorize(getUsername(), getColor()) + " :");
+
+        do {
+            holeNumber = findBestChildren();
+            System.out.print("-> Quel trou jouez-vous ? n°[1, 6] : ");
+            System.out.println(colorize(holeNumber + 1 + "", GREEN_TEXT()));
+            hasPlayed = play(holeNumber);
+        } while (!hasPlayed);
+    }
+
     private void generateTree(Node parentNode, boolean isMaxPlayer, int order) {
         parentNode.play();
-        Board boardParentNode = parentNode.getGame().getBoard();
+        Board parentNodeBoard = parentNode.getGame().getBoard();
         Side childSide = isMaxPlayer ? Side.TOP : Side.BOTTOM;
 
         for (int i = 0; i < 6; i++) {
-            //System.out.println("trou n°" + i + " à l'horizon " + order);
-            if (boardParentNode.isPlayable(i, childSide)) {
+            if (parentNodeBoard.isPlayable(i, childSide)) {
                 Node newNode = new Node(parentNode.getGame(), childSide, i);
                 parentNode.addChild(newNode);
 
                 if (order > 0) {
-                    int newOrder = order - 1;
-                    generateTree(newNode, !isMaxPlayer, newOrder);
+                    generateTree(newNode, !isMaxPlayer, order - 1);
                 }
             }
         }
@@ -40,22 +57,16 @@ public class SmartAI extends AI {
         root = new Node(game, getSide());
         generateTree(root, true, horizon);
 
-        System.out.println("\n");
+        /*System.out.println("\n");
         boolean[] flag = new boolean[6];
         Arrays.fill(flag, true);
         toString(root, flag, 0, false);
-        System.out.println("\n");
+        System.out.println("\n");*/
 
-        /*Optional<Node> bestChild = root.getChildren().stream()
+        Optional<Node> bestChild = root.getChildren().stream()
                 .max(Comparator.comparingInt(Node::eval));
-
-        int childNb = 0;
-        for (Node child : root.getChildren()) {
-            System.out.println("Enfant n°" + childNb + " eval = " + child.eval());
-            childNb++;
-        }
-        return bestChild.map(Node::getHolePlayed).orElse(-42);*/
-        return 1;
+        return bestChild.map(Node::getHolePlayed)
+                .orElseThrow(NoSuchElementException::new);
     }
 
     private static void toString(Node x, boolean[] flag, int depth, boolean isLast) {
@@ -68,18 +79,12 @@ public class SmartAI extends AI {
 
             // Condition when the depth is exploring
             if (flag[i]) {
-                System.out.print("| "
-                        + " "
-                        + " "
-                        + " ");
+                System.out.print("| " + " " + " " + " ");
             }
 
             // Otherwise, print the blank spaces
             else {
-                System.out.print(" "
-                        + " "
-                        + " "
-                        + " ");
+                System.out.print(" " + " " + " " + " ");
             }
         }
 
@@ -87,7 +92,7 @@ public class SmartAI extends AI {
         if (depth == 0) {
             System.out.println("root(" + x.getHolePlayed() + ")");
         } else {
-            System.out.print("|\t (" + x.getHolePlayed() + ")\n");
+            System.out.print("|\t  (" + x.getHolePlayed() + ")\n");
         }
 
         int it = 0;

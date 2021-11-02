@@ -2,6 +2,8 @@ package fr.solo.awale;
 
 import com.diogonunes.jcolor.Attribute;
 
+import java.util.Scanner;
+
 import static com.diogonunes.jcolor.Ansi.colorize;
 
 public class Player {
@@ -18,7 +20,7 @@ public class Player {
     public Player(String username) {
         this.username = username;
         score = 0;
-        color = Attribute.WHITE_TEXT();
+        color = Attribute.YELLOW_TEXT();
     }
 
     /**
@@ -49,12 +51,30 @@ public class Player {
     }
 
     /**
+     * Méthode qui permet à un joueur de voir l'état du jeu et de choisir un trou à jouer.
+     *
+     * @see Player#play(int)
+     */
+    public void choose() {
+        Scanner sc = new Scanner(System.in);
+        boolean hasPlayed;
+        int holeNumber;
+        System.out.println("\nTour de " + colorize(username, color) + " :");
+
+        do {
+            System.out.print("-> Quel trou jouez-vous ? n°[1, 6] : ");
+            holeNumber = sc.nextInt() - 1;
+            hasPlayed = play(holeNumber);
+        } while (!hasPlayed);
+    }
+
+    /**
      * Joue le coup d'un joueur.
      *
      * @param holeSrc Le trou d'origine (du côté du joueur)
      * @return {@code true} = coup joué sans soucis ;<br/>
      * {@code false} = le joueur n'a pas pu jouer le coup
-     * @see Awale#chooseHole(Player)
+     * @see Player#choose()
      */
     public boolean play(int holeSrc) {
         if (holeSrc < 0 || holeSrc > 5) {

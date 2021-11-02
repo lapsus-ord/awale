@@ -1,7 +1,6 @@
 package fr.solo.awale.ai;
 
 import fr.solo.awale.Awale;
-import fr.solo.awale.Player;
 import fr.solo.awale.Side;
 
 import java.util.ArrayList;
@@ -36,9 +35,6 @@ public class Node {
     }
 
     public int eval() {
-        if (children.isEmpty()) {
-            return 0;
-        }
         int configScore = game.getPlayer(ourSide).getScore();
         int enemyScore = game.getPlayer(game.getBoard().getOppositeSide(ourSide)).getScore();
 
@@ -49,12 +45,16 @@ public class Node {
         else if (enemyScore - configScore == 2) eval = 2; // 2 graines ramassées
         else if (enemyScore - configScore == 1) eval = 1; // 2 graines ramassées
 
-        Comparator<Node> evalComparator = Comparator.comparing(Node::eval);
-        Node bestChild = children.stream()
-                .max(ourSide.equals(BOTTOM) ? evalComparator : evalComparator.reversed())
-                .orElseThrow(NoSuchElementException::new);
+        if (children.isEmpty()) {
+            return eval;
+        } else {
+            Comparator<Node> evalComparator = Comparator.comparing(Node::eval);
+            Node bestChild = children.stream()
+                    .max(ourSide.equals(BOTTOM) ? evalComparator : evalComparator.reversed())
+                    .orElseThrow(NoSuchElementException::new);
 
-        return eval + bestChild.eval();
+            return eval + bestChild.eval();
+        }
     }
 
     public List<Node> getChildren() {
