@@ -1,10 +1,12 @@
-package fr.solo.awale.ai;
+package fr.solo.awale.player.ai;
 
 import fr.solo.awale.Awale;
 import fr.solo.awale.Side;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static fr.solo.awale.Side.BOTTOM;
 import static fr.solo.awale.Side.TOP;
@@ -33,12 +35,11 @@ public class Node {
         this.holePlayed = holePlayed;
     }
 
-    public void addChild(Node child) {
-        children.add(child);
-    }
-
-    public int eval() {
-        // Quand on est une feuille, on retourne l'état du plateau
+    /**
+     * @return Le score de la meilleure branche.
+     */
+    private int eval() {
+        // Quand on est une feuille, Le score du plateau (ici la différence des scores)
         if (children.isEmpty()) {
             int ourScore = game.getPlayer(getOurSide()).getScore();
             int enemyScore = game.getPlayer(getOppositeSide()).getScore();
@@ -61,10 +62,33 @@ public class Node {
     }
 
     /**
-     * Le Node joue son coup
+     * Le Node joue son coup.
+     *
+     * @see SmartAI#generateTree(Node, boolean, int)
      */
     public void play() {
         game.getPlayer(getOurSide()).play(holePlayed);
+    }
+
+    /**
+     * On utilise cette méthode surtout sur les enfants directes du nœud {@code root}
+     *
+     * @return Le meilleur trou à jouer (sinon une exception).
+     */
+    public int findBestHole() {
+        // DEBUG : Affichage de l'état des evals des enfants du nœud
+        children.forEach(child -> System.out.println("Trou n°" + (child.getHolePlayed() + 1) + " eval = " + child.eval()));
+
+        return children.stream()
+                .max(Comparator.comparingInt(Node::eval))
+                .map(Node::getHolePlayed)
+                .orElseThrow(NoSuchElementException::new);
+    }
+
+    // --- GETTERS/SETTERS ---
+
+    public void addChild(Node child) {
+        children.add(child);
     }
 
     public List<Node> getChildren() {

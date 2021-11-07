@@ -1,12 +1,13 @@
-package fr.solo.awale;
+package fr.solo.awale.player;
 
 import com.diogonunes.jcolor.Attribute;
-
-import java.util.Scanner;
+import fr.solo.awale.Awale;
+import fr.solo.awale.Board;
+import fr.solo.awale.Side;
 
 import static com.diogonunes.jcolor.Ansi.colorize;
 
-public class Player {
+public abstract class AbstractPlayer {
     private String username;
     private int score;
     private Side side;
@@ -17,7 +18,7 @@ public class Player {
     /**
      * Constructeur avec le pseudo du joueur
      */
-    public Player(String username) {
+    public AbstractPlayer(String username) {
         this.username = username;
         score = 0;
         color = Attribute.YELLOW_TEXT();
@@ -26,7 +27,7 @@ public class Player {
     /**
      * Constructeur avec le pseudo du joueur + Sa couleur dans le terminal
      */
-    public Player(String username, Attribute colorPlayer) {
+    public AbstractPlayer(String username, Attribute colorPlayer) {
         this(username);
         this.color = colorPlayer;
     }
@@ -34,11 +35,17 @@ public class Player {
     /**
      * Constructeur pour joueur indépendant
      */
-    public Player(Player oldPlayer) {
+    public AbstractPlayer(AbstractPlayer oldPlayer) {
         username = oldPlayer.username;
         score = oldPlayer.score;
         color = oldPlayer.color;
     }
+
+    /**
+     * Le choix que le joueur effectue pendant son tour.<br>
+     * Est obligatoirement redéfini chez les enfants de {@code AbstractPlayer}.
+     */
+    public abstract void choose();
 
     /**
      * Méthode permettant un joueur de rejoindre un jeu.
@@ -48,24 +55,6 @@ public class Player {
     public void joinGame(Awale game) {
         this.game = game;
         game.addPlayer(this);
-    }
-
-    /**
-     * Méthode qui permet à un joueur de voir l'état du jeu et de choisir un trou à jouer.
-     *
-     * @see Player#play(int)
-     */
-    public void choose() {
-        Scanner sc = new Scanner(System.in);
-        boolean hasPlayed;
-        int holeNumber;
-        System.out.println("\nTour de " + colorize(username, color) + " :");
-
-        do {
-            System.out.print("-> Quel trou jouez-vous ? n°[1, 6] : ");
-            holeNumber = sc.nextInt() - 1;
-            hasPlayed = play(holeNumber);
-        } while (!hasPlayed);
     }
 
     /**
@@ -171,4 +160,5 @@ public class Player {
     public void addPoints(int nb) {
         this.score += nb;
     }
+
 }

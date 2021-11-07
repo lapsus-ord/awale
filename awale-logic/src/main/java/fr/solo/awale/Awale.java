@@ -1,6 +1,8 @@
 package fr.solo.awale;
 
 import com.diogonunes.jcolor.Attribute;
+import fr.solo.awale.player.AbstractPlayer;
+import fr.solo.awale.player.Player;
 
 import static com.diogonunes.jcolor.Ansi.colorize;
 import static com.diogonunes.jcolor.Attribute.RED_TEXT;
@@ -10,9 +12,9 @@ import static fr.solo.awale.Side.TOP;
 
 public class Awale {
     private Board board;
-    private Player player1;
-    private Player player2;
-    private Player winner;
+    private AbstractPlayer player1;
+    private AbstractPlayer player2;
+    private AbstractPlayer winner;
     private Gamestate state;
 
     enum Gamestate {
@@ -43,6 +45,7 @@ public class Awale {
      */
     public Awale(Awale oldGame) {
         this(oldGame.getBoard().getCells());
+        // TODO : PAS `new Player()` !!! Peut-être une factory pour un abstract 🤔
         new Player(oldGame.getPlayer(TOP)).joinGame(this);
         new Player(oldGame.getPlayer(BOTTOM)).joinGame(this);
     }
@@ -58,7 +61,7 @@ public class Awale {
     public void run() throws InterruptedException {
         while (player1 == null || player2 == null) {
             System.out.println("En attente de joueurs...");
-            Thread.sleep(10000);
+            Thread.sleep(5000);
         }
         state = PlAYER1_TURN;
         System.out.println(this);
@@ -104,7 +107,7 @@ public class Awale {
      * @return {@code true}/{@code false} = Selon si le joueur en face est dans l'état "Affamé".
      * @see Awale#run()
      */
-    private boolean isStarved(Player player) {
+    private boolean isStarved(AbstractPlayer player) {
         return board.getSeedInRow(player.getSide()) == 0;
     }
 
@@ -123,7 +126,7 @@ public class Awale {
      * Ou {@code null} si le jeu finit en égalité.
      * @see Awale#run()
      */
-    private Player checkWinner() {
+    private AbstractPlayer checkWinner() {
         if (player1.getScore() == player2.getScore())
             return null;
         return player1.getScore() > player2.getScore() ? player1 : player2;
@@ -135,7 +138,7 @@ public class Awale {
      * @param side Le côté que l'on veut comparer
      * @return Le pseudo et le score du joueur qui est du côté {@code side}
      */
-    private String playerStateOnSide(Player p1, Player p2, Side side) {
+    private String playerStateOnSide(AbstractPlayer p1, AbstractPlayer p2, Side side) {
         if (p1.getSide().equals(side))
             return colorize(p1.getUsername() + "(" + p1.getScore() + ")", p1.getColor());
 
@@ -147,18 +150,17 @@ public class Awale {
      *
      * @param p Le joueur à ajouter.
      */
-    public void addPlayer(Player p) {
+    public void addPlayer(AbstractPlayer p) {
         if (player1 == null) {
             player1 = p;
             player1.setSide(Side.TOP);
-        }
-        else if (player2 == null) {
+        } else if (player2 == null) {
             player2 = p;
             player2.setSide(Side.BOTTOM);
         }
     }
 
-    public Player getPlayer(Side side) {
+    public AbstractPlayer getPlayer(Side side) {
         return (side.equals(Side.TOP) ? player1 : player2);
     }
 

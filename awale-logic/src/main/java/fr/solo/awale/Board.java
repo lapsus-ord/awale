@@ -1,5 +1,7 @@
 package fr.solo.awale;
 
+import fr.solo.awale.player.Player;
+
 import java.util.Arrays;
 
 public class Board {
