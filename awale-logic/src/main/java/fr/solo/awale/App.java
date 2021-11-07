@@ -7,7 +7,7 @@ import static com.diogonunes.jcolor.Attribute.TEXT_COLOR;
 public class App {
     public static void main(String[] args) {
         Player p1 = new Player("Bernard", TEXT_COLOR(42, 157, 143));
-        Player p2 = new SmartAI("Skynet", 4);
+        Player p2 = new SmartAI("Skynet", 6);
 
         Awale jeu = new Awale();
         p1.joinGame(jeu);
