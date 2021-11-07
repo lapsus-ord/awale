@@ -1,7 +1,6 @@
 package fr.solo.awale.ai;
 
-import fr.solo.awale.Board;
-import fr.solo.awale.Side;
+import fr.solo.awale.Player;
 
 import java.util.Comparator;
 import java.util.NoSuchElementException;
@@ -10,8 +9,7 @@ import java.util.Optional;
 import static com.diogonunes.jcolor.Ansi.colorize;
 import static com.diogonunes.jcolor.Attribute.GREEN_TEXT;
 
-public class SmartAI extends AI {
-    private Node root;
+public class SmartAI extends Player {
     private int horizon;
 
     public SmartAI(String username, int horizon) {
@@ -33,18 +31,16 @@ public class SmartAI extends AI {
         } while (!hasPlayed);
     }
 
-    private void generateTree(Node parentNode, boolean isMaxPlayer, int order) {
+    private void generateTree(Node parentNode, boolean isMaxPlayer, int depth) {
         parentNode.play();
-        Board parentNodeBoard = parentNode.getGame().getBoard();
-        Side childSide = isMaxPlayer ? Side.TOP : Side.BOTTOM;
 
         for (int i = 0; i < 6; i++) {
-            if (parentNodeBoard.isPlayable(i, childSide)) {
-                Node newNode = new Node(parentNode.getGame(), childSide, i);
+            if (parentNode.getGame().getBoard().isPlayable(i, parentNode.getOppositeSide())) {
+                Node newNode = new Node(parentNode.getGame(), isMaxPlayer, i);
                 parentNode.addChild(newNode);
 
-                if (order > 0) {
-                    generateTree(newNode, !isMaxPlayer, order - 1);
+                if (depth > 0) {
+                    generateTree(newNode, !isMaxPlayer, depth - 1);
                 }
             }
         }
@@ -54,55 +50,23 @@ public class SmartAI extends AI {
      * Renvoie le trou à jouer selon le score des enfants
      */
     public int findBestChildren() {
-        root = new Node(game, getSide());
-        generateTree(root, true, horizon);
-
-        /*System.out.println("\n");
-        boolean[] flag = new boolean[6];
-        Arrays.fill(flag, true);
-        toString(root, flag, 0, false);
-        System.out.println("\n");*/
+        Node root = new Node(game, true);
+        for (int i = 0; i < 6; i++) {
+            if (root.getGame().getBoard().isPlayable(i, root.getOurSide())) {
+                root.addChild(new Node(root.getGame(), true, i));
+            }
+        }
+        for (Node child : root.getChildren()) {
+            generateTree(child, false, horizon - 1);
+        }
 
         Optional<Node> bestChild = root.getChildren().stream()
                 .max(Comparator.comparingInt(Node::eval));
+
+        for (Node child : root.getChildren()) {
+            System.out.println("Trou n°" + (child.getHolePlayed() + 1) + " eval = " + child.eval());
+        }
         return bestChild.map(Node::getHolePlayed)
                 .orElseThrow(NoSuchElementException::new);
-    }
-
-    private static void toString(Node x, boolean[] flag, int depth, boolean isLast) {
-        // Condition when node is None
-        if (x == null)
-            return;
-
-        // Loop to print the depths of the current node
-        for (int i = 1; i < depth; ++i) {
-
-            // Condition when the depth is exploring
-            if (flag[i]) {
-                System.out.print("| " + " " + " " + " ");
-            }
-
-            // Otherwise, print the blank spaces
-            else {
-                System.out.print(" " + " " + " " + " ");
-            }
-        }
-
-        // Condition when the current node is the root node
-        if (depth == 0) {
-            System.out.println("root(" + x.getHolePlayed() + ")");
-        } else {
-            System.out.print("|\t  (" + x.getHolePlayed() + ")\n");
-        }
-
-        int it = 0;
-        for (Node i : x.getChildren()) {
-            ++it;
-
-            // Recursive call for the
-            // children nodes
-            toString(i, flag, depth + 1, it == (x.getChildren().size()) - 1);
-        }
-        flag[depth] = true;
     }
 }
