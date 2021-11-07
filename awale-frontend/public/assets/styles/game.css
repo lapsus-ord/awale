@@ -10,13 +10,13 @@
   gap: 1rem;
 }
 
-.ennemy>div {
-  background-color: var(--green-mantis);
+.ennemy > div {
+  background-color: #777;
   cursor: not-allowed;
 }
 
-.user>div {
-  background-color: var(--red-cardinal);
+.user > div {
+  background-color: var(--green-mantis);
   cursor: pointer;
 }
 
