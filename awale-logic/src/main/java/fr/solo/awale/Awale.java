@@ -94,6 +94,7 @@ public class Awale {
             System.out.println(colorize("\nBravo aux deux joueurs " + player1.getUsername() + " et " + player2.getUsername() + " !\n" +
                     "Le jeu se termine sur une égalité !!! 👏", Attribute.BRIGHT_BLUE_TEXT()));
         }
+        System.out.println(this);
     }
 
     /**
