@@ -34,6 +34,7 @@
   }
   h2 {
     font-size: 1.5rem;
+    text-align: center;
   }
   .main {
     margin-top: 0;
@@ -41,9 +42,21 @@
   .default-button {
     width: 100%;
   }
+
+  /* En jeu */
+  .board {
+    flex-direction: row;
+    justify-content: center;
+  }
+  .row {
+    flex-direction: column;
+  }
+  .ennemy.row {
+    order: 2;
+  }
 }
 
-@media screen and (max-device-width: 360px){
+@media screen and (max-device-width: 360px) {
   .title .logo {
     width: 100px;
     height: auto;
