@@ -4,29 +4,32 @@ import fr.solo.awale.Awale;
 import fr.solo.awale.Side;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.NoSuchElementException;
 
-import static fr.solo.awale.Side.*;
+import static fr.solo.awale.Side.BOTTOM;
+import static fr.solo.awale.Side.TOP;
 
 public class Node {
     private Awale game;
-    private Side ourSide;
+    private boolean isMaxPlayer;
     private int holePlayed;
     private List<Node> children;
 
     /**
-     * Constructeur pour le root
+     * Constructeur pour le root<br>
+     * Créé un jeu indépendant de son parent et a une valeur min/max
      */
-    public Node(Awale oldGame, Side side) {
+    public Node(Awale oldGame, boolean isMaxPlayer) {
         game = new Awale(oldGame);
-        ourSide = side;
+        this.isMaxPlayer = isMaxPlayer;
         children = new ArrayList<>();
     }
 
-    public Node(Awale oldGame, Side side, int holePlayed) {
-        this(oldGame, side);
+    /**
+     * Constructeur des nœuds de l'arbre
+     */
+    public Node(Awale oldGame, boolean isMaxPlayer, int holePlayed) {
+        this(oldGame, isMaxPlayer);
         this.holePlayed = holePlayed;
     }
 
@@ -35,26 +38,33 @@ public class Node {
     }
 
     public int eval() {
-        int configScore = game.getPlayer(ourSide).getScore();
-        int enemyScore = game.getPlayer(game.getBoard().getOppositeSide(ourSide)).getScore();
-
-        // Comparaison des coups des deux joueurs
-        int eval = 0; // Si la diff entre les scores est de 0
-        if (enemyScore - configScore >= 4) eval = 4; // Une rafle pour le joueur
-        else if (enemyScore - configScore == 3) eval = 3; // 3 graines ramassées
-        else if (enemyScore - configScore == 2) eval = 2; // 2 graines ramassées
-        else if (enemyScore - configScore == 1) eval = 1; // 2 graines ramassées
-
+        // Quand on est une feuille, on retourne l'état du plateau
         if (children.isEmpty()) {
-            return eval;
-        } else {
-            Comparator<Node> evalComparator = Comparator.comparing(Node::eval);
-            Node bestChild = children.stream()
-                    .max(ourSide.equals(BOTTOM) ? evalComparator : evalComparator.reversed())
-                    .orElseThrow(NoSuchElementException::new);
-
-            return eval + bestChild.eval();
+            int ourScore = game.getPlayer(getOurSide()).getScore();
+            int enemyScore = game.getPlayer(getOppositeSide()).getScore();
+            return ourScore - enemyScore;
         }
+
+        int value;
+        if (isMaxPlayer) {  // Si on est en MAX, on retourne la meilleure eval() des enfants
+            value = Integer.MIN_VALUE;
+            for (Node child : children)
+                value = Math.max(value, child.eval());
+
+        } else {            // Si on est en MIN, on retourne la pire eval() des enfants
+            value = Integer.MAX_VALUE;
+            for (Node child : children)
+                value = Math.min(value, child.eval());
+        }
+
+        return value;
+    }
+
+    /**
+     * Le Node joue son coup
+     */
+    public void play() {
+        game.getPlayer(getOurSide()).play(holePlayed);
     }
 
     public List<Node> getChildren() {
@@ -65,21 +75,29 @@ public class Node {
         return holePlayed;
     }
 
-    public Side getSide() {
-        return ourSide;
-    }
-
     public Awale getGame() {
         return game;
     }
 
-    public void play() {
-        // Le Node joue son coup
-        game.getPlayer(ourSide).play(holePlayed);
+    public Side getOurSide() {
+        // On considère que notre IA sera toujours à la position du 2e joueur
+        return isMaxPlayer ? BOTTOM : TOP;
+    }
+
+    public Side getOppositeSide() {
+        return game.getBoard().getOppositeSide(getOurSide());
     }
 
     @Override
     public String toString() {
-        return "trou(" + holePlayed + ") : " + ourSide;
+        if (children.isEmpty()) {
+            return "(" + holePlayed + ")\n";
+        }
+
+        StringBuilder str = new StringBuilder();
+        for (Node child : children) {
+            str.append("|\t").append(child);
+        }
+        return "|\t[" + holePlayed + "]\n" + str;
     }
 }
