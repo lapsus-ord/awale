@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>fr.solo</groupId>
-	<artifactId>awale-logic</artifactId>
+	<artifactId>awale-backend</artifactId>
 	<version>1.0</version>
 
 	<properties>
