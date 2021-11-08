@@ -2,7 +2,8 @@ package fr.solo.awale;
 
 import com.diogonunes.jcolor.Attribute;
 import fr.solo.awale.player.AbstractPlayer;
-import fr.solo.awale.player.Player;
+
+import java.util.Arrays;
 
 import static com.diogonunes.jcolor.Ansi.colorize;
 import static com.diogonunes.jcolor.Attribute.RED_TEXT;
@@ -68,7 +69,7 @@ public class Awale {
         // Le jeu tourne tant que l'état du jeu n'est pas END_GAME
         while (!state.equals(END_GAME)) {
             if (state.equals(PlAYER1_TURN)) {
-                if (isStarved(player1)) {
+                if (!board.canPlay(player1.getSide())) { // Stop le jeu si le joueur 1 ne peut plus jouer
                     state = END_GAME;
                     break;
                 }
@@ -76,7 +77,7 @@ public class Awale {
                 System.out.println(this);
                 state = PLAYER2_TURN;
             } else {
-                if (isStarved(player2)) {
+                if (!board.canPlay(player2.getSide())) { // Stop le jeu si le joueur 2 ne peut plus jouer
                     state = END_GAME;
                     break;
                 }
@@ -100,17 +101,6 @@ public class Awale {
     }
 
     /**
-     * Indique si le joueur en face de {@code player} est dans l'état "Affamé".
-     *
-     * @param player Le joueur choisi.
-     * @return {@code true}/{@code false} = Selon si le joueur en face est dans l'état "Affamé".
-     * @see Awale#run()
-     */
-    private boolean isStarved(AbstractPlayer player) {
-        return board.getSeedInRow(player.getSide()) == 0;
-    }
-
-    /**
      * Distribue les graines en fin de partie.
      *
      * @see Awale#run()
@@ -118,6 +108,8 @@ public class Awale {
     private void seedDistribution() {
         player1.addPoints(board.getSeedInRow(player1.getSide()));
         player2.addPoints(board.getSeedInRow(player2.getSide()));
+        Arrays.fill(board.getCells()[0], 0);
+        Arrays.fill(board.getCells()[1], 0);
     }
 
     /**
