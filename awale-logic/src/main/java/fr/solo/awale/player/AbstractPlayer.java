@@ -33,13 +33,9 @@ public abstract class AbstractPlayer {
     }
 
     /**
-     * Constructeur pour joueur indépendant
+     * @return Un joueur indépendant
      */
-    public AbstractPlayer(AbstractPlayer oldPlayer) {
-        username = oldPlayer.username;
-        score = oldPlayer.score;
-        color = oldPlayer.color;
-    }
+    public abstract AbstractPlayer copy();
 
     /**
      * Le choix que le joueur effectue pendant son tour.<br>
@@ -151,6 +147,10 @@ public abstract class AbstractPlayer {
 
     public Side getSide() {
         return side;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public void setSide(Side side) {

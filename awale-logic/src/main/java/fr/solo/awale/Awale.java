@@ -45,9 +45,8 @@ public class Awale {
      */
     public Awale(Awale oldGame) {
         this(oldGame.getBoard().getCells());
-        // TODO : PAS `new Player()` !!! Peut-être une factory pour un abstract 🤔
-        new Player(oldGame.getPlayer(TOP)).joinGame(this);
-        new Player(oldGame.getPlayer(BOTTOM)).joinGame(this);
+        oldGame.getPlayer(TOP).copy().joinGame(this);
+        oldGame.getPlayer(BOTTOM).copy().joinGame(this);
     }
 
     public Board getBoard() {

@@ -12,15 +12,14 @@ public class Player extends AbstractPlayer {
         super(username, colorPlayer);
     }
 
-    public Player(AbstractPlayer oldPlayer) {
-        super(oldPlayer);
+    @Override
+    public AbstractPlayer copy() {
+        AbstractPlayer newPlayer = new Player(getUsername(), getColor());
+        newPlayer.setScore(getScore());
+        return newPlayer;
     }
 
-    /**
-     * Méthode qui permet à un joueur de voir l'état du jeu et de choisir un trou à jouer.
-     *
-     * @see Player#play(int)
-     */
+    @Override
     public void choose() {
         System.out.println("\nTour de " + colorize(getUsername(), getColor()) + " :");
         Scanner sc = new Scanner(System.in);

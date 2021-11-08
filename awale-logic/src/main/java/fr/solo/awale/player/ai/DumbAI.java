@@ -13,6 +13,13 @@ public class DumbAI extends AbstractPlayer {
     }
 
     @Override
+    public AbstractPlayer copy() {
+        AbstractPlayer newPlayer = new DumbAI(getUsername());
+        newPlayer.setScore(getScore());
+        return newPlayer;
+    }
+
+    @Override
     public void choose() {
         System.out.println("\nTour de " + colorize(getUsername(), getColor()) + " :");
         boolean hasPlayed;
