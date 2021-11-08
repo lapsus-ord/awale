@@ -1,16 +1,16 @@
 package fr.solo.awale;
 
+import com.diogonunes.jcolor.Attribute;
+import fr.solo.awale.player.AbstractPlayer;
+import fr.solo.awale.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.OutputStream;
-import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class AwaleTest {
     Awale aNorm, aCapture, aBoucle, aAffame, aEnd;
-    Player p1, p2;
+    AbstractPlayer p1, p2;
 
     @BeforeEach
     void init() {
@@ -23,8 +23,8 @@ class AwaleTest {
         aBoucle = new Awale(cellBoucle);
         aAffame = new Awale(cellAffame);
         aEnd = new Awale(cellEnd);
-        p1 = new Player("Joueur 1");
-        p2 = new Player("Joueur 2");
+        p1 = new Player("Joueur 1", Attribute.WHITE_TEXT());
+        p2 = new Player("Joueur 2", Attribute.WHITE_TEXT());
     }
 
     @Test

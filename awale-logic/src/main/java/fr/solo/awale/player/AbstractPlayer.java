@@ -59,7 +59,7 @@ public abstract class AbstractPlayer {
      * @param holeSrc Le trou d'origine (du côté du joueur)
      * @return {@code true} = coup joué sans soucis ;<br/>
      * {@code false} = le joueur n'a pas pu jouer le coup
-     * @see Player#choose()
+     * @see AbstractPlayer#choose()
      */
     public boolean play(int holeSrc) {
         if (holeSrc < 0 || holeSrc > 5) {
@@ -91,7 +91,7 @@ public abstract class AbstractPlayer {
      * @param board   Le plateau sur lequel on distribue.
      * @return Le dernier trou de la distribution.<br/>
      * (-1 si pas de distribution chez l'ennemi, sinon {@code ∈ [0,5]})
-     * @see Player#play(int)
+     * @see AbstractPlayer#play(int)
      */
     private int updateBoard(int holeSrc, Board board) {
         Side sideEnemy = board.getOppositeSide(side);
@@ -121,7 +121,7 @@ public abstract class AbstractPlayer {
      *
      * @param board    Le plateau sur lequel on capture.
      * @param lastHole Le dernier trou de la distribution.
-     * @see Player#play(int)
+     * @see AbstractPlayer#play(int)
      */
     private void captureSeed(Board board, int lastHole) {
         if (lastHole != -1) {
