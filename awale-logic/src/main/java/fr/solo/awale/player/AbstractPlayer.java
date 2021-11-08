@@ -1,33 +1,47 @@
-package fr.solo.awale;
+package fr.solo.awale.player;
 
 import com.diogonunes.jcolor.Attribute;
+import fr.solo.awale.Awale;
+import fr.solo.awale.Board;
+import fr.solo.awale.Side;
 
 import static com.diogonunes.jcolor.Ansi.colorize;
 
-public class Player {
+public abstract class AbstractPlayer {
     private String username;
     private int score;
     private Side side;
-    private Awale game;
+    protected Awale game;
     // Couleur du joueur dans le terminal (ne sert pas dans la logique du jeu)
     private Attribute color;
 
     /**
      * Constructeur avec le pseudo du joueur
      */
-    public Player(String username) {
+    public AbstractPlayer(String username) {
         this.username = username;
         score = 0;
-        this.color = Attribute.WHITE_TEXT();
+        color = Attribute.YELLOW_TEXT();
     }
 
     /**
      * Constructeur avec le pseudo du joueur + Sa couleur dans le terminal
      */
-    public Player(String username, Attribute colorPlayer) {
+    public AbstractPlayer(String username, Attribute colorPlayer) {
         this(username);
         this.color = colorPlayer;
     }
+
+    /**
+     * @return Un joueur indépendant
+     */
+    public abstract AbstractPlayer copy();
+
+    /**
+     * Le choix que le joueur effectue pendant son tour.<br>
+     * Est obligatoirement redéfini chez les enfants de {@code AbstractPlayer}.
+     */
+    public abstract void choose();
 
     /**
      * Méthode permettant un joueur de rejoindre un jeu.
@@ -45,7 +59,7 @@ public class Player {
      * @param holeSrc Le trou d'origine (du côté du joueur)
      * @return {@code true} = coup joué sans soucis ;<br/>
      * {@code false} = le joueur n'a pas pu jouer le coup
-     * @see Awale#chooseHole(Player)
+     * @see Player#choose()
      */
     public boolean play(int holeSrc) {
         if (holeSrc < 0 || holeSrc > 5) {
@@ -135,6 +149,10 @@ public class Player {
         return side;
     }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
+
     public void setSide(Side side) {
         this.side = side;
     }
@@ -142,4 +160,5 @@ public class Player {
     public void addPoints(int nb) {
         this.score += nb;
     }
+
 }

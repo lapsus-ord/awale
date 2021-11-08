@@ -1,24 +1,25 @@
 package fr.solo.awale;
 
 import com.diogonunes.jcolor.Attribute;
-
-import java.util.Scanner;
+import fr.solo.awale.player.AbstractPlayer;
+import fr.solo.awale.player.Player;
 
 import static com.diogonunes.jcolor.Ansi.colorize;
 import static com.diogonunes.jcolor.Attribute.RED_TEXT;
-import static fr.solo.awale.Awale.GameState.*;
+import static fr.solo.awale.Awale.Gamestate.*;
+import static fr.solo.awale.Side.BOTTOM;
+import static fr.solo.awale.Side.TOP;
 
 public class Awale {
     private Board board;
-    private Player player1;
-    private Player player2;
-    private Player winner;
-    private GameState state;
+    private AbstractPlayer player1;
+    private AbstractPlayer player2;
+    private AbstractPlayer winner;
+    private Gamestate state;
 
-    enum GameState {
+    enum Gamestate {
         PlAYER1_TURN, PLAYER2_TURN, START_GAME, END_GAME
     }
-
 
     /**
      * Constructeur avec les joueurs.
@@ -27,7 +28,7 @@ public class Awale {
         this.board = new Board();
         this.player1 = null;
         this.player2 = null;
-        state = GameState.START_GAME;
+        state = Gamestate.START_GAME;
         winner = null;
     }
 
@@ -37,6 +38,15 @@ public class Awale {
     public Awale(int[][] board) {
         this();
         this.board = new Board(board);
+    }
+
+    /**
+     * Constructeur nouveau jeu indépendant
+     */
+    public Awale(Awale oldGame) {
+        this(oldGame.getBoard().getCells());
+        oldGame.getPlayer(TOP).copy().joinGame(this);
+        oldGame.getPlayer(BOTTOM).copy().joinGame(this);
     }
 
     public Board getBoard() {
@@ -50,28 +60,28 @@ public class Awale {
     public void run() throws InterruptedException {
         while (player1 == null || player2 == null) {
             System.out.println("En attente de joueurs...");
-            Thread.sleep(10000);
+            Thread.sleep(5000);
         }
         state = PlAYER1_TURN;
         System.out.println(this);
 
         // Le jeu tourne tant que l'état du jeu n'est pas END_GAME
         while (!state.equals(END_GAME)) {
-            // Tour du joueur 1 (top)
             if (state.equals(PlAYER1_TURN)) {
-                if (isStarved(player1) || !board.canPlay(player1.getSide())) {
+                if (isStarved(player1)) {
                     state = END_GAME;
                     break;
                 }
-                chooseHole(player1);
+                player1.choose();
+                System.out.println(this);
                 state = PLAYER2_TURN;
-
-            } else { // Tour du joueur 2 (bottom)
-                if (isStarved(player2) || !board.canPlay(player2.getSide())) {
+            } else {
+                if (isStarved(player2)) {
                     state = END_GAME;
                     break;
                 }
-                chooseHole(player2);
+                player2.choose();
+                System.out.println(this);
                 state = PlAYER1_TURN;
             }
         }
@@ -86,6 +96,7 @@ public class Awale {
             System.out.println(colorize("\nBravo aux deux joueurs " + player1.getUsername() + " et " + player2.getUsername() + " !\n" +
                     "Le jeu se termine sur une égalité !!! 👏", Attribute.BRIGHT_BLUE_TEXT()));
         }
+        System.out.println(this);
     }
 
     /**
@@ -95,7 +106,7 @@ public class Awale {
      * @return {@code true}/{@code false} = Selon si le joueur en face est dans l'état "Affamé".
      * @see Awale#run()
      */
-    private boolean isStarved(Player player) {
+    private boolean isStarved(AbstractPlayer player) {
         return board.getSeedInRow(player.getSide()) == 0;
     }
 
@@ -114,29 +125,10 @@ public class Awale {
      * Ou {@code null} si le jeu finit en égalité.
      * @see Awale#run()
      */
-    private Player checkWinner() {
+    private AbstractPlayer checkWinner() {
         if (player1.getScore() == player2.getScore())
             return null;
         return player1.getScore() > player2.getScore() ? player1 : player2;
-    }
-
-    /**
-     * Méthode qui permet à un joueur de voir l'état du jeu et de choisir un trou à jouer.
-     *
-     * @param player Le joueur qui doit choisir son trou
-     * @see Player#play(int)
-     */
-    private void chooseHole(Player player) {
-        Scanner sc = new Scanner(System.in);
-        boolean hasPlayed;
-        do {
-            System.out.println("\nTour de " + colorize(player.getUsername(), player.getColor()) + " :");
-            System.out.print("-> Quel trou jouez-vous ? n°[1, 6] : ");
-            int holeNumber = sc.nextInt() - 1;
-            hasPlayed = player.play(holeNumber);
-        } while (!hasPlayed);
-
-        System.out.println(this);
     }
 
     /**
@@ -145,7 +137,7 @@ public class Awale {
      * @param side Le côté que l'on veut comparer
      * @return Le pseudo et le score du joueur qui est du côté {@code side}
      */
-    private String playerStateOnSide(Player p1, Player p2, Side side) {
+    private String playerStateOnSide(AbstractPlayer p1, AbstractPlayer p2, Side side) {
         if (p1.getSide().equals(side))
             return colorize(p1.getUsername() + "(" + p1.getScore() + ")", p1.getColor());
 
@@ -157,16 +149,18 @@ public class Awale {
      *
      * @param p Le joueur à ajouter.
      */
-    public void addPlayer(Player p) {
+    public void addPlayer(AbstractPlayer p) {
         if (player1 == null) {
             player1 = p;
             player1.setSide(Side.TOP);
-            return;
-        }
-        if (player2 == null) {
+        } else if (player2 == null) {
             player2 = p;
             player2.setSide(Side.BOTTOM);
         }
+    }
+
+    public AbstractPlayer getPlayer(Side side) {
+        return (side.equals(Side.TOP) ? player1 : player2);
     }
 
     @Override

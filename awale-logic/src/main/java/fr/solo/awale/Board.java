@@ -1,5 +1,7 @@
 package fr.solo.awale;
 
+import fr.solo.awale.player.Player;
+
 import java.util.Arrays;
 
 public class Board {
@@ -13,8 +15,12 @@ public class Board {
     }
 
     public Board(int[][] board) {
-        this.cells = board;
-        nbOfSeeds = 48;
+        this();
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[0].length; j++) {
+                cells[i][j] = board[i][j];
+            }
+        }
     }
 
     // Remplit le plateau de graines
@@ -31,6 +37,13 @@ public class Board {
         if (side.equals(Side.TOP))
             return cells[0];
         return cells[1];
+    }
+
+    /**
+     * @return La matrice du plateau.
+     */
+    public int[][] getCells() {
+        return cells;
     }
 
     /**
@@ -75,6 +88,7 @@ public class Board {
      */
     public int clearHole(Side side, int hole) {
         int stock = getRow(side)[hole];
+        nbOfSeeds -= stock;
         getRow(side)[hole] = 0;
         return stock;
     }
