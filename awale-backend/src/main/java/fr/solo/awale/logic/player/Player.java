@@ -1,4 +1,4 @@
-package fr.solo.awale.player;
+package fr.solo.awale.logic.player;
 
 import com.diogonunes.jcolor.Attribute;
 

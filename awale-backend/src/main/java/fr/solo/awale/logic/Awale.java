@@ -1,15 +1,15 @@
-package fr.solo.awale;
+package fr.solo.awale.logic;
 
 import com.diogonunes.jcolor.Attribute;
-import fr.solo.awale.player.AbstractPlayer;
+import fr.solo.awale.logic.player.AbstractPlayer;
 
 import java.util.Arrays;
 
 import static com.diogonunes.jcolor.Ansi.colorize;
 import static com.diogonunes.jcolor.Attribute.RED_TEXT;
-import static fr.solo.awale.Awale.Gamestate.*;
-import static fr.solo.awale.Side.BOTTOM;
-import static fr.solo.awale.Side.TOP;
+import static fr.solo.awale.logic.Awale.Gamestate.*;
+import static fr.solo.awale.logic.Side.BOTTOM;
+import static fr.solo.awale.logic.Side.TOP;
 
 public class Awale {
     private Board board;

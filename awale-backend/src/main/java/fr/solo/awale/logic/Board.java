@@ -1,6 +1,6 @@
-package fr.solo.awale;
+package fr.solo.awale.logic;
 
-import fr.solo.awale.player.Player;
+import fr.solo.awale.logic.player.Player;
 
 import java.util.Arrays;
 
