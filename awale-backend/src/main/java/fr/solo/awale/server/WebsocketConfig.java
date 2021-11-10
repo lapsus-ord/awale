@@ -23,9 +23,7 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/stomp")
                 // Allow the origin http://localhost:{port} to send messages to us. (Base URL of the client)
-                .setAllowedOriginPatterns("http://localhost:[*]")
-                // Enable SockJS fallback options
-                .withSockJS();
+                .setAllowedOriginPatterns("https://webinfo.iutmontp.univ-montp2.fr:[*]");
     }
 
 }

@@ -1,10 +1,6 @@
 // Connexion au WS
-let socket = new SockJS('http://localhost:8080/stomp');
+let socket = new WebSocket("wss://webinfo.iutmontp.univ-montp2.fr:2232/stomp");
 let client = Stomp.over(socket);
-
-client.connect({}, frame => {
-  console.log('[OPEN] Connexion avec le WS : ' + frame);
-});
 
 
 // Envoi du message
