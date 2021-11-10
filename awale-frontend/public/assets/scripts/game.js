@@ -1,3 +1,13 @@
+// Connexion au WS
+let socket = new SockJS('http://localhost:8080/stomp');
+let client = Stomp.over(socket);
+
+client.connect({}, frame => {
+  console.log('[OPEN] Connexion avec le WS : ' + frame);
+});
+
+
+// Envoi du message
 let row = document.querySelectorAll('.user>div');
 
 row.forEach(child => {
@@ -5,8 +15,8 @@ row.forEach(child => {
 });
 
 function handleClick(e) {
-  let jsonClick = {"hole": null, "value": null};
+  let jsonClick = {hole: null, value: null};
   jsonClick.hole = e.target.className.slice(-1);
   jsonClick.value = e.target.innerHTML;
-  console.log(JSON.stringify(jsonClick));
+  client.send('/app/send-hole', {}, JSON.stringify(jsonClick));
 }
