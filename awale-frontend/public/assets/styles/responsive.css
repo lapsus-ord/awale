@@ -15,7 +15,7 @@
     width: 70vw;
     padding: 2rem 0;
   }
-  .default-button:first-child {
+  .default-button {
     margin-bottom: 2.5rem;
   }
 }
@@ -61,7 +61,7 @@
     width: 100px;
     height: auto;
   }
-  .default-button:first-child {
+  .default-button {
     margin-bottom: 1rem;
   }
 }
