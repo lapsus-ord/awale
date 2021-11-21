@@ -1,4 +1,4 @@
 <?php
 
-require_once "../app/utils/File.php";
-require_once File::build_path(array("app", "controllers", "router.php"));
+require_once "../app/lib/File.php";
+require_once File::getApp(array("controllers", "router.php"));

@@ -1,6 +1,3 @@
-<?PHP
-header('Access-Control-Allow-Origin: *');
-?>
 <h2>En attente d'un autre joueur… / En jeu</h2>
 <br>
 <div class="board">
@@ -22,8 +19,4 @@ header('Access-Control-Allow-Origin: *');
   </div>
 </div>
 
-<script type="module" src="assets/scripts/sockjs.min.js"></script>
-<script type="module" src="assets/scripts/stomp.min.js">
-  <script type="module" src="assets/scripts/stomp.min.js.map"></script>
-</script>
-<script type="module" src="assets/scripts/game.js"></script>
+<script src="assets/scripts/game.js"></script>

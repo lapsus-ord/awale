@@ -13,8 +13,8 @@ import static fr.solo.awale.logic.Side.TOP;
 
 public class Awale {
     private Board board;
-    private AbstractPlayer player1;
-    private AbstractPlayer player2;
+    protected AbstractPlayer player1;
+    protected AbstractPlayer player2;
     private AbstractPlayer winner;
     private Gamestate state;
 
