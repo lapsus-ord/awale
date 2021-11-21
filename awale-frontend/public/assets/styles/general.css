@@ -32,7 +32,7 @@ h1 {
 }
 
 h2 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: bold;
 }
 
@@ -122,14 +122,30 @@ h2 {
 }
 
 /* ---- BOTTOM_BUTTON ---- */
+
 .help-button {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  width: 80px;
+  cursor: help;
+}
+
+.home-button {
   position: absolute;
   left: 10px;
   bottom: 10px;
   width: 80px;
 }
 
-/* ---- TOP_BUTTON ---- */
+.home-button-top {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: 80px;
+}
+
+/* ---- PSEUDO_INPUT ---- */
 .pseudo {
   position: absolute;
   left: 10px;
@@ -145,13 +161,66 @@ h2 {
   border: none;
 }
 
+/* ---- SETTINGS_BUTTON ---- */
+
 .settings {
   position: absolute;
   right: 10px;
   top: 10px;
+  background-color: #e7e7e7;
+  color: black;
 }
 
 .settings-button {
-  width: 80px;
+  width: 70px;
+  cursor: pointer;
+}
+
+.settings-button:hover{
+  background-color: #4CAF50;
+  collapse: white;
+}
+
+.overlay {
+  position: fixed;
+  left: 0px;
+  top:0px;
+  background-color: rgba(50, 115, 220, 0.2);
+  width: 100%;
+  height: 100%;
+  z-index:1;
+  display:none;
+}
+
+.popup{
+  margin: 10% auto;
+  width : 60%;
+  background-color: var(--green-mantis);
+  padding: 1em;
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnClose {
+  float: right;
+  font-size: 30pt;
+  cursor: pointer;
+  color: rgb(26, 26, 26);
+  position: relative;
+  left: 50px;
+}
+
+.input-settings {
+  text-align: center;
+  padding: 1.5em;
+}
+
+.settings-title {
+  font-size: 16pt;
+  text-align: center;
 }
 
