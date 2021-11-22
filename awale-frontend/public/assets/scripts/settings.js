@@ -9,16 +9,28 @@ btnClose.addEventListener('click', function (){
     overlay.style.display = 'none';
 });
 
-let slctSound = document.getElementById('sound');
-slctSound.addEventListener('change', function (){
-    let audio = new Audio("resources/sounds/Caraibes.mp3");
+/*let submitBtn = document.getElementById('click');
+submitBtn.addEventListener('click', function (){
+    let audio = document.getElementById('audio');
+    audio.pause();
+    let music = document.getElementById('music');
+    let volume = document.getElementById('volume');
+    audio.setAttribute('volume', ''+volume);
+    audio.setAttribute('src', 'assets/sounds/'+music);
+    audio.removeAttribute('autoplay');
     audio.play();
-});
+})*/
 
-let iptVolume = document.getElementById('volume');
-iptVolume.addEventListener('change', function (e){
-
-});
+let submitBtn = document.getElementById('submit');
+submitBtn.addEventListener('click', function (){
+    let audio = document.getElementById('audio');
+    audio.pause();
+    let music = document.getElementById('music');
+    let volume = document.getElementById('volume');
+    audio.volume = parseFloat(volume.value/10);
+    audio.src = 'assets/sounds/'+music.options[music.selectedIndex].value+'.mp3';
+    audio.play();
+})
 
 
 
