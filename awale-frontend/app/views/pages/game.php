@@ -3,7 +3,16 @@ header('Access-Control-Allow-Origin: *');
 ?>
 
 <a href="?action=home">
-    <img class="home-button-top" src="assets/img/icons/maison-web.png" alt="home">
+    <img onclick="confirmation()" class="home-button-top" src="assets/img/icons/maison-web.png" alt="home">
+    <script>
+        /* --- A COMPLETER --- */
+        function confirmation(){
+            let value = confirm("Voulez-vous stopper la partie ?");
+            if(value != null){
+                return false;
+            }
+        }
+    </script>
 </a>
 
 <button class="settings" id="btnPopup">
