@@ -19,4 +19,4 @@
   </div>
 </div>
 
-<script src="assets/scripts/game.js"></script>
+<script type="module" src="assets/scripts/game.js"></script>
