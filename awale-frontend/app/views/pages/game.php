@@ -9,7 +9,7 @@ header('Access-Control-Allow-Origin: *');
         function confirmation(){
             let value = confirm("Voulez-vous stopper la partie ?");
             if(value != null){
-                return false;
+                //Empêcher la redirection
             }
         }
     </script>
