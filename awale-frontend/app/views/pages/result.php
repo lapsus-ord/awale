@@ -31,6 +31,22 @@
 
 <h1>Félicitations au Joueur <?php echo $_GET['winner']; ?></h1>
 
+<script src="assets/scripts/confettis.js"></script>
+<script>
+    const start = () => {
+        setTimeout(function() {
+            confetti.start()
+        }, 1000);
+    };
+    const stop = () => {
+        setTimeout(function() {
+            confetti.stop()
+        }, 8000);
+    };
+    start();
+    stop();
+</script>
+
 <a href="?action=home">
     <img class="home-button" src="assets/img/icons/maison-web.png" alt="home">
 </a>
