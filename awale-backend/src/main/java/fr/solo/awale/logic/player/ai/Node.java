@@ -77,7 +77,7 @@ public class Node {
      */
     public int findBestHole() {
         // DEBUG : Affichage de l'état des evals des enfants du nœud
-        children.forEach(child -> System.out.println("Trou n°" + (child.getHolePlayed() + 1) + " eval = " + child.eval()));
+        //children.forEach(child -> System.out.println("Trou n°" + (child.getHolePlayed() + 1) + " eval = " + child.eval()));
 
         return children.stream()
                 .max(Comparator.comparingInt(Node::eval))
