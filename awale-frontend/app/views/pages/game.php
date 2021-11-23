@@ -3,15 +3,11 @@ header('Access-Control-Allow-Origin: *');
 ?>
 
 <a href="?action=home">
-    <img onclick="confirmation()" class="home-button-top" src="assets/img/icons/maison-web.png" alt="home">
+    <img class="home-button-top" src="assets/img/icons/maison-web.png" alt="home">
     <script>
-        /* --- A COMPLETER --- */
-        function confirmation(){
-            let value = confirm("Voulez-vous stopper la partie ?");
-            if(value != null){
-                //Empêcher la redirection
-            }
-        }
+        window.onbeforeunload = function confirmation(){
+            return 'Voulez-vous bien quitter la partie ?';
+        };
     </script>
 </a>
 
