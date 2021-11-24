@@ -16,7 +16,7 @@ export class GameWS {
       this.#join(userId);
     });
     this.#ws.onclose = (() => this.disconnect());
-    this.#ws.onmessage = (ev => console.log("MSG-RCVD: %s", ev.data));
+    this.#ws.onmessage = (ev => console.log("MSG-RCVD: %o", JSON.parse(ev.data)));
   }
 
   disconnect() {
