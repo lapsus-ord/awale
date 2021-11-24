@@ -3,7 +3,7 @@
 ### Introduction
 
 Les messages envoyés au serveur (ou au client) seront toujours composés de 2 parties :
-- La **1<sup>ère</sup> partie** correspond à la **commande** à exécuter (ex: `join`, `move`…).\
+- La **1<sup>ère</sup> partie** correspond à la **commande** à exécuter (ex: `join`, `move`…).
 - La **2<sup>ème</sup> partie** correspond au contenu du message (souvent du JSON).
 
 **TODO:** ajouter un diagramme de séquence/communication.
