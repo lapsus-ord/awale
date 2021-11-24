@@ -11,10 +11,10 @@ import static fr.solo.awale.logic.Awale.Gamestate.*;
 import static fr.solo.awale.logic.Side.BOTTOM;
 import static fr.solo.awale.logic.Side.TOP;
 
-public class Awale {
+public class Awale implements Runnable {
     private Board board;
-    protected AbstractPlayer player1;
-    protected AbstractPlayer player2;
+    private AbstractPlayer player1;
+    private AbstractPlayer player2;
     private AbstractPlayer winner;
     private Gamestate state;
 
@@ -50,18 +50,19 @@ public class Awale {
         oldGame.getPlayer(BOTTOM).copy().joinGame(this);
     }
 
-    public Board getBoard() {
-        return board;
-    }
-
     /**
      * Méthode qui exécute le jeu.<br/>
      * Commence par changer l'état du jeu en {@code PLAYER1_TURN}.
      */
-    public void run() throws InterruptedException {
+    @Override
+    public void run() {
         while (player1 == null || player2 == null) {
             System.out.println("En attente de joueurs...");
-            Thread.sleep(5000);
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         state = PlAYER1_TURN;
         System.out.println(this);
@@ -149,6 +150,16 @@ public class Awale {
             player2 = p;
             player2.setSide(Side.BOTTOM);
         }
+    }
+
+    // --- GETTERS ---
+
+    public Gamestate getState() {
+        return state;
+    }
+
+    public Board getBoard() {
+        return board;
     }
 
     public AbstractPlayer getPlayer(Side side) {

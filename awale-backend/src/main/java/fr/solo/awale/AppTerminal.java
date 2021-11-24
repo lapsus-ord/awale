@@ -16,10 +16,6 @@ public class AppTerminal {
         p1.joinGame(jeu);
         p2.joinGame(jeu);
 
-        try {
-            jeu.run();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        jeu.run();
     }
 }
