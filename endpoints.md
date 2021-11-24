@@ -10,7 +10,8 @@ Les messages envoyés au serveur (ou au client) seront toujours composés de 2 p
 
 <hr>
 
-## Endpoints relatifs au Websocket
+<details>
+<summary><h2>Endpoints relatifs au Websocket</h2></summary>
 
 ### Rejoindre une partie (Cl->S)
 
@@ -60,19 +61,13 @@ Contenu :
 ```
 > **Commentaires :** `turnToken` à ajouter pour la permission de jouer.
 
+</details>
 <hr>
 
-## Endpoints relatifs au RESTful
+<details>
+<summary><h2>Endpoints relatifs au RESTful</h2></summary>
 
-### Demande des parties (🆚 Joueurs) en attentes (Cl->S)
-
-Commande : `listGames`\
-Contenu :
-```
-À écrire…
-```
-
-### Demande des parties (🆚 Joueurs) en attentes (S->Cl)
+### Demande des parties (vs Joueurs) en attentes (Cl->S)
 
 Commande : `listGames`\
 Contenu :
@@ -80,3 +75,12 @@ Contenu :
 À écrire…
 ```
 
+### Demande des parties (vs Joueurs) en attentes (S->Cl)
+
+Commande : `listGames`\
+Contenu :
+```
+À écrire…
+```
+
+</details>
