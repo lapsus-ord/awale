@@ -14,7 +14,7 @@ ws.connect(user_id, username);
 ws.getOnMessage(ev => mappingGameOBJ(JSON.parse(ev.data)));
 
 // --- Envoi d'un coup ---
-let row = document.querySelectorAll('.user>.cell');
+let row = document.querySelectorAll('.cell');
 
 row.forEach(child => {
   child.addEventListener('click', (ev => {
@@ -25,21 +25,21 @@ row.forEach(child => {
 // Associe les données de l'objet gameState au HTML
 function mappingGameOBJ(game) {
   let board = game.gameState ?? [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]];
-  let i = 5;
-  for (let cell of document.querySelectorAll('.ennemy>.cell')) {
+  let i = 0;
+  for (let cell of document.querySelectorAll('.player1>.cell')) {
     cell.textContent = board[0][i] + "";
-    i--;
+    i++;
   }
   i = 0;
-  for (let cell of document.querySelectorAll('.user>.cell')) {
+  for (let cell of document.querySelectorAll('.player2>.cell')) {
     cell.textContent = board[1][i] + "";
     i++;
   }
   document.querySelector('#state').textContent = game.state.toString();
   let p1 = game.players.player1 ?? {username: " ", score: 0};
   let p2 = game.players.player2 ?? {username: " ", score: 0};
-  document.querySelector('.ennemy .username').textContent = p1.username;
-  document.querySelector('.ennemy .username+.score').textContent = p1.score;
-  document.querySelector('.user .username').textContent = p2.username;
-  document.querySelector('.user .username+.score').textContent = p2.score;
+  document.querySelector('.player1 .username').textContent = p1.username;
+  document.querySelector('.player1 .username+.score').textContent = p1.score;
+  document.querySelector('.player2 .username').textContent = p2.username;
+  document.querySelector('.player2 .username+.score').textContent = p2.score;
 }

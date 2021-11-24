@@ -11,15 +11,15 @@ import static fr.solo.awale.logic.Awale.Gamestate.*;
 import static fr.solo.awale.logic.Side.BOTTOM;
 import static fr.solo.awale.logic.Side.TOP;
 
-public class Awale implements Runnable {
-    private Board board;
-    private AbstractPlayer player1;
-    private AbstractPlayer player2;
-    private AbstractPlayer winner;
-    private Gamestate state;
+public class Awale {
+    protected Board board;
+    protected AbstractPlayer player1;
+    protected AbstractPlayer player2;
+    protected AbstractPlayer winner;
+    protected Gamestate state;
 
     enum Gamestate {
-        PlAYER1_TURN, PLAYER2_TURN, START_GAME, END_GAME
+        PLAYER1_TURN, PLAYER2_TURN, WAITING_GAME, END_GAME
     }
 
     /**
@@ -29,7 +29,7 @@ public class Awale implements Runnable {
         this.board = new Board();
         this.player1 = null;
         this.player2 = null;
-        state = Gamestate.START_GAME;
+        state = Gamestate.WAITING_GAME;
         winner = null;
     }
 
@@ -45,7 +45,7 @@ public class Awale implements Runnable {
      * Constructeur nouveau jeu indépendant
      */
     public Awale(Awale oldGame) {
-        this(oldGame.getBoard().getCells());
+        this(oldGame.board.getCells());
         oldGame.getPlayer(TOP).copy().joinGame(this);
         oldGame.getPlayer(BOTTOM).copy().joinGame(this);
     }
@@ -54,7 +54,6 @@ public class Awale implements Runnable {
      * Méthode qui exécute le jeu.<br/>
      * Commence par changer l'état du jeu en {@code PLAYER1_TURN}.
      */
-    @Override
     public void run() {
         while (player1 == null || player2 == null) {
             System.out.println("En attente de joueurs...");
@@ -64,12 +63,12 @@ public class Awale implements Runnable {
                 e.printStackTrace();
             }
         }
-        state = PlAYER1_TURN;
+        state = PLAYER1_TURN;
         System.out.println(this);
 
         // Le jeu tourne tant que l'état du jeu n'est pas END_GAME
         while (!state.equals(END_GAME)) {
-            if (state.equals(PlAYER1_TURN)) {
+            if (state.equals(PLAYER1_TURN)) {
                 if (!board.canPlay(player1.getSide())) { // Stop le jeu si le joueur 1 ne peut plus jouer
                     state = END_GAME;
                     break;
@@ -84,21 +83,14 @@ public class Awale implements Runnable {
                 }
                 player2.choose();
                 System.out.println(this);
-                state = PlAYER1_TURN;
+                state = PLAYER1_TURN;
             }
         }
 
         seedDistribution();
         winner = checkWinner();
 
-        if (winner != null) {
-            System.out.println(colorize("\nLe gagnant est " + winner.getUsername() + " avec " + winner.getScore() + " points !!!",
-                    Attribute.BRIGHT_MAGENTA_TEXT()));
-        } else {
-            System.out.println(colorize("\nBravo aux deux joueurs " + player1.getUsername() + " et " + player2.getUsername() + " !\n" +
-                    "Le jeu se termine sur une égalité !!! 👏", Attribute.BRIGHT_BLUE_TEXT()));
-        }
-        System.out.println(this);
+        printWinner();
     }
 
     /**
@@ -106,7 +98,7 @@ public class Awale implements Runnable {
      *
      * @see Awale#run()
      */
-    private void seedDistribution() {
+    protected void seedDistribution() {
         player1.addPoints(board.getSeedInRow(player1.getSide()));
         player2.addPoints(board.getSeedInRow(player2.getSide()));
         Arrays.fill(board.getCells()[0], 0);
@@ -118,7 +110,7 @@ public class Awale implements Runnable {
      * Ou {@code null} si le jeu finit en égalité.
      * @see Awale#run()
      */
-    private AbstractPlayer checkWinner() {
+    protected AbstractPlayer checkWinner() {
         if (player1.getScore() == player2.getScore())
             return null;
         return player1.getScore() > player2.getScore() ? player1 : player2;
@@ -152,11 +144,21 @@ public class Awale implements Runnable {
         }
     }
 
-    // --- GETTERS ---
-
-    public Gamestate getState() {
-        return state;
+    /**
+     * Affiche sur la console le gagnant du jeu
+     */
+    private void printWinner() {
+        if (winner != null) {
+            System.out.println(colorize("\nLe gagnant est " + winner.getUsername() + " avec " + winner.getScore() + " points !!!",
+                    Attribute.BRIGHT_MAGENTA_TEXT()));
+        } else {
+            System.out.println(colorize("\nBravo aux deux joueurs " + player1.getUsername() + " et " + player2.getUsername() + " !\n" +
+                    "Le jeu se termine sur une égalité !!! 👏", Attribute.BRIGHT_BLUE_TEXT()));
+        }
+        System.out.println(this);
     }
+
+    // --- GETTERS ---
 
     public Board getBoard() {
         return board;

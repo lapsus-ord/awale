@@ -4,19 +4,31 @@
   gap: 1rem;
 }
 
+/* Les lignes */
+
 .row {
   display: flex;
   flex-direction: row;
   gap: 1rem;
 }
 
-.ennemy > .cell {
-  background-color: #777;
+.player1, .player2 {
+  position: relative;
+}
+
+.player1 {
+  flex-direction: row-reverse;
+}
+
+/* Les trous */
+
+.player1 > .cell {
+  background-color: #8fbce7;
   cursor: pointer/*not-allowed;*/
 }
 
-.user > .cell {
-  background-color: #777/*var(--green-mantis)*/;
+.player2 > .cell {
+  background-color: #b66dff /*var(--green-mantis)*/;
   cursor: pointer;
 }
 
@@ -30,9 +42,27 @@
 }
 
 /*.user > */.cell:hover {
+  color: black;
   filter: brightness(150%);
   transform: scale(1.02);
   box-shadow: 0 5px 7px -1px rgba(0, 0, 0, .2),
   0 7px 8px 0 rgba(0, 0, 0, .14),
   0 4px 13px 0 rgba(0, 0, 0, .12);
+}
+
+/* Les informations du joueur */
+.row > .user {
+  position: absolute;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.player1 > .user {
+  right: 0;
+  bottom: 120%;
+}
+
+.player2 > .user {
+  left: 0;
+  top: 120%;
 }
