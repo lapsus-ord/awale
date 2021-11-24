@@ -7,13 +7,13 @@ export class GameWS {
     this.#ws = new WebSocket(url);
   }
 
-  connect(userId) {
+  connect(userId, username) {
     console.log("CONNECT %o", this.#ws.url);
 
     this.#ws.onerror = (() => console.log("Problème de connexion avec le serveur ❌"));
     this.#ws.onopen = (() => {
       console.log("Connexion réussie ✅");
-      this.#join(userId);
+      this.#join(userId, username);
     });
     this.#ws.onclose = (() => this.disconnect());
     this.#ws.onmessage = (ev => console.log("MSG-RCVD: %o", JSON.parse(ev.data)));
@@ -26,10 +26,10 @@ export class GameWS {
     }
   }
 
-  #join(userId) {
+  #join(userId, username) {
     if (this.#ws !== null) {
       console.log("JOIN %o: user=%s", this.#ws.url, userId);
-      this.#sendToWS("join," + JSON.stringify(objJoin(userId)));
+      this.#sendToWS("join," + JSON.stringify(objJoin(userId, username)));
     } else {
       alert("Erreur : Vous n'êtes pas connecté au serveur.");
     }

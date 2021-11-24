@@ -2,9 +2,10 @@
 
 // Quand un joueur rejoint une partie
 // TODO: "gameID": <gameId> à ajouter pour la gestion de plusieurs parties
-export function objJoin(userId) {
+export function objJoin(userId, username) {
   return {
-    userId: userId
+    userId: userId,
+    username: username
   };
 }
 
@@ -23,13 +24,6 @@ Réception du message du serveur
 TODO: Ajouter un token pour le joueur qui doit jouer
   si    token === null : c'est pas son tour
   sinon token === "3ededca6dcc6" : c'est son tour
-{
-  "players": {
-    "player1": { "username":"Michel", "score":0 },
-    "player2": { "username":"Jacquie", "score":0 }
-  },
-  "gameState": [ [4, 4, 4, 4, 4, 4], [4, 4, 4, 4, 4, 4] ]
-}
  */
 export function objGameState(payload) {
   return JSON.parse(payload);
