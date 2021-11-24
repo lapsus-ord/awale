@@ -9,7 +9,7 @@ class ControllerPage {
   }
 
   public static function play(): void {
-    $page_title = "En jeu";
+    $page_title = "🆚 Joueur";
     $view = "game";
     require_once File::getApp(array("views", "view.php"));
   }
