@@ -11,12 +11,35 @@ let ws = null;
 // --- Connexion au WS ---
 ws = new GameWS(url);
 ws.connect(user_id, username);
+ws.getOnMessage(ev => mappingGameOBJ(JSON.parse(ev.data)));
 
 // --- Envoi d'un coup ---
-let row = document.querySelectorAll('.user>div');
+let row = document.querySelectorAll('.user>.cell');
 
 row.forEach(child => {
   child.addEventListener('click', (ev => {
     ws.move(user_id, parseInt(ev.target.className.slice(-1)));
   }));
 });
+
+// Associe les données de l'objet gameState au HTML
+function mappingGameOBJ(game) {
+  let board = game.gameState ?? [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]];
+  let i = 5;
+  for (let cell of document.querySelectorAll('.ennemy>.cell')) {
+    cell.textContent = board[0][i] + "";
+    i--;
+  }
+  i = 0;
+  for (let cell of document.querySelectorAll('.user>.cell')) {
+    cell.textContent = board[1][i] + "";
+    i++;
+  }
+  document.querySelector('#state').textContent = game.state.toString();
+  let p1 = game.players.player1 ?? {username: " ", score: 0};
+  let p2 = game.players.player2 ?? {username: " ", score: 0};
+  document.querySelector('.ennemy .username').textContent = p1.username;
+  document.querySelector('.ennemy .username+.score').textContent = p1.score;
+  document.querySelector('.user .username').textContent = p2.username;
+  document.querySelector('.user .username+.score').textContent = p2.score;
+}

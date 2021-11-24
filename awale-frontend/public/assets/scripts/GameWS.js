@@ -16,7 +16,6 @@ export class GameWS {
       this.#join(userId, username);
     });
     this.#ws.onclose = (() => this.disconnect());
-    this.#ws.onmessage = (ev => console.log("MSG-RCVD: %o", JSON.parse(ev.data)));
   }
 
   disconnect() {
@@ -51,5 +50,9 @@ export class GameWS {
     } else {
       alert("Erreur : Vous n'êtes pas connecté au serveur.");
     }
+  }
+
+  getOnMessage(callback) {
+    this.#ws.onmessage = ((ev => callback(ev)));
   }
 }

@@ -10,17 +10,17 @@
   gap: 1rem;
 }
 
-.ennemy > div {
+.ennemy > .cell {
   background-color: #777;
-  cursor: not-allowed;
+  cursor: pointer/*not-allowed;*/
 }
 
-.user > div {
-  background-color: var(--green-mantis);
+.user > .cell {
+  background-color: #777/*var(--green-mantis)*/;
   cursor: pointer;
 }
 
-.row > div {
+.row > .cell {
   font-size: 1.5rem;
   flex: 1;
   text-align: center;
@@ -29,7 +29,7 @@
   transition: box-shadow .3s, background-color .3s, transform .5s;
 }
 
-.user > div:hover {
+/*.user > */.cell:hover {
   filter: brightness(150%);
   transform: scale(1.02);
   box-shadow: 0 5px 7px -1px rgba(0, 0, 0, .2),
