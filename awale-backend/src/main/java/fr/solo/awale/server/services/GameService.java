@@ -44,12 +44,12 @@ public class GameService {
     @Override
     public String toString() {
         return "{ " +
-                "\"state\": " + game.getState() + "," +
+                "\"state\": \"" + game.getState() + "\"," +
                 "\"players\": {" +
                 "\"player1\":" + playerToJson(game.getPlayer(Side.TOP)) + "," +
                 "\"player2\":" + playerToJson(game.getPlayer(Side.BOTTOM)) +
                 "}," +
-                "\"gameState:\"" + boardToJson(game.getBoard().getCells()) +
+                "\"gameState\":" + boardToJson(game.getBoard().getCells()) +
                 " }";
     }
 
@@ -58,7 +58,7 @@ public class GameService {
             return "null";
         }
         StringJoiner json = new StringJoiner(",", "{", "}");
-        json.add("\"username\":" + player.getUsername());
+        json.add("\"username\":\"" + player.getUsername() + "\"");
         json.add("\"score\":" + player.getScore());
         return json.toString();
     }
