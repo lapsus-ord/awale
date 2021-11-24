@@ -1,7 +1,10 @@
 package fr.solo.awale.server.handlers;
 
 import fr.solo.awale.server.services.GameService;
+import org.springframework.boot.json.BasicJsonParser;
 import org.springframework.boot.json.GsonJsonParser;
+import org.springframework.boot.json.JsonParser;
+import org.springframework.boot.json.JsonParserFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -15,22 +18,33 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @Component
 public class GameHandler extends TextWebSocketHandler {
-    private List<WebSocketSession> players = new ArrayList<>();
-    private GameService game = GameService.getInstance();
+    private List<WebSocketSession> players;
+    private GameService game;
+    private JsonParser jsonParser;
+
+    public GameHandler() {
+        players = new ArrayList<>();
+        game = GameService.getInstance();
+        jsonParser = JsonParserFactory.getJsonParser();
+    }
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage msg) {
         String[] command = msg.getPayload().split(",", 2);
-        System.out.println(command[0] + ": " + command[1]);
+        // System.out.println(command[0] + ": " + command[1]);
+        String userId;
 
         switch (command[0]) {
             case "join":
-                System.out.println("Un joueur rejoint la partie");
-                game.addPlayer("anonymous");
+                userId = (String) jsonParser.parseMap(command[1]).get("userId");
+                String username = (String) jsonParser.parseMap(command[1]).get("username");
+                game.addPlayer(userId, username);
                 sendToAll(game.toString());
                 break;
             case "move":
-                System.out.println("Un joueur joue un coup");
+                userId = (String) jsonParser.parseMap(command[1]).get("userId");
+                int hole = (int) jsonParser.parseMap(command[1]).get("hole");
+                game.move(userId, hole);
                 sendToAll(game.toString());
                 break;
             default:
