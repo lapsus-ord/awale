@@ -8,7 +8,12 @@ Les messages envoyés au serveur (ou au client) seront toujours composés de 2 p
 
 **TODO:** ajouter un diagramme de séquence/communication.
 
-<hr>
+**Exemple :** (pour rejoindre une partie)
+```json
+join,{"userId": "p_61994e35a6005", "username": "Bernard"}
+```
+
+<br>
 
 <details>
 <summary><h2>Endpoints relatifs au Websocket</h2></summary>
@@ -62,7 +67,8 @@ Contenu :
 > **Commentaires :** `turnToken` à ajouter pour la permission de jouer.
 
 </details>
-<hr>
+
+<br>
 
 <details>
 <summary><h2>Endpoints relatifs au RESTful</h2></summary>
