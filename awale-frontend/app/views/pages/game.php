@@ -1,4 +1,4 @@
-<h2>En attente d'un autre joueur… / En jeu</h2>
+<h2 id="state"></h2>
 <br>
 <div class="board">
   <div class="ennemy row">
@@ -19,4 +19,4 @@
   </div>
 </div>
 
-<script type="module" src="assets/scripts/game.js"></script>
+<script type="module" src="assets/scripts/app.js"></script>
