@@ -22,7 +22,7 @@ public class AwaleDto extends Awale implements Runnable {
                 state = IN_GAME;
         }
 
-        while (board.canPlay(player1.getSide()) || board.canPlay(player2.getSide())) {
+        while (!state.equals(END_GAME)) {
             // TODO: Implémenter un système de tours entre les joueurs
         }
 
