@@ -15,6 +15,14 @@
 	</properties>
 
 	<dependencies>
+		<!-- Framework Spring -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+			<version>2.5.6</version>
+		</dependency>
+
+		<!-- Des couleurs dans le terminal :o -->
 		<dependency>
 			<groupId>com.diogonunes</groupId>
 			<artifactId>JColor</artifactId>

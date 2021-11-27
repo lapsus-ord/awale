@@ -1,8 +1,10 @@
 package fr.solo.awale;
 
 import com.diogonunes.jcolor.Attribute;
-import fr.solo.awale.player.AbstractPlayer;
-import fr.solo.awale.player.Player;
+import fr.solo.awale.logic.Awale;
+import fr.solo.awale.logic.Side;
+import fr.solo.awale.logic.player.AbstractPlayer;
+import fr.solo.awale.logic.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

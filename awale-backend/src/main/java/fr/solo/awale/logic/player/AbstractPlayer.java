@@ -1,9 +1,9 @@
-package fr.solo.awale.player;
+package fr.solo.awale.logic.player;
 
 import com.diogonunes.jcolor.Attribute;
-import fr.solo.awale.Awale;
-import fr.solo.awale.Board;
-import fr.solo.awale.Side;
+import fr.solo.awale.logic.Awale;
+import fr.solo.awale.logic.Board;
+import fr.solo.awale.logic.Side;
 
 import static com.diogonunes.jcolor.Ansi.colorize;
 

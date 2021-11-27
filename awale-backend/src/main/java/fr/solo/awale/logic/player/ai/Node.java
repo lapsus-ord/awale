@@ -1,15 +1,15 @@
-package fr.solo.awale.player.ai;
+package fr.solo.awale.logic.player.ai;
 
-import fr.solo.awale.Awale;
-import fr.solo.awale.Side;
+import fr.solo.awale.logic.Awale;
+import fr.solo.awale.logic.Side;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import static fr.solo.awale.Side.BOTTOM;
-import static fr.solo.awale.Side.TOP;
+import static fr.solo.awale.logic.Side.BOTTOM;
+import static fr.solo.awale.logic.Side.TOP;
 
 public class Node {
     private Awale game;
@@ -77,7 +77,7 @@ public class Node {
      */
     public int findBestHole() {
         // DEBUG : Affichage de l'état des evals des enfants du nœud
-        children.forEach(child -> System.out.println("Trou n°" + (child.getHolePlayed() + 1) + " eval = " + child.eval()));
+        //children.forEach(child -> System.out.println("Trou n°" + (child.getHolePlayed() + 1) + " eval = " + child.eval()));
 
         return children.stream()
                 .max(Comparator.comparingInt(Node::eval))

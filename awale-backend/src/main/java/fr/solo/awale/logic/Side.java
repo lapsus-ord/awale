@@ -1,4 +1,4 @@
-package fr.solo.awale;
+package fr.solo.awale.logic;
 
 public enum Side {
 	TOP,
