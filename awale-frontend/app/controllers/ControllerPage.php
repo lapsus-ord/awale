@@ -14,6 +14,18 @@ class ControllerPage {
     require_once File::getApp(array("views", "view.php"));
   }
 
+  public static function result(): void {
+    $page_title = "Résultats";
+    $view = "result";
+    require_once File::getApp(array("views", "view.php"));
+  }
+
+  public static function difficulty(): void {
+    $page_title = "Résultats";
+    $view = "difficulty";
+    require_once File::getApp(array("views", "view.php"));
+  }
+
   public static function error(): void {
     $page_title = "Erreur";
     $view = "404";
