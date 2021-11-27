@@ -1,24 +1,17 @@
 package fr.solo.awale.server.handlers.commands;
 
-import com.fasterxml.jackson.core.JsonParser;
-import fr.solo.awale.server.handlers.Command;
-import fr.solo.awale.server.services.GameService;
+import java.util.Map;
 
 public class Join extends Command {
 
-    private String user_id;
-    private String username;
-
-    public Join(String ui, String u){
-        this.user_id = ui;
-        this.username = u;
-        super();
-    }
-
     @Override
-    public void execute(GameService game, JsonParser jsonParser, String payload) {
-        user_id = (String) jsonParser.parseMap(command[1]).get("userId");
-        username = (String) jsonParser.parseMap(command[1]).get("username");
-        game.addPlayer(user_id, username);
+    public boolean execute(String payload) {
+        Map<String, Object> jsonMap = jsonParser.parseMap(payload);
+        if (!(jsonMap.containsKey("userId") && jsonMap.containsKey("username")))
+            return false;
+        String userId = jsonMap.get("userId").toString();
+        String username = jsonMap.get("username").toString();
+        return gameService.addPlayer(userId, username);
     }
+
 }
