@@ -7,6 +7,7 @@ import fr.solo.awale.logic.player.ai.SmartAI;
 
 import static com.diogonunes.jcolor.Attribute.TEXT_COLOR;
 
+
 public class AppTerminal {
     public static void main(String[] args) {
         AbstractPlayer p1 = new Player("Bernard", TEXT_COLOR(42, 157, 143));

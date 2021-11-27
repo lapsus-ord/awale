@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import fr.solo.awale.server.handlers.Command;
 import fr.solo.awale.server.services.GameService;
 
-public class Join implements Command {
+public class Join extends Command {
 
     private String user_id;
     private String username;
@@ -12,6 +12,7 @@ public class Join implements Command {
     public Join(String ui, String u){
         this.user_id = ui;
         this.username = u;
+        super();
     }
 
     @Override
