@@ -16,10 +16,11 @@ L'objectif de ce projet est de programmer ce jeu. Le projet consiste à  program
 
 
 # II - Techonologies utilisées pendant le projet :
-- **Backend :** Java (Spring/Javax-Websocket)\
-- **Frontend :** HTML/CSS, JavaScript (JQuery)\
+- **Backend :** Java (Spring Boot)\
+- **Frontend :** PHP, JavaScript\
 - **Logiciel utilisé pour l'UML :** StarUML
 
+[Détail sur les endpoints du serveur](./endpoints.md)
 
 # III - Collaborateurs
 - [Axelle Donot](https://github.com/Axelle-Donot)

@@ -1,7 +1,3 @@
-<?PHP
-header('Access-Control-Allow-Origin: *');
-?>
-
 <a href="?action=home">
     <img class="home-button-top" src="assets/img/icons/maison-web.png" alt="home">
     <script>
@@ -40,26 +36,26 @@ header('Access-Control-Allow-Origin: *');
     </div>
 </div>
 
-<script src="assets/scripts/settings.js" async></script>
-
-<h2>En attente d'un autre joueur… / En jeu</h2>
+<h2 id="state"></h2>
 <br>
 <div class="board">
-  <div class="ennemy row">
-    <div class="cell-0 a">4</div>
-    <div class="cell-1">4</div>
-    <div class="cell-2">4</div>
-    <div class="cell-3">4</div>
-    <div class="cell-4">4</div>
-    <div class="cell-5">4</div>
+  <div class="player1 row">
+    <div class="user"><span class="username">Default</span> (<span class="score">0</span>)</div>
+    <div class="cell 0">4</div>
+    <div class="cell 1">4</div>
+    <div class="cell 2">4</div>
+    <div class="cell 3">4</div>
+    <div class="cell 4">4</div>
+    <div class="cell 5">4</div>
   </div>
-  <div class="user row">
-    <div class="cell-0">4</div>
-    <div class="cell-1">4</div>
-    <div class="cell-2">4</div>
-    <div class="cell-3">4</div>
-    <div class="cell-4">4</div>
-    <div class="cell-5">4</div>
+  <div class="player2 row">
+    <div class="user"><span class="username">Default</span> (<span class="score">0</span>)</div>
+    <div class="cell 0">4</div>
+    <div class="cell 1">4</div>
+    <div class="cell 2">4</div>
+    <div class="cell 3">4</div>
+    <div class="cell 4">4</div>
+    <div class="cell 5">4</div>
   </div>
 </div>
 <br>
@@ -72,8 +68,5 @@ header('Access-Control-Allow-Origin: *');
     <img class="help-button" src="assets/img/icons/question.png" alt="Règles du jeu">
 </a>
 
-<script type="module" src="assets/scripts/sockjs.min.js"></script>
-<script type="module" src="assets/scripts/stomp.min.js">
-  <script type="module" src="assets/scripts/stomp.min.js.map"></script>
-</script>
-<script type="module" src="assets/scripts/game.js"></script>
+<script type="module" src="assets/scripts/app.js"></script>
+<script src="assets/scripts/settings.js" async></script>

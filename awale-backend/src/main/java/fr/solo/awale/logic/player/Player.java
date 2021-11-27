@@ -8,6 +8,10 @@ import static com.diogonunes.jcolor.Ansi.colorize;
 
 public class Player extends AbstractPlayer {
 
+    public Player(String username) {
+        super(username);
+    }
+
     public Player(String username, Attribute colorPlayer) {
         super(username, colorPlayer);
     }

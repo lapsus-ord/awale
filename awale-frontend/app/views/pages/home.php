@@ -42,8 +42,13 @@
   <h2>Modes de jeu&nbsp;:</h2>
   <div class="separation-line"></div>
   <div class="buttons-box">
+<<<<<<< awale-frontend/app/views/pages/home.php
     <a href="?action=difficulty" class="default-button">Bot</a>
     <a href="?action=game" class="default-button">Joueur</a>
+=======
+    <a href="?action=play" class="default-button" id="bot-button">Bot</a>
+    <a href="?action=play" class="default-button" id="player-button">Joueur</a>
+>>>>>>> awale-frontend/app/views/pages/home.php
   </div>
 </div>
 
