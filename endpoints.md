@@ -66,6 +66,17 @@ Contenu :
 ```
 > **Commentaires :** `turnToken` à ajouter pour la permission de jouer.
 
+### Message d'erreur
+
+Commande : `error`\
+Contenu :
+```json
+{
+    "type": "<type de l'erreur>",
+    "msg": "<message d'erreur>"
+}
+```
+
 </details>
 
 <br>
