@@ -168,6 +168,10 @@ public class Awale {
         return (side.equals(Side.TOP) ? player1 : player2);
     }
 
+    public boolean hasTwoPlayers() {
+        return player1 != null && player2 != null;
+    }
+
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();

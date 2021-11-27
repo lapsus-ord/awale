@@ -1,13 +1,13 @@
-package fr.solo.awale.server.dtos;
+package fr.solo.awale.server.models;
 
 import fr.solo.awale.logic.Awale;
 import fr.solo.awale.logic.player.AbstractPlayer;
 
 import java.util.StringJoiner;
 
-import static fr.solo.awale.server.dtos.AwaleDto.Gamestate.*;
+import static fr.solo.awale.server.models.AwaleWeb.Gamestate.*;
 
-public class AwaleDto extends Awale implements Runnable {
+public class AwaleWeb extends Awale implements Runnable {
     private Gamestate state;
 
     enum Gamestate {

@@ -2,19 +2,17 @@ package fr.solo.awale.server.services;
 
 import fr.solo.awale.logic.player.AbstractPlayer;
 import fr.solo.awale.logic.player.Player;
-import fr.solo.awale.server.dtos.AwaleDto;
+import fr.solo.awale.server.models.AwaleWeb;
 
 import java.util.HashMap;
 
-import static com.diogonunes.jcolor.Ansi.colorize;
-
 public class GameService {
     private static GameService instance;
-    private AwaleDto game;
+    private AwaleWeb game;
     private HashMap<String, AbstractPlayer> players;
 
     public GameService() {
-        game = new AwaleDto();
+        game = new AwaleWeb();
         new Thread(game).start();
         players = new HashMap<>(2);
     }
@@ -26,17 +24,21 @@ public class GameService {
         return instance;
     }
 
-    public void addPlayer(String id, String username) {
+    public boolean addPlayer(String id, String username) {
         if (!players.containsKey(id)) {
             players.put(id, new Player(username));
             players.get(id).joinGame(game);
+            return true;
         } else {
-            System.out.println(colorize("Le joueur a déjà rejoint la partie"));
+            return false;
         }
     }
 
-    public void move(String id, int hole) {
-        players.get(id).play(hole);
+    public boolean move(String id, int hole) {
+        if (game.hasTwoPlayers())
+            return players.get(id).play(hole);
+        else
+            return false; // Le joueur ne peut pas jouer si la partie n'a pas 2 joueurs
     }
 
     @Override
