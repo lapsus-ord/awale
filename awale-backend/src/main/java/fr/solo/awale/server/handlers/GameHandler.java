@@ -22,6 +22,7 @@ public class GameHandler extends TextWebSocketHandler {
     private List<WebSocketSession> players;
     private GameService game;
     private JsonParser jsonParser;
+    private Command command;
 
     public GameHandler() {
         players = new ArrayList<>();
@@ -33,24 +34,8 @@ public class GameHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage msg) {
         String[] command = msg.getPayload().split(",", 2);
         // System.out.println(command[0] + ": " + command[1]);
-        String userId;
-
-        switch (command[0]) {
-            case "join":
-                userId = (String) jsonParser.parseMap(command[1]).get("userId");
-                String username = (String) jsonParser.parseMap(command[1]).get("username");
-                game.addPlayer(userId, username);
-                sendToAll(game.toString());
-                break;
-            case "move":
-                userId = (String) jsonParser.parseMap(command[1]).get("userId");
-                int hole = (int) jsonParser.parseMap(command[1]).get("hole");
-                game.move(userId, hole);
-                sendToAll(game.toString());
-                break;
-            default:
-                System.out.println("Commande inconnue !");
-        }
+        command.execute(game, jsonParser, payload[1]);
+        sendToAll(game.toString());
     }
 
     private void sendToAll(String msg) {
