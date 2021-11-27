@@ -1,6 +1,6 @@
-package fr.solo.awale.player.ai;
+package fr.solo.awale.logic.player.ai;
 
-import fr.solo.awale.player.AbstractPlayer;
+import fr.solo.awale.logic.player.AbstractPlayer;
 
 import java.util.Random;
 

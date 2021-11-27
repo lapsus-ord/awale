@@ -1,4 +1,4 @@
-package fr.solo.awale.player;
+package fr.solo.awale.logic.player;
 
 import com.diogonunes.jcolor.Attribute;
 
@@ -7,6 +7,10 @@ import java.util.Scanner;
 import static com.diogonunes.jcolor.Ansi.colorize;
 
 public class Player extends AbstractPlayer {
+
+    public Player(String username) {
+        super(username);
+    }
 
     public Player(String username, Attribute colorPlayer) {
         super(username, colorPlayer);
