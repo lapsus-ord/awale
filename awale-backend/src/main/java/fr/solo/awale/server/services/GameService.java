@@ -11,7 +11,7 @@ public class GameService {
     private AwaleWeb game;
     private HashMap<String, AbstractPlayer> players;
 
-    public GameService() {
+    private GameService() {
         game = new AwaleWeb();
         new Thread(game).start();
         players = new HashMap<>(2);
