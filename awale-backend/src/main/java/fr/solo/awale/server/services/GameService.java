@@ -1,19 +1,18 @@
 package fr.solo.awale.server.services;
 
+import fr.solo.awale.logic.Awale;
 import fr.solo.awale.logic.player.AbstractPlayer;
 import fr.solo.awale.logic.player.Player;
-import fr.solo.awale.server.models.AwaleWeb;
 
 import java.util.HashMap;
 
 public class GameService {
     private static GameService instance;
-    private AwaleWeb game;
+    private HashMap<String, Awale> games;
     private HashMap<String, AbstractPlayer> players;
 
     private GameService() {
-        game = new AwaleWeb();
-        new Thread(game).start();
+        games = new HashMap<>();
         players = new HashMap<>(2);
     }
 
@@ -24,10 +23,10 @@ public class GameService {
         return instance;
     }
 
-    public boolean addPlayer(String id, String username) {
-        if (!players.containsKey(id)) {
-            players.put(id, new Player(username));
-            players.get(id).joinGame(game);
+    public boolean joinGame(String userId, String username, String gameId) {
+        if (!players.containsKey(userId)) {
+            players.put(userId, new Player(username));
+            players.get(userId).joinGame(/* TODO: remplacer par un jeu créé de la HshMap */);
             return true;
         } else {
             return false;
