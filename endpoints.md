@@ -66,7 +66,7 @@ Contenu :
 ```
 > **Commentaires :** `turnToken` à ajouter pour la permission de jouer.
 
-### Message d'erreur
+### Message d'erreur (S->Cl)
 
 Commande : `error`\
 Contenu :
