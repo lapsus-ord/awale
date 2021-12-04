@@ -4,7 +4,11 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class CommandHistory {
-    private Deque<String> history = new ArrayDeque<>();
+    private Deque<String> history;
+
+    public CommandHistory(){
+        history = new ArrayDeque<>();
+    }
 
     public void push(String str){
         history.push(str);
