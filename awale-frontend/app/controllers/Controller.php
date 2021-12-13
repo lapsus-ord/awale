@@ -1,6 +1,6 @@
 <?php
 
-class ControllerPage {
+class Controller {
 
   public static function home(): void {
     $page_title = "Accueil";
@@ -9,14 +9,10 @@ class ControllerPage {
   }
 
   public static function play(): void {
+    if (!isset($_GET['gameId']))
+      header('Location: ?action=play&gameId=' . uniqid());
     $page_title = "🆚 Joueur";
     $view = "game";
-    require_once File::getApp(array("views", "view.php"));
-  }
-
-  public static function result(): void {
-    $page_title = "Résultats";
-    $view = "result";
     require_once File::getApp(array("views", "view.php"));
   }
 
@@ -26,16 +22,22 @@ class ControllerPage {
     require_once File::getApp(array("views", "view.php"));
   }
 
+  public static function list(): void {
+    $page_title = "Liste des parties";
+    $view = "listOfGames";
+    require_once File::getApp(array("views", "view.php"));
+  }
+
+  public static function result(): void {
+    $page_title = "Résultats";
+    $view = "result";
+    require_once File::getApp(array("views", "view.php"));
+  }
+
   public static function error(): void {
     $page_title = "Erreur";
     $view = "404";
     require_once File::getApp(array("views", "view.php"));
   }
 
-  public static function hasAnUserId() {
-    $_COOKIE["user_id"] ?? setcookie("user_id", uniqid("p_"), time() * 100, "/");
-  }
-
 }
-
-ControllerPage::hasAnUserId();

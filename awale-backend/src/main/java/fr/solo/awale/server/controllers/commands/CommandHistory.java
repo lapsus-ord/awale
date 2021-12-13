@@ -1,4 +1,4 @@
-package fr.solo.awale.server.handlers.commands;
+package fr.solo.awale.server.controllers.commands;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

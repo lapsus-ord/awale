@@ -12,14 +12,14 @@ import static fr.solo.awale.logic.Awale.Gamestate.*;
 import static fr.solo.awale.logic.Side.BOTTOM;
 import static fr.solo.awale.logic.Side.TOP;
 
-public class Awale {
+public class Awale implements Runnable {
     protected Board board;
     protected AbstractPlayer player1;
     protected AbstractPlayer player2;
     protected AbstractPlayer winner;
     protected Gamestate state;
 
-    enum Gamestate {
+    public enum Gamestate {
         PLAYER1_TURN, PLAYER2_TURN, WAITING_GAME, END_GAME
     }
 
@@ -55,6 +55,7 @@ public class Awale {
      * Méthode qui exécute le jeu.<br/>
      * Commence par changer l'état du jeu en {@code PLAYER1_TURN}.
      */
+    @Override
     public void run() {
         while (player1 == null || player2 == null) {
             System.out.println("En attente de joueurs...");
@@ -165,12 +166,20 @@ public class Awale {
         return board;
     }
 
+    public Gamestate getState() {
+        return state;
+    }
+
     public AbstractPlayer getPlayer(Side side) {
         return (side.equals(Side.TOP) ? player1 : player2);
     }
 
     public boolean hasTwoPlayers() {
         return player1 != null && player2 != null;
+    }
+
+    public boolean isPlayerInTheGame(AbstractPlayer player) {
+        return player1 == player || player2 == player;
     }
 
     @Override
@@ -209,13 +218,15 @@ public class Awale {
         return str.toString();
     }
 
-
     /**
      * Le retour de l'état d'une partie :<br>
      * Plus d'explication dans {@code endpoints.md}
+     *
+     * @param id l'id d'une partie
      */
-    public String toJson() {
+    public String toJson(String id) {
         return "{ " +
+                "\"gameId\": \"" + id + "\"," +
                 "\"state\": \"" + state + "\"," +
                 "\"players\": {" +
                 "\"player1\":" + playerToJson(player1) + "," +

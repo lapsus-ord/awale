@@ -7,8 +7,8 @@
       <?php
       require_once File::getApp(array("views", "pages", "$view.php"));
       ?>
-      <script src="assets/scripts/settings.js" async></script>
     </div>
+    <?php require_once File::getApp(array("views", "templates", "toolbar.php")); ?>
     <?php require_once File::getApp(array("views", "templates", "footer.php")); ?>
   </body>
 </html>

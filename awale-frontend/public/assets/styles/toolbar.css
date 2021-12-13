@@ -1,0 +1,86 @@
+aside#toolbar {
+    background-color: #f3b0cf;
+    color: #000;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-around;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    box-shadow: 0 .5rem .5rem rgba(0, 0, 0, .1);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: .3rem 0;
+}
+
+aside#toolbar img {
+    height: 48px;
+}
+
+aside#toolbar .button-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+aside#toolbar .settings {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+}
+
+/* Modal */
+.center {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+#settings-modal {
+    background-color: rgba(250, 159, 27, 1);
+    position: fixed;
+    top: calc(50% - 200px);
+    left: calc(50% - 200px);
+    padding: 1.5rem;
+    width: 300px;
+    border-radius: 8px;
+    z-index: 1;
+}
+
+#settings-modal h2 {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0;
+}
+
+#btnClose {
+    font-size: 30pt;
+    cursor: pointer;
+    color: rgb(26, 26, 26);
+}
+
+#btnClose:hover {
+    font-size: 30pt;
+    cursor: pointer;
+    color: var(--red-cardinal);
+}
+
+.input-settings {
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.settings-title {
+    font-size: 16pt;
+    text-align: center;
+}
+
+.border-settings {
+    border: 2px solid white;
+    padding: 25px;
+}

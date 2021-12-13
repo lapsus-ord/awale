@@ -1,3 +1,32 @@
+// --- Traduction Serveur ---
+export function convertState($state) {
+  if ($state === 'WAITING_GAME')
+    return 'En attente';
+  else if ($state === 'PLAYER1_TURN')
+    return 'Tour du joueur 1';
+  else if ($state === 'PLAYER2_TURN')
+    return 'Tour du joueur 2';
+  else if ($state === 'END_GAME')
+    return 'Partie finie';
+  return 'État inconnu';
+}
+
+export function printPlayer($player) {
+  if ($player === null)
+    return 'vide';
+  return $player.username + ' (' + $player.score + ')';
+}
+
+// --- Transform Request GET header in an indexed array ---
+export function getRequest($key) {
+  let array = [];
+  document.location.search.substr(1).split('&').forEach((el) => {
+    let tmp = el.split('=');
+    array[tmp[0]] = tmp[1];
+  });
+  return array[$key];
+}
+
 // --- Cookies ---
 export function createCookie(name, value, days) {
   let expires = "";

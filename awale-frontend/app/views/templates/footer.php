@@ -1,1 +1,1 @@
-<div class="footer"><span>Awale 0.2</span></div>
+<div class="footer"><span>Awale 0.2.5</span></div>
