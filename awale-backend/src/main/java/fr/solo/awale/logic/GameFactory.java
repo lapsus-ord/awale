@@ -18,10 +18,10 @@ public class GameFactory {
                 new DumbAI("Ougah-net").joinGame(game);
                 break;
             case MEDIUM:
-                new SmartAI("Hisler-net", 2).joinGame(game);
+                new SmartAI("Trombettoni-net", 2).joinGame(game);
                 break;
             case HARD:
-                new SmartAI("Sardoche-net", 4).joinGame(game);
+                new SmartAI("Hisler-net", 4).joinGame(game);
                 break;
             case EXTREME:
                 new SmartAI("Joannides-net", 6).joinGame(game);

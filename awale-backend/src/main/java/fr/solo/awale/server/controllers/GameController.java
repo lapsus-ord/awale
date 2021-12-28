@@ -1,9 +1,6 @@
 package fr.solo.awale.server.controllers;
 
-import fr.solo.awale.server.controllers.commands.CommandManager;
-import fr.solo.awale.server.controllers.commands.Disconnect;
-import fr.solo.awale.server.controllers.commands.Join;
-import fr.solo.awale.server.controllers.commands.Move;
+import fr.solo.awale.server.controllers.commands.*;
 import fr.solo.awale.server.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,6 +33,7 @@ public class GameController extends TextWebSocketHandler {
 
     private void initCommands() {
         manager.setCommand("join", new Join(this));
+        manager.setCommand("join-bot", new JoinBot(this));
         manager.setCommand("move", new Move(this));
         manager.setCommand("disconnect", new Disconnect(this));
     }

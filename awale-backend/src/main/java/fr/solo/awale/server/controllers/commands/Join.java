@@ -14,8 +14,8 @@ public class Join extends Command {
     @Override
     public boolean execute(String payload, WebSocketSession session) {
         // Traitement JSON
-        Map<String, Object> jsonMap = jsonParser.parseMap(payload);
-        if (!(jsonMap.containsKey("userId") && jsonMap.containsKey("username") && jsonMap.containsKey("gameId")))
+        Map<String, Object> jsonMap = getJsonMap(payload);
+        if (isJsonNotValid(payload, "userId", "username", "gameId"))
             return false;
         String userId = jsonMap.get("userId").toString();
         String username = jsonMap.get("username").toString();
@@ -24,7 +24,7 @@ public class Join extends Command {
         controller.getSessions().put(userId, session);
         boolean state = gameService.joinGame(userId, username, gameId);
         // Envoi du résultat au joueur
-        sendToPlayer(userId, gameService.getJsonGame(gameId));
+        sendToPlayer(userId, "update," + gameService.getJsonGame(gameId));
         return state;
     }
 
