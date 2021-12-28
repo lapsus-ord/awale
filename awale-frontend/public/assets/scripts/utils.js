@@ -17,14 +17,24 @@ export function printPlayer($player) {
   return $player.username + ' (' + $player.score + ')';
 }
 
-// --- Transform Request GET header in an indexed array ---
-export function getRequest($key) {
+// --- Renvoi la présence du String en paramètre dans l'url GET ---
+export function isInRequest(str) {
+  let bool = false;
+  window.location.href.split('?')[1].split('&').forEach((el) => {
+    let tmp = el.split('=');
+    if (tmp[0] === str) bool = true;
+  });
+  return bool;
+}
+
+// --- Retourne la valeur de la clé dans l'url GET ---
+export function getRequest(key) {
   let array = [];
-  document.location.search.substr(1).split('&').forEach((el) => {
+  window.location.href.split('?')[1].split('&').forEach((el) => {
     let tmp = el.split('=');
     array[tmp[0]] = tmp[1];
   });
-  return array[$key];
+  return array[key];
 }
 
 // --- Cookies ---

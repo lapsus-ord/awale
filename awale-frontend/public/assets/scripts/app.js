@@ -14,7 +14,7 @@ let gameId = Utils.getRequest('gameId');
 // --- Connexion au WS ---
 ws = new GameWS(url);
 ws.connect(user_id, username, gameId);
-ws.getOnMessage(ev => mappingGameOBJ(JSON.parse(ev.data)));
+ws.getOnMessage('update', (ev) => mappingGameOBJ(JSON.parse(ev)));
 
 // --- Envoi d'un coup ---
 let row = document.querySelectorAll('.cell');
@@ -26,7 +26,7 @@ row.forEach(child => {
 
 // Associe les données de l'objet gameState au HTML
 function mappingGameOBJ(game) {
-  console.log(game);
+  //console.log(game);
   let board = game.gameState ?? [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]];
   let i = 0;
   for (let cell of document.querySelectorAll('.player1>.cell')) {

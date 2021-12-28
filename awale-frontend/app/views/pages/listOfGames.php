@@ -5,7 +5,7 @@
 <div class="main">
   <div class="title" style="display: flex; align-items: center; gap: 100px">
     <h2>Liste des parties :</h2>
-    <a href="?action=play" class="small-button">Créer une partie</a>
+    <a href="?action=play" class="default-button small-button">Créer une partie</a>
   </div>
   <div class="separation-line"></div>
   <div id="list-of-games"></div>

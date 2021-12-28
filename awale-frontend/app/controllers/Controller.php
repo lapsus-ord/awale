@@ -9,15 +9,18 @@ class Controller {
   }
 
   public static function play(): void {
-    if (!isset($_GET['gameId']))
-      header('Location: ?action=play&gameId=' . uniqid());
+    $request = $_SERVER['QUERY_STRING'];
+    if (!isset($_GET['gameId'])) {
+      $request .= '&gameId=' . uniqid();
+      header('Location: ?' . $request);
+    }
     $page_title = "🆚 Joueur";
     $view = "game";
     require_once File::getApp(array("views", "view.php"));
   }
 
   public static function difficulty(): void {
-    $page_title = "Résultats";
+    $page_title = "Difficultés";
     $view = "difficulty";
     require_once File::getApp(array("views", "view.php"));
   }

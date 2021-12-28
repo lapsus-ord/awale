@@ -9,6 +9,16 @@ export function objJoin(userId, username, gameId) {
   };
 }
 
+// Quand un joueur rejoint une partie avec un Bot
+export function objJoinBot(userId, username, gameId, level) {
+  return {
+    userId: userId,
+    username: username,
+    gameId: gameId,
+    level: level
+  };
+}
+
 // Quand un joueur se déconnecte d'une partie
 export function objDisconnect(userId, username, gameId) {
   return {

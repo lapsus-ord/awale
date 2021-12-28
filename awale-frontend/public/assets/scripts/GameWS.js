@@ -1,4 +1,5 @@
-import {objJoin, objMove} from './data.js';
+import {objJoin, objJoinBot, objMove} from './data.js';
+import {getRequest, isInRequest} from "./utils.js";
 
 export class GameWS {
   #ws = null;
@@ -13,7 +14,12 @@ export class GameWS {
     this.#ws.onerror = (() => console.log("Problème de connexion avec le serveur ❌"));
     this.#ws.onopen = (() => {
       console.log("Connexion réussie ✅");
-      this.#join(userId, username, gameId);
+      if (isInRequest('level')) {
+        console.log('ici');
+        this.#joinBotGame(userId, username, gameId, getRequest('level'));
+      } else {
+        this.#join(userId, username, gameId);
+      }
     });
     this.#ws.onclose = (() => {
       this.disconnect()
@@ -31,6 +37,15 @@ export class GameWS {
     if (this.#ws !== null) {
       console.log("JOIN %o: user=%s", this.#ws.url, userId);
       this.#sendToWS("join," + JSON.stringify(objJoin(userId, username, gameId)));
+    } else {
+      alert("Erreur : Vous n'êtes pas connecté au serveur.");
+    }
+  }
+
+  #joinBotGame(userId, username, gameId, level) {
+    if (this.#ws !== null) {
+      console.log("JOIN-BOT %o: user=%s", this.#ws.url, userId);
+      this.#sendToWS("join-bot," + JSON.stringify(objJoinBot(userId, username, gameId, level)));
     } else {
       alert("Erreur : Vous n'êtes pas connecté au serveur.");
     }
@@ -54,7 +69,12 @@ export class GameWS {
     }
   }
 
-  getOnMessage(callback) {
-    this.#ws.onmessage = ((ev => callback(ev)));
+  getOnMessage(type, callback) {
+    this.#ws.onmessage = ((ev) => {
+      let data = ev.data.split(/,(.+)/);
+      if (data[0] === type) {
+        callback(data[1]);
+      }
+    });
   }
 }

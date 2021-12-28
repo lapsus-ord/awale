@@ -81,33 +81,29 @@ h2 {
 }
 
 .default-button {
+    width: 250px;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: 'Roboto', Arial, sans-serif;
     font-size: 30px;
     font-weight: bold;
     background-color: var(--white-transparent);
-    padding: 2rem 5rem;
     cursor: pointer;
     text-align: center;
     text-decoration: none;
     color: var(--white);
     border: none;
-    border-radius: 20px;
+    border-radius: 10px;
     transition: all .3s;
 }
 
 .small-button {
-    font-family: 'Roboto', Arial, sans-serif;
+    width: 175px;
+    height: 50px;
     font-size: 20px;
-    font-weight: bold;
-    background-color: var(--white-transparent);
-    padding: 1rem 1.5rem;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    color: var(--white);
-    border: none;
     border-radius: 5px;
-    transition: all .3s;
 }
 
 .default-button:hover, .small-button:hover, .game-select:hover {
@@ -116,10 +112,6 @@ h2 {
     box-shadow: 0 5px 7px -1px rgba(0, 0, 0, .2),
     0 7px 8px 0 rgba(0, 0, 0, .14),
     0 4px 13px 0 rgba(0, 0, 0, .12);
-}
-
-.bot-button {
-    width: 125px;
 }
 
 
