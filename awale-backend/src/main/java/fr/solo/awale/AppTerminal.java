@@ -16,8 +16,7 @@ public class AppTerminal {
         AbstractPlayer p1 = new Player("Bernard", TEXT_COLOR(42, 157, 143));
         AbstractPlayer p2 = new Player("Michel");
 
-        Awale jeu = new GameFactory().createGameWithAI(p1, AILevel.EASY);
-
-        jeu.run();
+        Awale jeu = new GameFactory().createGame(p1);
+        p2.joinGame(jeu);
     }
 }

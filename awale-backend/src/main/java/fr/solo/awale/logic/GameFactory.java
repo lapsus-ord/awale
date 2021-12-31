@@ -7,6 +7,8 @@ import fr.solo.awale.logic.player.ai.SmartAI;
 public class GameFactory {
     public Awale createGame(AbstractPlayer player) {
         Awale game = new Awale();
+        Thread gameThread = new Thread(game);
+        gameThread.start();
         player.joinGame(game);
         return game;
     }

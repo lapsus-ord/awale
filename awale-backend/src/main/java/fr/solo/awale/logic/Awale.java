@@ -58,12 +58,6 @@ public class Awale implements Runnable {
     @Override
     public void run() {
         while (player1 == null || player2 == null) {
-            System.out.println("En attente de joueurs...");
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
         state = PLAYER1_TURN;
         System.out.println(this);
