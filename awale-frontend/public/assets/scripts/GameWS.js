@@ -1,4 +1,4 @@
-import {objJoin, objJoinBot, objMove} from './data.js';
+import {objDisconnect, objJoin, objJoinBot, objMove} from './data.js';
 import {getRequest, isInRequest} from "./utils.js";
 
 export class GameWS {
@@ -11,24 +11,22 @@ export class GameWS {
   connect(userId, username, gameId) {
     console.log("CONNECT %o", this.#ws.url);
 
-    this.#ws.onerror = (() => console.log("Problème de connexion avec le serveur ❌"));
+    this.#ws.onerror = (() => alert("Problème de connexion avec le serveur ❌"));
     this.#ws.onopen = (() => {
       console.log("Connexion réussie ✅");
       if (isInRequest('level')) {
-        console.log('ici');
         this.#joinBotGame(userId, username, gameId, getRequest('level'));
       } else {
         this.#join(userId, username, gameId);
       }
     });
-    this.#ws.onclose = (() => {
-      this.disconnect()
-    });
+    this.#ws.onclose = (() => console.log("Vous n'êtes plus connectés au serveur ❌"));
   }
 
-  disconnect() {
-    console.log("DISCONNECT %o", this.#ws.url);
+  disconnect(userId, gameId) {
     if (this.#ws !== null) {
+      console.log("DISCONNECT %o", this.#ws.url);
+      this.#sendToWS("disconnect," + JSON.stringify(objDisconnect(userId, gameId)));
       this.#ws.close();
     }
   }
@@ -69,11 +67,13 @@ export class GameWS {
     }
   }
 
-  getOnMessage(type, callback) {
+  getOnMessage(callback) {
     this.#ws.onmessage = ((ev) => {
       let data = ev.data.split(/,(.+)/);
-      if (data[0] === type) {
+      if (data[0] === 'update') {
         callback(data[1]);
+      } else if (data[0] === 'error') {
+        alert('Erreur : ' + data[1]);
       }
     });
   }

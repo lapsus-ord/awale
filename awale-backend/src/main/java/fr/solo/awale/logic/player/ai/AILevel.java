@@ -1,9 +1,7 @@
-package fr.solo.awale.logic;
+package fr.solo.awale.logic.player.ai;
 
 
 import java.util.Arrays;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 public enum AILevel {
 	EASY("easy"),

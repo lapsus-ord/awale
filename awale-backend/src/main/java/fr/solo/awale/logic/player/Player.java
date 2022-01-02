@@ -33,7 +33,7 @@ public class Player extends AbstractPlayer {
         do {
             System.out.print("-> Quel trou jouez-vous ? n°[1, 6] : ");
             holeNumber = sc.nextInt() - 1;
-            hasPlayed = play(holeNumber);
+            hasPlayed = game.playerPlayHisTurn(this, holeNumber);
         } while (!hasPlayed);
     }
 

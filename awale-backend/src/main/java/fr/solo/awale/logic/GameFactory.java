@@ -1,6 +1,7 @@
 package fr.solo.awale.logic;
 
 import fr.solo.awale.logic.player.AbstractPlayer;
+import fr.solo.awale.logic.player.ai.AILevel;
 import fr.solo.awale.logic.player.ai.DumbAI;
 import fr.solo.awale.logic.player.ai.SmartAI;
 

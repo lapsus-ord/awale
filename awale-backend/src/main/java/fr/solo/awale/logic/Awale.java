@@ -58,29 +58,13 @@ public class Awale implements Runnable {
     @Override
     public void run() {
         while (player1 == null || player2 == null) {
+            // Le jeu est en attente tant qu'il n'y a pas 2 joueurs
         }
-        state = PLAYER1_TURN;
-        System.out.println(this);
+        switchState();
+        //System.out.println(this);
 
-        // Le jeu tourne tant que l'état du jeu n'est pas END_GAME
         while (!state.equals(END_GAME)) {
-            if (state.equals(PLAYER1_TURN)) {
-                if (!board.canPlay(player1.getSide())) { // Stop le jeu si le joueur 1 ne peut plus jouer
-                    state = END_GAME;
-                    break;
-                }
-                player1.choose();
-                System.out.println(this);
-                state = PLAYER2_TURN;
-            } else {
-                if (!board.canPlay(player2.getSide())) { // Stop le jeu si le joueur 2 ne peut plus jouer
-                    state = END_GAME;
-                    break;
-                }
-                player2.choose();
-                System.out.println(this);
-                state = PLAYER1_TURN;
-            }
+            // Le jeu tourne tant que l'état du jeu n'est pas END_GAME
         }
 
         seedDistribution();
@@ -94,7 +78,7 @@ public class Awale implements Runnable {
      *
      * @see Awale#run()
      */
-    protected void seedDistribution() {
+    private void seedDistribution() {
         player1.addPoints(board.getSeedInRow(player1.getSide()));
         player2.addPoints(board.getSeedInRow(player2.getSide()));
         Arrays.fill(board.getCells()[0], 0);
@@ -106,7 +90,7 @@ public class Awale implements Runnable {
      * Ou {@code null} si le jeu finit en égalité.
      * @see Awale#run()
      */
-    protected AbstractPlayer checkWinner() {
+    private AbstractPlayer checkWinner() {
         if (player1.getScore() == player2.getScore())
             return null;
         return player1.getScore() > player2.getScore() ? player1 : player2;
@@ -126,9 +110,9 @@ public class Awale implements Runnable {
     }
 
     /**
-     * Ajoute un joueur à une partie.
+     * Ajoute un joueur à une partie
      *
-     * @param p Le joueur à ajouter.
+     * @param p Le joueur à ajouter
      */
     public void addPlayer(AbstractPlayer p) {
         if (player1 == null) {
@@ -152,6 +136,49 @@ public class Awale implements Runnable {
                     "Le jeu se termine sur une égalité !!! 👏", Attribute.BRIGHT_BLUE_TEXT()));
         }
         System.out.println(this);
+    }
+
+    /**
+     * Méthode que le joueur appelle pour dire qu'il joue
+     *
+     * @param player Le joueur qui joue
+     * @param hole   Le trou à jouer
+     */
+    public boolean playerPlayHisTurn(AbstractPlayer player, int hole) {
+        //System.out.println(this);
+        boolean hasPlayed = false;
+        if (player.equals(player1) && state.equals(PLAYER1_TURN)) {
+            hasPlayed = player.play(hole);
+            switchState();
+        } else if (player.equals(player2) && state.equals(PLAYER2_TURN)) {
+            hasPlayed = player.play(hole);
+            switchState();
+        }
+        return hasPlayed;
+    }
+
+    /**
+     * Méthode à appeler quand un joueur joue son coup (ou timeout)
+     */
+    public void switchState() {
+        if (state.equals(WAITING_GAME)) {
+            state = PLAYER1_TURN;
+        } else if(state.equals(PLAYER1_TURN) && board.canPlay(player2.getSide())) {
+            state = PLAYER2_TURN;
+        } else if (state.equals(PLAYER2_TURN) && board.canPlay(player1.getSide())) {
+            state = PLAYER1_TURN;
+        } else {
+            finishGame();
+        }
+    }
+
+    /**
+     * Méthode à appeler quand on finit le jeu (non-normalement)
+     */
+    public void finishGame() {
+        if (!state.equals(WAITING_GAME)) {
+            state = END_GAME;
+        }
     }
 
     // --- GETTERS ---

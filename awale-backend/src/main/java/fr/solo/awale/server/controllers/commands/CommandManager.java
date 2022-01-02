@@ -23,7 +23,7 @@ public class CommandManager {
             if (!commands.get(command).execute(payload, session))
                 System.out.println("Erreur dans la commande " + command);
             else
-                history.push(command);
+                history.push(command + ":\n\t" + payload);
         } else {
             System.out.println("La commande n'existe pas.");
         }

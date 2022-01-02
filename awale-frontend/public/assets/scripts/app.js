@@ -6,15 +6,20 @@ let req1 = await fetch('?action=userid&controller=user');
 let req2 = await fetch('?action=username&controller=user');
 let user_id = await req1.text();
 let username = await req2.text();
+let gameId = Utils.getRequest('gameId');
 // url: ws://webinfo.iutmontp.univ-montp2.fr:${port}/endpoint
 let url = `ws://localhost:${63221}/play`;
 let ws = null;
-let gameId = Utils.getRequest('gameId');
 
 // --- Connexion au WS ---
 ws = new GameWS(url);
 ws.connect(user_id, username, gameId);
-ws.getOnMessage('update', (ev) => mappingGameOBJ(JSON.parse(ev)));
+ws.getOnMessage((ev) => mappingGameOBJ(JSON.parse(ev)));
+
+// --- Deconnexion de la partie ---
+window.addEventListener('beforeunload', (ev) => {
+  ws.disconnect(user_id, gameId);
+});
 
 // --- Envoi d'un coup ---
 let row = document.querySelectorAll('.cell');

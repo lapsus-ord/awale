@@ -49,8 +49,10 @@ public abstract class AbstractPlayer {
      * @param game Le jeu à rejoindre.
      */
     public void joinGame(Awale game) {
-        this.game = game;
-        game.addPlayer(this);
+        if (!game.hasTwoPlayers()) {
+            this.game = game;
+            game.addPlayer(this);
+        }
     }
 
     /**

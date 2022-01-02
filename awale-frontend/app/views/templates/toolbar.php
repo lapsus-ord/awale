@@ -2,13 +2,6 @@
   <div class="button-group">
     <a href="?action=home">
       <img class="home-button-top" src="assets/img/icons/maison-web.png" alt="home">
-      <?php if ($view == 'game') { ?>
-        <script>
-          window.onbeforeunload = function confirmation() {
-            return 'Voulez-vous bien quitter la partie ?';
-          };
-        </script>
-      <?php } ?>
     </a>
     <?php if ($view == 'home') { ?>
       <form action="?action=upd_username&controller=user" method="post">

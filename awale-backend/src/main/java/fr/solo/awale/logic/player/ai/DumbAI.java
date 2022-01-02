@@ -34,7 +34,7 @@ public class DumbAI extends AbstractPlayer {
             }
             holeNumber = findPlayableHole(); // On cherche le meilleur trou à jouer
             System.out.println(colorize(holeNumber + 1 + "", GREEN_TEXT()));
-            hasPlayed = play(holeNumber);
+            hasPlayed = game.playerPlayHisTurn(this, holeNumber);
         } while (!hasPlayed);
     }
 

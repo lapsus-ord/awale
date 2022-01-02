@@ -20,7 +20,7 @@ export function objJoinBot(userId, username, gameId, level) {
 }
 
 // Quand un joueur se déconnecte d'une partie
-export function objDisconnect(userId, username, gameId) {
+export function objDisconnect(userId, gameId) {
   return {
     userId: userId,
     gameId: gameId
