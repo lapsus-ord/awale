@@ -4,25 +4,39 @@ Ce dépôt contient les sources du projet tutoré de Semestre 3 de DUT Informati
 	<h3 align="center">PROJET TUTORE AWALE SEMESTRE 3</h3>
 </div>
 
-__Liens utiles :__
+## I - Déploiement
+### Prérequis
+- Git
+- Docker (+ Docker-compose)
+### Installation
+Suivez ces étapes pour installer le jeu en local :
+
+```bash
+git clone <lien vers le projet>
+cd <dossier du projet>
+docker-compose up -d
+```
+
+Vous pouvez maintenant y accéder ici : [localhost:8080](http://localhost:8080/)
+
+
+## II - Liens utiles :
 - [Figma](https://www.figma.com/file/pyTTMuml1PO94WtGyTJgAL/Maquettes-Projet-Awale)
 - [Règles du jeu](https://www.regledujeu.fr/awale/)
 - [Drive](https://drive.google.com/drive/folders/18rMv5KNO7wRO3HeaSvigYY_hORL9EPtb)
 
-
-# I - Objectif :
+## III - Objectif :
 L'Awalé est un est un jeu de société combinatoire abstrait créé en Afrique qui se joue à deux joueurs. Le but du jeu est d'avoir récupéré le plus de graines à la fin de la partie.\
 L'objectif de ce projet est de programmer ce jeu. Le projet consiste à  programmer une interface (web) permettant à  deux joueurs de jouer ensemble (respect des règles détection de victoire d'un des deux joueurs).
 
-
-# II - Techonologies utilisées pendant le projet :
+## IV - Techonologies utilisées pendant le projet :
 - **Backend :** Java (Spring Boot)\
 - **Frontend :** PHP, JavaScript\
 - **Logiciel utilisé pour l'UML :** StarUML
 
 [Détail sur les endpoints du serveur](./endpoints.md)
 
-# III - Collaborateurs
+## V - Collaborateurs
 - [Axelle Donot](https://github.com/Axelle-Donot)
 - [Inès Garcia](https://github.com/Ines-Garcia)
 - [Matéo Fernandez](https://github.com/mateo-fernandez)
