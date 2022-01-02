@@ -11,7 +11,7 @@ Ce dépôt contient les sources du projet tutoré de Semestre 3 de DUT Informati
 ### Installation
 Suivez ces étapes pour installer le jeu en local :
 
-```bash
+```
 git clone <lien vers le projet>
 cd <dossier du projet>
 docker-compose up -d
