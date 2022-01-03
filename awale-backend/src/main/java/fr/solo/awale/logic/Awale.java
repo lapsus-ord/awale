@@ -4,6 +4,7 @@ import com.diogonunes.jcolor.Attribute;
 import fr.solo.awale.logic.player.AbstractPlayer;
 
 import java.util.Arrays;
+import java.util.StringJoiner;
 
 import static com.diogonunes.jcolor.Ansi.colorize;
 import static com.diogonunes.jcolor.Attribute.RED_TEXT;
@@ -11,14 +12,14 @@ import static fr.solo.awale.logic.Awale.Gamestate.*;
 import static fr.solo.awale.logic.Side.BOTTOM;
 import static fr.solo.awale.logic.Side.TOP;
 
-public class Awale {
+public class Awale implements Runnable {
     protected Board board;
     protected AbstractPlayer player1;
     protected AbstractPlayer player2;
     protected AbstractPlayer winner;
     protected Gamestate state;
 
-    enum Gamestate {
+    public enum Gamestate {
         PLAYER1_TURN, PLAYER2_TURN, WAITING_GAME, END_GAME
     }
 
@@ -54,43 +55,25 @@ public class Awale {
      * Méthode qui exécute le jeu.<br/>
      * Commence par changer l'état du jeu en {@code PLAYER1_TURN}.
      */
+    @Override
     public void run() {
         while (player1 == null || player2 == null) {
-            System.out.println("En attente de joueurs...");
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            // Le jeu est en attente tant qu'il n'y a pas 2 joueurs
         }
         state = PLAYER1_TURN;
-        System.out.println(this);
+        //System.out.println(this);
 
         // Le jeu tourne tant que l'état du jeu n'est pas END_GAME
         while (!state.equals(END_GAME)) {
             if (state.equals(PLAYER1_TURN)) {
-                if (!board.canPlay(player1.getSide())) { // Stop le jeu si le joueur 1 ne peut plus jouer
-                    state = END_GAME;
-                    break;
-                }
                 player1.choose();
-                System.out.println(this);
-                state = PLAYER2_TURN;
-            } else {
-                if (!board.canPlay(player2.getSide())) { // Stop le jeu si le joueur 2 ne peut plus jouer
-                    state = END_GAME;
-                    break;
-                }
+            } else if (state.equals(PLAYER2_TURN)) {
                 player2.choose();
-                System.out.println(this);
-                state = PLAYER1_TURN;
             }
         }
 
         seedDistribution();
         winner = checkWinner();
-
-        printWinner();
     }
 
     /**
@@ -98,7 +81,7 @@ public class Awale {
      *
      * @see Awale#run()
      */
-    protected void seedDistribution() {
+    private void seedDistribution() {
         player1.addPoints(board.getSeedInRow(player1.getSide()));
         player2.addPoints(board.getSeedInRow(player2.getSide()));
         Arrays.fill(board.getCells()[0], 0);
@@ -110,7 +93,7 @@ public class Awale {
      * Ou {@code null} si le jeu finit en égalité.
      * @see Awale#run()
      */
-    protected AbstractPlayer checkWinner() {
+    private AbstractPlayer checkWinner() {
         if (player1.getScore() == player2.getScore())
             return null;
         return player1.getScore() > player2.getScore() ? player1 : player2;
@@ -130,9 +113,9 @@ public class Awale {
     }
 
     /**
-     * Ajoute un joueur à une partie.
+     * Ajoute un joueur à une partie
      *
-     * @param p Le joueur à ajouter.
+     * @param p Le joueur à ajouter
      */
     public void addPlayer(AbstractPlayer p) {
         if (player1 == null) {
@@ -145,17 +128,46 @@ public class Awale {
     }
 
     /**
-     * Affiche sur la console le gagnant du jeu
+     * Méthode que le joueur appelle pour dire qu'il joue
+     *
+     * @param player Le joueur qui joue
+     * @param hole   Le trou à jouer
      */
-    private void printWinner() {
-        if (winner != null) {
-            System.out.println(colorize("\nLe gagnant est " + winner.getUsername() + " avec " + winner.getScore() + " points !!!",
-                    Attribute.BRIGHT_MAGENTA_TEXT()));
-        } else {
-            System.out.println(colorize("\nBravo aux deux joueurs " + player1.getUsername() + " et " + player2.getUsername() + " !\n" +
-                    "Le jeu se termine sur une égalité !!! 👏", Attribute.BRIGHT_BLUE_TEXT()));
+    public boolean playerPlayHisTurn(AbstractPlayer player, int hole) {
+        //System.out.println(this);
+        boolean hasPlayed = false;
+        if (player.equals(player1) && state.equals(PLAYER1_TURN)) {
+            hasPlayed = player.play(hole);
+            switchState();
+        } else if (player.equals(player2) && state.equals(PLAYER2_TURN)) {
+            hasPlayed = player.play(hole);
+            switchState();
         }
-        System.out.println(this);
+        return hasPlayed;
+    }
+
+    /**
+     * Méthode à appeler quand un joueur joue son coup (ou timeout)
+     */
+    public void switchState() {
+        if (state.equals(WAITING_GAME)) {
+            state = PLAYER1_TURN;
+        } else if (state.equals(PLAYER1_TURN) && board.canPlay(player1.getSide())) {
+            state = PLAYER2_TURN;
+        } else if (state.equals(PLAYER2_TURN) && board.canPlay(player2.getSide())) {
+            state = PLAYER1_TURN;
+        } else {
+            finishGame();
+        }
+    }
+
+    /**
+     * Méthode à appeler quand on finit le jeu (non-normalement)
+     */
+    private void finishGame() {
+        if (!state.equals(WAITING_GAME)) {
+            state = END_GAME;
+        }
     }
 
     // --- GETTERS ---
@@ -164,12 +176,32 @@ public class Awale {
         return board;
     }
 
+    public Gamestate getState() {
+        return state;
+    }
+
     public AbstractPlayer getPlayer(Side side) {
         return (side.equals(Side.TOP) ? player1 : player2);
     }
 
+    public String printWinnerToJson() {
+        String result = winner == null ? "draw" : winner.getUsername();
+        return "{ " +
+                "\"result\": \"" + result + "\"," +
+                "\"players\": {" +
+                "\"player1\": " + playerToJson(player1) + "," +
+                "\"player2\": " + playerToJson(player2) +
+                "}" +
+                " }";
+    }
+
     public boolean hasTwoPlayers() {
         return player1 != null && player2 != null;
+    }
+
+    public void setPlayer2(AbstractPlayer player2) {
+        this.player2 = player2;
+        player2.setSide(Side.BOTTOM);
     }
 
     @Override
@@ -206,5 +238,45 @@ public class Awale {
         str.append("╰———————————————————————————╯");
 
         return str.toString();
+    }
+
+    /**
+     * Le retour de l'état d'une partie :<br>
+     * Plus d'explication dans {@code endpoints.md}
+     *
+     * @param id l'id d'une partie
+     */
+    public String toJson(String id) {
+        return "{ " +
+                "\"gameId\": \"" + id + "\"," +
+                "\"state\": \"" + state + "\"," +
+                "\"players\": {" +
+                "\"player1\": " + playerToJson(player1) + "," +
+                "\"player2\": " + playerToJson(player2) +
+                "}," +
+                "\"gameState\":" + boardToJson(board.getCells()) +
+                " }";
+    }
+
+    private String playerToJson(AbstractPlayer player) {
+        if (player == null) {
+            return "null";
+        }
+        StringJoiner json = new StringJoiner(",", "{", "}");
+        json.add("\"username\":\"" + player.getUsername() + "\"");
+        json.add("\"score\":" + player.getScore());
+        return json.toString();
+    }
+
+    private String boardToJson(int[][] board) {
+        StringJoiner boardState = new StringJoiner(",", "[", "]");
+        for (int[] row : board) {
+            StringJoiner rowState = new StringJoiner(",", "[", "]");
+            for (int j : row) {
+                rowState.add(j + "");
+            }
+            boardState.add(rowState.toString());
+        }
+        return boardState.toString();
     }
 }

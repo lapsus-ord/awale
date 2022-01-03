@@ -1,3 +1,42 @@
+// --- Traduction Serveur ---
+export function convertState(state) {
+  if (state === 'WAITING_GAME')
+    return 'En attente';
+  else if (state === 'PLAYER1_TURN')
+    return 'Tour du joueur 1';
+  else if (state === 'PLAYER2_TURN')
+    return 'Tour du joueur 2';
+  else if (state === 'END_GAME')
+    return 'Partie finie';
+  return 'État inconnu';
+}
+
+export function getPlayerInfos(player) {
+  if (player === null)
+    return ['vide', 0];
+  return [player.username, player.score];
+}
+
+// --- Renvoi la présence du String en paramètre dans l'url GET ---
+export function isInRequest(str) {
+  let bool = false;
+  window.location.href.split('?')[1].split('&').forEach((el) => {
+    let tmp = el.split('=');
+    if (tmp[0] === str) bool = true;
+  });
+  return bool;
+}
+
+// --- Retourne la valeur de la clé dans l'url GET ---
+export function getRequest(key) {
+  let array = [];
+  window.location.href.split('?')[1].split('&').forEach((el) => {
+    let tmp = el.split('=');
+    array[tmp[0]] = tmp[1];
+  });
+  return array[key];
+}
+
 // --- Cookies ---
 export function createCookie(name, value, days) {
   let expires = "";

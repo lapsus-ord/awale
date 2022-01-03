@@ -4,8 +4,27 @@
   gap: 1rem;
 }
 
-/* Les lignes */
+.endGameBtn {
+  text-align: center;
+  font-weight: bold;
+  color: #000;
+  text-decoration: none;
+  background-color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  position: absolute;
+  bottom: 15rem;
+  align-self: center;
+}
 
+
+
+.endGameBtn:hover {
+  background-color: #ccc;
+  transition: all .3s ease-out;
+}
+
+/* Les lignes */
 .row {
   display: flex;
   flex-direction: row;
@@ -21,7 +40,6 @@
 }
 
 /* Les trous */
-
 .player1 > .cell {
   background-color: #8fbce7;
   cursor: pointer/*not-allowed;*/

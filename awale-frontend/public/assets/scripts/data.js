@@ -1,30 +1,48 @@
 // Ici se trouve les différents Objets à envoyer au serveur
 
 // Quand un joueur rejoint une partie
-// TODO: "gameID": <gameId> à ajouter pour la gestion de plusieurs parties
-export function objJoin(userId, username) {
+export function objJoin(userId, username, gameId) {
   return {
     userId: userId,
-    username: username
+    username: username,
+    gameId: gameId
+  };
+}
+
+// Quand un joueur rejoint une partie avec un Bot
+export function objJoinBot(userId, username, gameId, level) {
+  return {
+    userId: userId,
+    username: username,
+    gameId: gameId,
+    level: level
+  };
+}
+
+// Quand on veut savoir le gagnant d'une partie
+export function objEnd(gameId) {
+  return {
+    gameId: gameId
   };
 }
 
 // Quand un joueur envoie un coup à jouer
-// TODO: Ajouter le token pour confirmer que c'est bien au joueur de jouer
-//       "gameID": <gameId> à ajouter pour la gestion de plusieurs parties
-export function objMove(userId, holeChosen) {
+export function objMove(userId, holeChosen, gameId) {
   return {
     userId: userId,
-    hole: holeChosen
+    hole: holeChosen,
+    gameId: gameId
   };
 }
 
-/*
-Réception du message du serveur
-TODO: Ajouter un token pour le joueur qui doit jouer
-  si    token === null : c'est pas son tour
-  sinon token === "3ededca6dcc6" : c'est son tour
- */
+// Quand on veut actualiser la page
+export function objUpd(gameId) {
+  return {
+    gameId: gameId
+  };
+}
+
+// Réception du message du serveur
 export function objGameState(payload) {
   return JSON.parse(payload);
 }

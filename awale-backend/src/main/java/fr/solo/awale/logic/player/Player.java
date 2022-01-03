@@ -7,9 +7,11 @@ import java.util.Scanner;
 import static com.diogonunes.jcolor.Ansi.colorize;
 
 public class Player extends AbstractPlayer {
+    private boolean hasPlayed;
 
     public Player(String username) {
         super(username);
+        hasPlayed = false;
     }
 
     public Player(String username, Attribute colorPlayer) {
@@ -25,16 +27,14 @@ public class Player extends AbstractPlayer {
 
     @Override
     public void choose() {
-        System.out.println("\nTour de " + colorize(getUsername(), getColor()) + " :");
-        Scanner sc = new Scanner(System.in);
-        boolean hasPlayed;
         int holeNumber;
 
         do {
-            System.out.print("-> Quel trou jouez-vous ? n°[1, 6] : ");
-            holeNumber = sc.nextInt() - 1;
-            hasPlayed = play(holeNumber);
         } while (!hasPlayed);
+        hasPlayed = false;
     }
 
+    public void playedStateTo(boolean state) {
+        hasPlayed = state;
+    }
 }

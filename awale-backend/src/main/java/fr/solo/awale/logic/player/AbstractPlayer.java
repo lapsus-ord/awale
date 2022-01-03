@@ -49,8 +49,10 @@ public abstract class AbstractPlayer {
      * @param game Le jeu à rejoindre.
      */
     public void joinGame(Awale game) {
-        this.game = game;
-        game.addPlayer(this);
+        if (!game.hasTwoPlayers()) {
+            this.game = game;
+            game.addPlayer(this);
+        }
     }
 
     /**
@@ -63,16 +65,16 @@ public abstract class AbstractPlayer {
      */
     public boolean play(int holeSrc) {
         if (holeSrc < 0 || holeSrc > 5) {
-            System.out.println(colorize("\tLe trou que vous avez choisi n'existe pas." +
-                    "\n\tChoisissez-en un qui est entre 1 et 6.", Attribute.RED_TEXT()));
+            //System.out.println(colorize("\tLe trou que vous avez choisi n'existe pas." +
+            //        "\n\tChoisissez-en un qui est entre 1 et 6.", Attribute.RED_TEXT()));
             return false;
         }
 
         Board board = game.getBoard();
 
         if (!board.isPlayable(holeSrc, side)) {
-            System.out.println(colorize("\tVous ne pouvez pas jouer ce trou." +
-                    "\n\tChoisissez-en un autre.", Attribute.RED_TEXT()));
+            //System.out.println(colorize("\tVous ne pouvez pas jouer ce trou." +
+            //        "\n\tChoisissez-en un autre.", Attribute.RED_TEXT()));
             return false;
         }
 
@@ -155,6 +157,10 @@ public abstract class AbstractPlayer {
 
     public void setSide(Side side) {
         this.side = side;
+    }
+
+    public void setGame(Awale game) {
+        this.game = game;
     }
 
     public void addPoints(int nb) {

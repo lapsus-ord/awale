@@ -24,15 +24,12 @@ public class SmartAI extends AbstractPlayer {
     @Override
     public void choose() {
         init();
-        System.out.println("\nTour de " + colorize(getUsername(), getColor()) + " :");
         boolean hasPlayed;
         int holeNumber;
 
         do {
             holeNumber = root.findBestHole(); // On cherche le meilleur trou à jouer
-            System.out.print("-> Quel trou jouez-vous ? n°[1, 6] : ");
-            System.out.println(colorize(holeNumber + 1 + "", GREEN_TEXT()));
-            hasPlayed = play(holeNumber);
+            hasPlayed = game.playerPlayHisTurn(this, holeNumber);
         } while (!hasPlayed);
     }
 

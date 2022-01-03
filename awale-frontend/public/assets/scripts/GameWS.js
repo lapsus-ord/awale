@@ -1,4 +1,5 @@
-import {objJoin, objMove} from './data.js';
+import {objEnd, objJoin, objJoinBot, objMove, objUpd} from './data.js';
+import {getRequest, isInRequest} from "./utils.js";
 
 export class GameWS {
   #ws = null;
@@ -7,37 +8,60 @@ export class GameWS {
     this.#ws = new WebSocket(url);
   }
 
-  connect(userId, username) {
+  connect(userId, username, gameId) {
     console.log("CONNECT %o", this.#ws.url);
 
-    this.#ws.onerror = (() => console.log("Problème de connexion avec le serveur ❌"));
+    this.#ws.onerror = (() => alert("Problème de connexion avec le serveur ❌"));
     this.#ws.onopen = (() => {
       console.log("Connexion réussie ✅");
-      this.#join(userId, username);
+      if (isInRequest('level')) {
+        this.#joinBotGame(userId, username, gameId, getRequest('level'));
+      } else {
+        this.#join(userId, username, gameId);
+      }
     });
-    this.#ws.onclose = (() => this.disconnect());
+    this.#ws.onclose = (() => console.log("Vous n'êtes plus connectés au serveur ❌"));
   }
 
-  disconnect() {
-    console.log("DISCONNECT %o", this.#ws.url);
+  end(gameId) {
     if (this.#ws !== null) {
-      this.#ws.close();
+      console.log("END %o", this.#ws.url);
+      this.#sendToWS("end," + JSON.stringify(objEnd(gameId)));
     }
   }
 
-  #join(userId, username) {
+  #join(userId, username, gameId) {
     if (this.#ws !== null) {
       console.log("JOIN %o: user=%s", this.#ws.url, userId);
-      this.#sendToWS("join," + JSON.stringify(objJoin(userId, username)));
+      this.#sendToWS("join," + JSON.stringify(objJoin(userId, username, gameId)));
     } else {
       alert("Erreur : Vous n'êtes pas connecté au serveur.");
     }
   }
 
-  move(userId, holeChosen) {
+  #joinBotGame(userId, username, gameId, level) {
+    if (this.#ws !== null) {
+      console.log("JOIN-BOT %o: user=%s", this.#ws.url, userId);
+      this.#sendToWS("join-bot," + JSON.stringify(objJoinBot(userId, username, gameId, level)));
+    } else {
+      alert("Erreur : Vous n'êtes pas connecté au serveur.");
+    }
+  }
+
+  move(userId, holeChosen, gameId) {
     if (this.#ws !== null) {
       console.log("MOVE %o: user=%s, hole=%i", this.#ws.url, userId, holeChosen);
-      this.#sendToWS("move," + JSON.stringify(objMove(userId, holeChosen)));
+      this.#sendToWS("move," + JSON.stringify(objMove(userId, holeChosen, gameId)));
+      // Pour mettre à jour pour avoir la réponse (s'il a été mal reçue)
+      setTimeout(() => this.#update(gameId), 2500);
+    } else {
+      alert("Erreur : Vous n'êtes pas connecté au serveur.");
+    }
+  }
+
+  #update(gameId) {
+    if (this.#ws !== null) {
+      this.#sendToWS("update," + JSON.stringify(objUpd(gameId)));
     } else {
       alert("Erreur : Vous n'êtes pas connecté au serveur.");
     }
@@ -52,7 +76,17 @@ export class GameWS {
     }
   }
 
-  getOnMessage(callback) {
-    this.#ws.onmessage = ((ev => callback(ev)));
+  getOnMessage(callback1, callback2) {
+    this.#ws.onmessage = ((ev) => {
+      let data = ev.data.split(/,(.+)/);
+      if (data[0] === 'update') {
+        callback1(JSON.parse(data[1]));
+      } else if (data[0] === 'winConfirmed') {
+        console.log(data[1]);
+        callback2(JSON.parse(data[1]));
+      } else if (data[0] === 'error') {
+        alert('Erreur : ' + data[1]);
+      }
+    });
   }
 }
