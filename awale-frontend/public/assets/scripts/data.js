@@ -35,6 +35,13 @@ export function objMove(userId, holeChosen, gameId) {
   };
 }
 
+// Quand on veut actualiser la page
+export function objUpd(gameId) {
+  return {
+    gameId: gameId
+  };
+}
+
 // Réception du message du serveur
 export function objGameState(payload) {
   return JSON.parse(payload);

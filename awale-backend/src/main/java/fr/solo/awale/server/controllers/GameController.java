@@ -38,6 +38,7 @@ public class GameController extends TextWebSocketHandler {
         manager.setCommand("join-bot", new JoinBot(this));
         manager.setCommand("move", new Move(this));
         manager.setCommand("end", new EndGame(this));
+        manager.setCommand("update", new Update(this));
     }
 
     @Override

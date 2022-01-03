@@ -27,11 +27,6 @@ public class DumbAI extends AbstractPlayer {
         int holeNumber;
 
         do {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             holeNumber = findPlayableHole(); // On cherche le meilleur trou à jouer
             hasPlayed = game.playerPlayHisTurn(this, holeNumber);
         } while (!hasPlayed);

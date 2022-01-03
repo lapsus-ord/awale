@@ -63,8 +63,13 @@ public class Awale implements Runnable {
         state = PLAYER1_TURN;
         //System.out.println(this);
 
+        // Le jeu tourne tant que l'état du jeu n'est pas END_GAME
         while (!state.equals(END_GAME)) {
-            // Le jeu tourne tant que l'état du jeu n'est pas END_GAME
+            if (state.equals(PLAYER1_TURN)) {
+                player1.choose();
+            } else if (state.equals(PLAYER2_TURN)) {
+                player2.choose();
+            }
         }
 
         seedDistribution();

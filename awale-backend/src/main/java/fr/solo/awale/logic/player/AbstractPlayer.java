@@ -65,16 +65,16 @@ public abstract class AbstractPlayer {
      */
     public boolean play(int holeSrc) {
         if (holeSrc < 0 || holeSrc > 5) {
-            System.out.println(colorize("\tLe trou que vous avez choisi n'existe pas." +
-                    "\n\tChoisissez-en un qui est entre 1 et 6.", Attribute.RED_TEXT()));
+            //System.out.println(colorize("\tLe trou que vous avez choisi n'existe pas." +
+            //        "\n\tChoisissez-en un qui est entre 1 et 6.", Attribute.RED_TEXT()));
             return false;
         }
 
         Board board = game.getBoard();
 
         if (!board.isPlayable(holeSrc, side)) {
-            System.out.println(colorize("\tVous ne pouvez pas jouer ce trou." +
-                    "\n\tChoisissez-en un autre.", Attribute.RED_TEXT()));
+            //System.out.println(colorize("\tVous ne pouvez pas jouer ce trou." +
+            //        "\n\tChoisissez-en un autre.", Attribute.RED_TEXT()));
             return false;
         }
 

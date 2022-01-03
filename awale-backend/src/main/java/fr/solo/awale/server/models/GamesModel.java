@@ -101,7 +101,9 @@ public class GamesModel {
         Awale game = games.get(gameId);
         Player player = webPlayers.get(userId).getPlayer();
         if (game.getPlayer(Side.TOP).equals(player) || game.getPlayer(Side.BOTTOM).equals(player)) {
-            return game.playerPlayHisTurn(player, hole);
+            boolean hasPlayed = game.playerPlayHisTurn(player, hole);
+            player.playedStateTo(hasPlayed);
+            return hasPlayed;
         }
         return false;
     }
@@ -126,7 +128,10 @@ public class GamesModel {
     }
 
     public String getJsonGame(String gameId) {
-        return games.get(gameId).toJson(gameId);
+        if (games.containsKey(gameId)) {
+            return games.get(gameId).toJson(gameId);
+        }
+        return null;
     }
 
     public List<String> getPlayersIdFromGame(String gameId) {

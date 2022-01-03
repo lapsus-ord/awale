@@ -1,4 +1,4 @@
-import {objEnd, objJoin, objJoinBot, objMove} from './data.js';
+import {objEnd, objJoin, objJoinBot, objMove, objUpd} from './data.js';
 import {getRequest, isInRequest} from "./utils.js";
 
 export class GameWS {
@@ -52,6 +52,16 @@ export class GameWS {
     if (this.#ws !== null) {
       console.log("MOVE %o: user=%s, hole=%i", this.#ws.url, userId, holeChosen);
       this.#sendToWS("move," + JSON.stringify(objMove(userId, holeChosen, gameId)));
+      // Pour mettre à jour pour avoir la réponse (s'il a été mal reçue)
+      setTimeout(() => this.#update(gameId), 2500);
+    } else {
+      alert("Erreur : Vous n'êtes pas connecté au serveur.");
+    }
+  }
+
+  #update(gameId) {
+    if (this.#ws !== null) {
+      this.#sendToWS("update," + JSON.stringify(objUpd(gameId)));
     } else {
       alert("Erreur : Vous n'êtes pas connecté au serveur.");
     }
