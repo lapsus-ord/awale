@@ -6,7 +6,7 @@
 
 	<groupId>fr.solo</groupId>
 	<artifactId>awale-backend</artifactId>
-	<version>0.8</version>
+	<version>1.0</version>
 
 	<properties>
 		<maven.compiler.source>11</maven.compiler.source>
