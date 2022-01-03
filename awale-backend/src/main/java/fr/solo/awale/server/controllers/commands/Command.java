@@ -34,8 +34,4 @@ public abstract class Command {
 	public Map<String, Object> getJsonMap(String payload) {
 		return jsonParser.parseMap(payload);
 	}
-
-	protected void sendToPlayer(String userId, String msg) {
-		controller.sendToPlayer(userId, msg);
-	}
 }

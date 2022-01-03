@@ -164,7 +164,7 @@ public class Awale implements Runnable {
     /**
      * Méthode à appeler quand on finit le jeu (non-normalement)
      */
-    public void finishGame() {
+    private void finishGame() {
         if (!state.equals(WAITING_GAME)) {
             state = END_GAME;
         }

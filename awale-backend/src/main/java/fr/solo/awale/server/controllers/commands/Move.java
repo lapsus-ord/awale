@@ -26,7 +26,7 @@ public class Move extends Command {
             controller.sendToGame(gameId, "update," + gameService.getJsonGame(gameId));
             return true;
         } else {
-            sendToPlayer(userId, "error,Vous ne pouvez pas jouer ce coup...");
+            controller.sendToPlayer(userId, "error,Vous ne pouvez pas jouer ce coup...");
             return false;
         }
     }
