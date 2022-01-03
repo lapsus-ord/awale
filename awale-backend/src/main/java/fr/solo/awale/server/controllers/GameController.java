@@ -6,6 +6,7 @@ import fr.solo.awale.server.models.GamesModel;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -36,6 +37,7 @@ public class GameController extends TextWebSocketHandler {
         manager.setCommand("join", new Join(this));
         manager.setCommand("join-bot", new JoinBot(this));
         manager.setCommand("move", new Move(this));
+        manager.setCommand("end", new EndGame(this));
     }
 
     @Override
@@ -46,12 +48,22 @@ public class GameController extends TextWebSocketHandler {
         System.out.println(manager.getHistory());
     }
 
-    public void sendtoPlayer(String userId, String msg) {
+    public void sendToPlayer(String userId, String msg) {
         try {
             sessions.get(userId).sendMessage(new TextMessage(msg));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void sendToGame(String gameId, String msg) {
+        service.getPlayersIdFromGame(gameId)
+                .forEach(watcherId -> {
+                    // Seulement si le joueur est un joueur en ligne
+                    if (sessions.containsKey(watcherId)) {
+                        sendToPlayer(watcherId, msg);
+                    }
+                });
     }
 
     private void sendToAll(String msg) {
@@ -70,8 +82,11 @@ public class GameController extends TextWebSocketHandler {
 
     @GetMapping("/waiting-games")
     public String getAwaitingGames() {
-        service.joinGame("1", "John", "1");
-        service.joinGame("2", "Bernard", "3");
         return service.getJsonWaitingGames();
+    }
+
+    @GetMapping("/{userId}/games")
+    public String getGamesFromPlayer(@PathVariable String userId) {
+        return service.getGamesFromPlayerId(userId);
     }
 }

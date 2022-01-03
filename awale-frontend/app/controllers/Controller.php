@@ -14,7 +14,7 @@ class Controller {
       $request .= '&gameId=' . uniqid();
       header('Location: ?' . $request);
     }
-    $page_title = "🆚 Joueur";
+    $page_title = isset($_GET['level']) ? "🆚 Bot" : "🆚 Joueur";
     $view = "game";
     require_once File::getApp(array("views", "view.php"));
   }
@@ -28,6 +28,12 @@ class Controller {
   public static function list(): void {
     $page_title = "Liste des parties";
     $view = "listOfGames";
+    require_once File::getApp(array("views", "view.php"));
+  }
+
+  public static function profile(): void {
+    $page_title = "Profil de " . Session::getUsername();
+    $view = "profile";
     require_once File::getApp(array("views", "view.php"));
   }
 

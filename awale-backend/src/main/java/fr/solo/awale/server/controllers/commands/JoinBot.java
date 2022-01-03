@@ -25,8 +25,8 @@ public class JoinBot extends Command {
         // Exécution de la bonne commande
         controller.getSessions().put(userId, session);
         gameService.createBotGame(userId, username, gameId, level);
-        // Envoi du résultat au joueur
-        sendToPlayer(userId, "update," + gameService.getJsonGame(gameId));
+        // Envoi du résultat aux joueurs
+        controller.sendToGame(gameId, "update," + gameService.getJsonGame(gameId));
         return true;
     }
 

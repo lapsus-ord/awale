@@ -36,6 +36,6 @@ public abstract class Command {
 	}
 
 	protected void sendToPlayer(String userId, String msg) {
-		controller.sendtoPlayer(userId, msg);
+		controller.sendToPlayer(userId, msg);
 	}
 }

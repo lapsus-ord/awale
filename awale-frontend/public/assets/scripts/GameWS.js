@@ -1,4 +1,4 @@
-import {objDisconnect, objJoin, objJoinBot, objMove} from './data.js';
+import {objEnd, objJoin, objJoinBot, objMove} from './data.js';
 import {getRequest, isInRequest} from "./utils.js";
 
 export class GameWS {
@@ -23,11 +23,10 @@ export class GameWS {
     this.#ws.onclose = (() => console.log("Vous n'êtes plus connectés au serveur ❌"));
   }
 
-  disconnect(userId, gameId) {
+  end(gameId) {
     if (this.#ws !== null) {
-      console.log("DISCONNECT %o", this.#ws.url);
-      this.#sendToWS("disconnect," + JSON.stringify(objDisconnect(userId, gameId)));
-      this.#ws.close();
+      console.log("END %o", this.#ws.url);
+      this.#sendToWS("end," + JSON.stringify(objEnd(gameId)));
     }
   }
 
@@ -67,11 +66,14 @@ export class GameWS {
     }
   }
 
-  getOnMessage(callback) {
+  getOnMessage(callback1, callback2) {
     this.#ws.onmessage = ((ev) => {
       let data = ev.data.split(/,(.+)/);
       if (data[0] === 'update') {
-        callback(data[1]);
+        callback1(JSON.parse(data[1]));
+      } else if (data[0] === 'winConfirmed') {
+        console.log(data[1]);
+        callback2(JSON.parse(data[1]));
       } else if (data[0] === 'error') {
         alert('Erreur : ' + data[1]);
       }

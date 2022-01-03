@@ -1,6 +1,8 @@
 package fr.solo.awale.logic.player.ai;
 
+import fr.solo.awale.logic.Awale;
 import fr.solo.awale.logic.player.AbstractPlayer;
+import fr.solo.awale.server.models.GamesModel;
 
 import java.util.Random;
 
@@ -21,19 +23,16 @@ public class DumbAI extends AbstractPlayer {
 
     @Override
     public void choose() {
-        System.out.println("\nTour de " + colorize(getUsername(), getColor()) + " :");
         boolean hasPlayed;
         int holeNumber;
 
         do {
-            System.out.print("-> Quel trou jouez-vous ? n°[1, 6] : ");
             try {
-                Thread.sleep(500);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             holeNumber = findPlayableHole(); // On cherche le meilleur trou à jouer
-            System.out.println(colorize(holeNumber + 1 + "", GREEN_TEXT()));
             hasPlayed = game.playerPlayHisTurn(this, holeNumber);
         } while (!hasPlayed);
     }

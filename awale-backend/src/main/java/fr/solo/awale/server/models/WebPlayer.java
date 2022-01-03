@@ -33,4 +33,8 @@ public class WebPlayer {
 	public Set<String> getGamesId() {
 		return games.keySet();
 	}
+
+	public HashMap<String, Awale> getGames() {
+		return games;
+	}
 }

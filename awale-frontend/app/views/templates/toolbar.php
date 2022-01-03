@@ -3,7 +3,7 @@
     <a href="?action=home">
       <img class="home-button-top" src="assets/img/icons/maison-web.png" alt="home">
     </a>
-    <?php if ($view == 'home') { ?>
+    <?php if (($view == 'home') || ($view == 'profile') || ($view == 'listOfGames') || ($view == 'difficulty')) { ?>
       <form action="?action=upd_username&controller=user" method="post">
         <input type="text" name="name" maxlength="10" placeholder="Votre pseudo" style="width: 120px" required/>
         <input type="submit" value="Enregistrer"/>
@@ -13,11 +13,14 @@
 
 
   <div class="button-group">
+	  <a href="?action=profile">
+      <img class="home-button-top" src="assets/img/icons/user-circle-black.svg" alt="profil">
+    </a>
     <a href="https://drive.google.com/file/d/1aqBA0kr1Xg6W7WW-s8DAKWTH6e3zbWjJ/view?usp=sharing"
        onclick="window.open(this.href); return false;"><img class="help-button" src="assets/img/icons/question.png"
                                                             alt="Règles du jeu"></a>
     <button class="settings" id="btnPopup">
-      <img class="settings-button" src="assets/img/icons/settings.png" alt="Paramètres du jeu"/>
+      <img class="home-button-top" src="assets/img/icons/settings.png" alt="Paramètres du jeu"/>
     </button>
     <div class="center modal">
       <div id="settings-modal">

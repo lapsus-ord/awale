@@ -23,8 +23,8 @@ public class Join extends Command {
         controller.getSessions().put(userId, session);
         // On ajoute le joueur a une partie (crée ou non)
         gameService.joinGame(userId, username, gameId);
-        // Envoi du résultat au joueur
-        sendToPlayer(userId, "update," + gameService.getJsonGame(gameId));
+        // Envoi du résultat aux joueurs
+        controller.sendToGame(gameId, "update," + gameService.getJsonGame(gameId));
         return true;
     }
 

@@ -22,10 +22,8 @@ public class Move extends Command {
         String gameId = jsonMap.get("gameId").toString();
         // Exécution de la bonne commande
         if (gameService.move(userId, hole, gameId)) {
-            // Envoi du résultat au joueur
-            gameService.getWatchersFromGame(gameId).forEach(watcherId -> {
-                sendToPlayer(watcherId, "update," + gameService.getJsonGame(gameId));
-            });
+            // Envoi du résultat aux joueurs
+            controller.sendToGame(gameId, "update," + gameService.getJsonGame(gameId));
             return true;
         } else {
             sendToPlayer(userId, "error,Vous ne pouvez pas jouer ce coup...");

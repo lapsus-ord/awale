@@ -19,16 +19,14 @@ export function objJoinBot(userId, username, gameId, level) {
   };
 }
 
-// Quand un joueur se déconnecte d'une partie
-export function objDisconnect(userId, gameId) {
+// Quand on veut savoir le gagnant d'une partie
+export function objEnd(gameId) {
   return {
-    userId: userId,
     gameId: gameId
   };
 }
 
 // Quand un joueur envoie un coup à jouer
-// TODO: Ajouter le token pour confirmer que c'est bien au joueur de jouer
 export function objMove(userId, holeChosen, gameId) {
   return {
     userId: userId,
@@ -37,12 +35,7 @@ export function objMove(userId, holeChosen, gameId) {
   };
 }
 
-/*
-Réception du message du serveur
-TODO: Ajouter un token pour le joueur qui doit jouer
-  si    token === null : c'est pas son tour
-  sinon token === "3ededca6dcc6" : c'est son tour
- */
+// Réception du message du serveur
 export function objGameState(payload) {
   return JSON.parse(payload);
 }

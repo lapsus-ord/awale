@@ -8,6 +8,8 @@ import fr.solo.awale.logic.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static fr.solo.awale.logic.Awale.Gamestate.END_GAME;
+import static fr.solo.awale.logic.Awale.Gamestate.WAITING_GAME;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AwaleTest {
@@ -75,11 +77,5 @@ class AwaleTest {
 
         assertArrayEquals(new int[]{1, 1, 1, 1, 1, 0}, aAffame.getBoard().getRow(Side.TOP));
         assertArrayEquals(new int[]{3, 1, 1, 1, 0, 1}, aAffame.getBoard().getRow(Side.BOTTOM));
-    }
-
-    @Test
-    void testEnd() {
-        p1.joinGame(aEnd);
-        p2.joinGame(aEnd);
     }
 }

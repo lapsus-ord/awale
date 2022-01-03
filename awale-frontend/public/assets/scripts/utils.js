@@ -1,20 +1,20 @@
 // --- Traduction Serveur ---
-export function convertState($state) {
-  if ($state === 'WAITING_GAME')
+export function convertState(state) {
+  if (state === 'WAITING_GAME')
     return 'En attente';
-  else if ($state === 'PLAYER1_TURN')
+  else if (state === 'PLAYER1_TURN')
     return 'Tour du joueur 1';
-  else if ($state === 'PLAYER2_TURN')
+  else if (state === 'PLAYER2_TURN')
     return 'Tour du joueur 2';
-  else if ($state === 'END_GAME')
+  else if (state === 'END_GAME')
     return 'Partie finie';
   return 'État inconnu';
 }
 
-export function printPlayer($player) {
-  if ($player === null)
-    return 'vide';
-  return $player.username + ' (' + $player.score + ')';
+export function getPlayerInfos(player) {
+  if (player === null)
+    return ['vide', 0];
+  return [player.username, player.score];
 }
 
 // --- Renvoi la présence du String en paramètre dans l'url GET ---

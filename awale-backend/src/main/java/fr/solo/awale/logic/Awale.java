@@ -60,7 +60,7 @@ public class Awale implements Runnable {
         while (player1 == null || player2 == null) {
             // Le jeu est en attente tant qu'il n'y a pas 2 joueurs
         }
-        switchState();
+        state = PLAYER1_TURN;
         //System.out.println(this);
 
         while (!state.equals(END_GAME)) {
@@ -69,8 +69,6 @@ public class Awale implements Runnable {
 
         seedDistribution();
         winner = checkWinner();
-
-        printWinner();
     }
 
     /**
@@ -125,20 +123,6 @@ public class Awale implements Runnable {
     }
 
     /**
-     * Affiche sur la console le gagnant du jeu
-     */
-    private void printWinner() {
-        if (winner != null) {
-            System.out.println(colorize("\nLe gagnant est " + winner.getUsername() + " avec " + winner.getScore() + " points !!!",
-                    Attribute.BRIGHT_MAGENTA_TEXT()));
-        } else {
-            System.out.println(colorize("\nBravo aux deux joueurs " + player1.getUsername() + " et " + player2.getUsername() + " !\n" +
-                    "Le jeu se termine sur une égalité !!! 👏", Attribute.BRIGHT_BLUE_TEXT()));
-        }
-        System.out.println(this);
-    }
-
-    /**
      * Méthode que le joueur appelle pour dire qu'il joue
      *
      * @param player Le joueur qui joue
@@ -163,9 +147,9 @@ public class Awale implements Runnable {
     public void switchState() {
         if (state.equals(WAITING_GAME)) {
             state = PLAYER1_TURN;
-        } else if(state.equals(PLAYER1_TURN) && board.canPlay(player2.getSide())) {
+        } else if (state.equals(PLAYER1_TURN) && board.canPlay(player1.getSide())) {
             state = PLAYER2_TURN;
-        } else if (state.equals(PLAYER2_TURN) && board.canPlay(player1.getSide())) {
+        } else if (state.equals(PLAYER2_TURN) && board.canPlay(player2.getSide())) {
             state = PLAYER1_TURN;
         } else {
             finishGame();
@@ -195,12 +179,24 @@ public class Awale implements Runnable {
         return (side.equals(Side.TOP) ? player1 : player2);
     }
 
+    public String printWinnerToJson() {
+        String result = winner == null ? "draw" : winner.getUsername();
+        return "{ " +
+                "\"result\": \"" + result + "\"," +
+                "\"players\": {" +
+                "\"player1\": " + playerToJson(player1) + "," +
+                "\"player2\": " + playerToJson(player2) +
+                "}" +
+                " }";
+    }
+
     public boolean hasTwoPlayers() {
         return player1 != null && player2 != null;
     }
 
-    public boolean isPlayerInTheGame(AbstractPlayer player) {
-        return player1 == player || player2 == player;
+    public void setPlayer2(AbstractPlayer player2) {
+        this.player2 = player2;
+        player2.setSide(Side.BOTTOM);
     }
 
     @Override
@@ -250,8 +246,8 @@ public class Awale implements Runnable {
                 "\"gameId\": \"" + id + "\"," +
                 "\"state\": \"" + state + "\"," +
                 "\"players\": {" +
-                "\"player1\":" + playerToJson(player1) + "," +
-                "\"player2\":" + playerToJson(player2) +
+                "\"player1\": " + playerToJson(player1) + "," +
+                "\"player2\": " + playerToJson(player2) +
                 "}," +
                 "\"gameState\":" + boardToJson(board.getCells()) +
                 " }";

@@ -159,6 +159,10 @@ public abstract class AbstractPlayer {
         this.side = side;
     }
 
+    public void setGame(Awale game) {
+        this.game = game;
+    }
+
     public void addPoints(int nb) {
         this.score += nb;
     }
