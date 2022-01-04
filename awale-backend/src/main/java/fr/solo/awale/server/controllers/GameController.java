@@ -20,6 +20,7 @@ import static com.diogonunes.jcolor.Ansi.colorize;
 
 @CrossOrigin
 @RestController
+@Component
 public class GameController extends TextWebSocketHandler {
     private Map<String, WebSocketSession> sessions;
     private GamesModel service;

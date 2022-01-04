@@ -1,3 +1,7 @@
+// Adresse Backend
+const port_backend = '63221';
+export const url_backend = '10.20.133.11' + ':' + port_backend;
+
 // --- Traduction Serveur ---
 export function convertState(state) {
   if (state === 'WAITING_GAME')

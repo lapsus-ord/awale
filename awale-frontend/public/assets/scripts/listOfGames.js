@@ -1,8 +1,6 @@
-import {convertState, getPlayerInfos} from './utils.js';
+import {convertState, getPlayerInfos, url_backend} from './utils.js';
 
-// url: ws://webinfo.iutmontp.univ-montp2.fr:${port}/endpoint
-let api_url = `http://localhost:${63221}/waiting-games`;
-
+let api_url = `http://${url_backend}/waiting-games`;
 let response = await fetch(api_url);
 let list = await response.json();
 
