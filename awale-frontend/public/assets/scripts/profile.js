@@ -1,8 +1,8 @@
-import {convertState, getPlayerInfos} from './utils.js';
+import {convertState, getPlayerInfos, url_backend} from './utils.js';
 
 let req1 = await fetch('?action=userid&controller=user');
 let user_id = await req1.text();
-let api_url = `http://localhost:${63221}/${user_id}/games`;
+let api_url = `http://${url_backend}/${user_id}/games`;
 let response = await fetch(api_url);
 let list = await response.json();
 

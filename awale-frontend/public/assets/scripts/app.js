@@ -7,8 +7,7 @@ let req2 = await fetch('?action=username&controller=user');
 let user_id = await req1.text();
 let username = await req2.text();
 let gameId = Utils.getRequest('gameId');
-// url: ws://webinfo.iutmontp.univ-montp2.fr:${port}/endpoint
-let url = `ws://localhost:${63221}/play`;
+let url = `ws://${Utils.url_backend}/play`;
 let ws = null;
 
 // --- Connexion au WS ---
