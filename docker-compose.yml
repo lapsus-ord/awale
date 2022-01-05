@@ -18,6 +18,8 @@ services:
             - "8080:80"
         networks:
             - awale-network
+        logging:
+            driver: none
 
 networks:
     awale-network:
