@@ -5,7 +5,7 @@ services:
         container_name: awale_backend
         build: awale-backend/
         ports:
-            - "63221:80"
+            - "63221:63221"
         networks:
             - awale-network
 

@@ -1,6 +1,6 @@
 // Adresse Backend
 const port_backend = '63221';
-export const url_backend = '10.20.101.15' + ':' + port_backend;
+export const url_backend = 'localhost' + ':' + port_backend;
 
 // --- Traduction Serveur ---
 export function convertState(state) {
