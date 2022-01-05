@@ -14,6 +14,7 @@ Suivez ces étapes pour installer le jeu en local :
 ```
 git clone <lien vers le projet>
 cd <dossier du projet>
+docker-compose build
 docker-compose up -d
 ```
 
