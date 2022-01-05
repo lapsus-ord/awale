@@ -51,7 +51,11 @@ public class GamesModel {
      */
     public void joinGame(String userId, String username, String gameId) {
         WebPlayer webPlayer = connectPlayer(userId, username);
-        if (!games.containsKey(gameId)) { // Si la partie n'existe pas -> créer la partie
+        if (webPlayer.getGames().containsKey(gameId)) {
+            return;
+        }
+        // Si la partie n'existe pas -> créer la partie
+        if (!games.containsKey(gameId)) {
             Awale newGame = new GameFactory().createGame(webPlayer.getPlayer());
             games.put(gameId, newGame);
             webPlayer.addGame(gameId, newGame);

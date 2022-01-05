@@ -1,6 +1,5 @@
-FROM openjdk:11
-COPY ./target/awale-backend-*.jar /app/app.jar
-WORKDIR /app
-#ENTRYPOINT ["tail", "-f", "/dev/null"]
-CMD ["java", "-jar", "app.jar", "--server.port=80"]
+FROM maven:3.8.4-jdk-11
+COPY . /awale
+WORKDIR /awale
+CMD ["mvn", "spring-boot:run", "-f", "pom.xml"]
 EXPOSE 80
