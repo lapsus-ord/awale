@@ -4,34 +4,38 @@
 
 Les messages envoyés au serveur (ou au client) seront toujours composés de 2 parties :
 - La **1<sup>ère</sup> partie** correspond à la **commande** à exécuter (ex: `join`, `move`…).
-- La **2<sup>ème</sup> partie** correspond au contenu du message (souvent du JSON).
-
-**TODO:** ajouter un diagramme de séquence/communication.
+- La **2<sup>ème</sup> partie** correspond au contenu du message.
 
 **Exemple :** (pour rejoindre une partie)
 ```json
-join,{"userId": "p_61994e35a6005", "username": "Bernard"}
+join,{"userId": "p_61994e35a6005", "username": "Bernard", "gameId": "fe7d63be-e751"}
 ```
 
 <br>
 
-<details>
-<summary><h2>Endpoints relatifs au Websocket</h2></summary>
+**Légende :**\
+**S** = Serveur ; **U** = Utilisateur
 
-### Rejoindre une partie (Cl->S)
+<hr>
+<br>
+
+<details>
+<summary>Endpoints relatifs au Websocket</summary>
+
+### Rejoindre une partie (U->S)
 
 Commande : `join`\
 Contenu :
 ```json
 {
     "userId": "<userId>",
-    "username": "<username>"
+    "username": "<username>",
+    "gameId": "<gameId>"
 }
 ```
-> **Retourne :** Le nouvel état de la partie.\
-> **Commentaires :** `gameroomId` à ajouter pour la gestion de plusieurs parties en simultanées.
+> **Retourne :** Le nouvel état de la partie.
 
-### Jouer un coup (Cl->S)
+### Jouer un coup (U->S)
 
 Commande : `move`\
 Contenu :
@@ -39,10 +43,10 @@ Contenu :
 {
     "userId": "<userId>",
     "hole": <int>,
+    "gameId": "<gameId>"
 }
 ```
-> **Retourne :** Le nouvel état de la partie.\
-> **Commentaires :** `respTurnToken` à ajouter pour la permission de jouer (vérifier avec le token précédent si le joueur doit bien jouer).
+> **Retourne :** Le nouvel état de la partie.
 
 ### État de la partie (S->Cl)
 
@@ -82,7 +86,7 @@ Contenu :
 <br>
 
 <details>
-<summary><h2>Endpoints relatifs au RESTful</h2></summary>
+<summary>Endpoints relatifs à l'API HTTP</summary>
 
 ### Demande des parties (vs Joueurs) en attentes (Cl->S)
 
