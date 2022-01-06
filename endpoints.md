@@ -33,7 +33,19 @@ Contenu :
     "gameId": "<gameId>"
 }
 ```
-> **Retourne :** Le nouvel état de la partie.
+
+### Rejoindre une partie contre une IA (U->S)
+
+Commande : `join`\
+Contenu :
+```json
+{
+    "userId": "<userId>",
+    "username": "<username>",
+    "gameId": "<gameId>",
+    "level": "<easy / medium / hard / extreme>",
+}
+```
 
 ### Jouer un coup (U->S)
 
@@ -46,15 +58,37 @@ Contenu :
     "gameId": "<gameId>"
 }
 ```
-> **Retourne :** Le nouvel état de la partie.
 
-### État de la partie (S->Cl)
+### Demande de mis à jour de la partie (U->S)
 
-Commande : `gameState`\
+Commande : `update`\
 Contenu :
 ```json
 {
-    "state": "<STATE>",
+    "gameId": "<gameId>"
+}
+```
+
+### État de fin de partie (U->S)
+
+Commande : `end`\
+Contenu :
+```json
+{
+    "gameId": "<gameId>"
+}
+```
+
+<hr>
+
+### État de la partie (S->U)
+
+Commande : `update`\
+Contenu :
+```json
+{
+    "gameId": "<gameId>",
+    "state": "<WAITING_GAME / PLAYER1_TURN / PLAYER2_TURN / END_GAME>",
     "players": {
         "player1": {
             "username": "<username>",
@@ -68,40 +102,47 @@ Contenu :
     ]
 }
 ```
-> **Commentaires :** `turnToken` à ajouter pour la permission de jouer.
 
-### Message d'erreur (S->Cl)
+### Envoi du gagnant (S->U)
 
-Commande : `error`\
+Commande : `winConfirmed`\
 Contenu :
 ```json
 {
-    "type": "<type de l'erreur>",
-    "msg": "<message d'erreur>"
+    "result": "<username / draw>",
+    "players": {
+        "player1": {
+            "username": "<username>",
+            "score": <int>
+        },
+        "player2": {
+            "username": "<username>",
+            "score": <int>
+        }
+    }
 }
 ```
 
+### Message d'erreur (S->U)
+
+Commande : `error`\
+Contenu : `Un simple texte comme message d'erreur`
+
 </details>
 
+<br>
+<hr>
 <br>
 
 <details>
 <summary>Endpoints relatifs à l'API HTTP</summary>
 
-### Demande des parties (vs Joueurs) en attentes (Cl->S)
+### Demande des parties (vs Joueurs) en attentes (U->S)
 
-Commande : `listGames`\
-Contenu :
-```
-À écrire…
-```
+Commande : `/waiting-games`
 
-### Demande des parties (vs Joueurs) en attentes (S->Cl)
+### Demande des parties du joueur (qu'il participe ou observe) (U->S)
 
-Commande : `listGames`\
-Contenu :
-```
-À écrire…
-```
+Commande : `/{userId}/games`
 
 </details>
