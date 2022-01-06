@@ -1,4 +1,4 @@
-Ce dépôt contient les sources du projet tutoré de Semestre 3 de DUT Informatique à l'IUT Montpellier-Sète (IUTMS) lors de l'année 2021-2022.
+Ce dépôt contient les sources du projet tuteuré de Semestre 3 de DUT Informatique à l'IUT Montpellier-Sète (IUTMS) lors de l'année 2021-2022.
 <div align="center">
 	<img src="resources/Logo_Awaleau.png" height="100px">
 	<h3 align="center">PROJET TUTORE AWALE SEMESTRE 3</h3>
@@ -20,19 +20,20 @@ docker-compose up -d
 
 Vous pouvez maintenant y accéder ici : [localhost:8080](http://localhost:8080/)
 
-
 ## II - Liens utiles :
-- [Figma](https://www.figma.com/file/pyTTMuml1PO94WtGyTJgAL/Maquettes-Projet-Awale)
 - [Règles du jeu](https://www.regledujeu.fr/awale/)
-- [Drive](https://drive.google.com/drive/folders/18rMv5KNO7wRO3HeaSvigYY_hORL9EPtb)
+- [Docs Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)
+- [Docs Docker](https://docs.docker.com/)
 
 ## III - Objectif :
-L'Awalé est un est un jeu de société combinatoire abstrait créé en Afrique qui se joue à deux joueurs. Le but du jeu est d'avoir récupéré le plus de graines à la fin de la partie.\
-L'objectif de ce projet est de programmer ce jeu. Le projet consiste à  programmer une interface (web) permettant à  deux joueurs de jouer ensemble (respect des règles détection de victoire d'un des deux joueurs).
+L'Awalé est un jeu de société combinatoire abstrait créé en Afrique qui se joue à deux joueurs. Le but du jeu est d'avoir récupéré le plus de graines à la fin de la partie. L'objectif de ce projet est de programmer ce jeu.
+
+Ce projet Java/Web consistait à programmer une solution informatique permettant à un joueur de jouer contre un autre joueur ou contre une IA (naïve ou intelligente) en réseau.
 
 ## IV - Techonologies utilisées pendant le projet :
-- **Backend :** Java (Spring Boot)\
+- **Backend :** Java (+ Spring Boot)\
 - **Frontend :** PHP, JavaScript\
+- **Déploiement :** Docker\
 - **Logiciel utilisé pour l'UML :** StarUML
 
 [Détail sur les endpoints du serveur](./endpoints.md)
