@@ -7,7 +7,7 @@ Les messages envoyés au serveur (ou au client) seront toujours composés de 2 p
 - La **2<sup>ème</sup> partie** correspond au contenu du message.
 
 **Exemple :** (pour rejoindre une partie)
-```json
+```
 join,{"userId": "p_61994e35a6005", "username": "Bernard", "gameId": "fe7d63be-e751"}
 ```
 
